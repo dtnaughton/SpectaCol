@@ -1,0 +1,104 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SpectaCol.Views.AccountSelectionView">
+	<UserControl.Styles>
+		<!--HEADER-->
+		<Style Selector="TextBlock.mainHeader">
+			<!--FONT-->
+			<Setter	Property="FontSize" Value="48"/>
+			<Setter	Property="FontWeight" Value="Bold"/>
+			<!--COLOURS-->
+			<Setter	Property="Foreground" Value="#047EFB"/>
+		</Style>
+		<!--ACCOUNT CARD BUTTON-->
+		<Style Selector="Button.accountCard">
+			<!--DIMENSIONS-->
+			<Setter Property="Height" Value="150"/>
+			<Setter Property="Margin" Value="10 0 10 15"/>
+			<!--COLOURS-->
+			<Setter Property="Background" Value="#D5D5D5"/>
+		</Style>
+		<!--POINTER OVER CARD-->
+		<Style Selector="Button.accountCard:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#aaaaaa"/>
+			<!--<Setter	Property="TextBlock.Foreground" Value="#FFFFFF"/>-->
+		</Style>
+		<!--SERVER NAME-->
+		<Style Selector="TextBlock.serverName">
+			<Setter Property="FontSize" Value="32"/>
+			<Setter	Property="Foreground" Value="#047EFB"/>
+		</Style>
+		<!--SERVER URL-->
+		<Style Selector="TextBlock.serverUrl">
+			<Setter Property="FontSize" Value="14"/>
+			<Setter	Property="Foreground" Value="#666666"/>
+		</Style>
+		<!--USER DETAILS-->
+		<Style Selector="TextBlock.userInfo">
+			<Setter Property="FontSize" Value="24"/>
+		</Style>
+
+	</UserControl.Styles>
+
+	<Grid Margin="30 40">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="2*"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0"
+				   Classes="mainHeader"
+				   HorizontalAlignment="Right"
+				   Text="SpectaCol"/>
+		<ScrollViewer Grid.Row="2"
+					  Width="550"
+					  VerticalAlignment="Center"
+					  HorizontalContentAlignment="Center">
+			<ItemsRepeater Items="{Binding Accounts}">
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate>
+						<Button 
+							Classes="accountCard" 
+							Command="{Binding LoginAccountCommand}"
+							HorizontalAlignment="Stretch">
+							<Grid
+								ColumnDefinitions="auto, *">
+								<Ellipse Grid.Column="0"
+										 Margin="10 0"
+										 Width="90"
+										 Height="90"
+										 VerticalAlignment="Center"
+										 Fill="#FFFFFF"/>
+								<StackPanel 
+									Grid.Column="1" 
+									Margin="10 0 0 0"
+									VerticalAlignment="Center">
+									<TextBlock 
+										Classes="serverName"
+										Text="{Binding ServerName}"/>
+									<TextBlock 
+										Classes="serverUrl"
+										Text="{Binding ServerUrl}"/>
+									<StackPanel 
+										Classes="userInfo"
+										Orientation="Horizontal"
+										Margin="0 10 0 0">
+										<TextBlock 
+											Text="{Binding Username}"/>
+										<TextBlock
+											Text="{Binding Email}"/>
+									</StackPanel>
+								</StackPanel>
+								<!--DO STACK PANEL INSTEAD OF MULTIPLE GRID ROWS-->
+							</Grid>
+						</Button>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
+	</Grid>
+</UserControl>
