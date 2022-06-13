@@ -17,6 +17,7 @@ namespace SpectaCol.ViewModels
     public string ServerUrl => _account.serverInfo.url;
     public string Username => _account.userInfo.name;
     public string Email => _account.userInfo.email;
+    public string Id => _account.id;
     private Bitmap _avatarImage;
     public Bitmap AvatarImage
     {

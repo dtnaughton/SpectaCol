@@ -1,4 +1,5 @@
-﻿using Speckle.Core.Credentials;
+﻿using Speckle.Core.Api;
+using Speckle.Core.Credentials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace SpectaCol.Stores
 {
   public class AccountStore
   {
-    public List<Account> Accounts { get; set; }
+    public List<Account>? Accounts { get; set; }
+    public Account? SelectedAccount { get; set; }
+    public Branch? SelectedBranch { get; set; }
+    public Commit? SelectedCommit { get; set; }
+    
   }
 }

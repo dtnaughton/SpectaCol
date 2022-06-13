@@ -15,17 +15,19 @@ namespace SpectaCol.ViewModels
   public class AccountSelectionViewModel : ViewModelBase
   {
     private ObservableCollection<AccountViewModel> _accounts;
+    private AccountStore _accountStore;
     public IEnumerable<AccountViewModel> Accounts => _accounts;
     public ICommand LoginAccountCommand { get; }
 
-    private AccountViewModel _selectedAccount;
-    public AccountViewModel SelectedAccount
+    private AccountViewModel? _selectedAccount;
+    public AccountViewModel? SelectedAccount
     {
       get => _selectedAccount;
       set
       {
         _selectedAccount = value;
         OnPropertyChanged(nameof(SelectedAccount));
+        _accountStore.SelectedAccount = _accountStore.Accounts?.Where(account => account.id == _selectedAccount?.Id).FirstOrDefault();
         LoginAccountCommand.Execute(SelectedAccount);
       }
     }
@@ -33,14 +35,15 @@ namespace SpectaCol.ViewModels
     public AccountSelectionViewModel(NavigationStore navigationStore, AccountStore accountStore)
     {
       _accounts = new ObservableCollection<AccountViewModel>();
+      _accountStore = accountStore;
 
-      accountStore.Accounts.ForEach(acc =>
+      accountStore.Accounts?.ForEach(acc =>
       {
         var accViewModel = new AccountViewModel(acc);
         _accounts.Add(accViewModel);
       });
 
-      LoginAccountCommand = new LoginAccountCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(), new NavigationBarViewModel()));
+      LoginAccountCommand = new LoginAccountCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(accountStore), new NavigationBarViewModel()));
     }
   }
 }
