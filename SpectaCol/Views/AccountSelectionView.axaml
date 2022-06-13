@@ -42,26 +42,28 @@
 
 	</UserControl.Styles>
 
-	<Grid Margin="30 40">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="2*"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0"
+	<Grid Margin="30 40" ColumnDefinitions="*, *, *" RowDefinitions="auto, *, auto, 2*, *">
+		<TextBlock Grid.Row="0" Grid.ColumnSpan="3"
 				   Classes="mainHeader"
 				   HorizontalAlignment="Right"
 				   Text="SpectaCol"/>
-		<ScrollViewer Grid.Row="2"
-					  Width="550"
+		<TextBlock 
+			Grid.Row="2"
+			Grid.Column="1"
+			Text="Accounts"
+			FontSize="36"
+			Foreground="#FFFFFF"
+			Margin="0 0 0 15"
+			HorizontalAlignment="Left"/>
+		<ScrollViewer Grid.Row="3"
+					  Grid.Column="1"
 					  VerticalAlignment="Center"
 					  HorizontalContentAlignment="Center">
 			<ListBox
 				Background="Transparent"
 				BorderThickness="0"
 				Padding="0"
-				Margin="10 0"
+				Margin="0 0 10 0"
 				Items="{Binding Accounts}"
 				SelectedItem="{Binding SelectedAccount}">
 				<ListBox.Styles>
@@ -80,7 +82,7 @@
 				</ListBox.Styles>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Grid Height="150" ColumnDefinitions="auto, *">
+						<Grid Height="125" ColumnDefinitions="auto, *">
 							<Ellipse Grid.Column="0"
 									 Margin="10 0"
 									 Width="90"
