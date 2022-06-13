@@ -6,58 +6,9 @@
 			 xmlns:icons="using:Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.HomeView">
-	<UserControl.Styles>
-		<Style Selector="StackPanel.selectedAccount">
-			<Setter Property="Spacing" Value="10"/>
-			<Setter Property="Orientation" Value="Horizontal"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-		</Style>
-		<Style Selector="StackPanel.selectedAccount > TextBlock">
-			<Setter Property="Foreground" Value="#DDDDDD"/>
-			<Setter Property="FontSize" Value="14"/>
-			<Setter Property="FontWeight" Value="Regular"/>
-		</Style>
-	</UserControl.Styles>
-	<Grid RowDefinitions="*, auto">
 
-		<StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center">
+		<StackPanel Orientation="Vertical" VerticalAlignment="Center">
 			<TextBlock FontSize="56" Foreground="#047EFB" Text="SpectaCol" FontWeight="Bold"/>
 			<TextBlock FontSize="40" Foreground="#B4D8FE" Text="Automate the boring stuff." FontWeight="Bold"/>
 		</StackPanel>
-
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="30">
-
-			<StackPanel
-				Classes="selectedAccount">
-				<icons:MaterialIcon
-					Foreground="#DDDDDD"
-					Height="18"
-					Width="18"
-					Kind="Account"/>
-				<TextBlock Text="{Binding SelectedAccount}"/>
-			</StackPanel>
-
-			<StackPanel
-				Classes="selectedAccount">
-				<icons:MaterialIcon
-					Foreground="#DDDDDD"
-					Height="18"
-					Width="18"
-					Kind="SourceBranch"/>
-				<TextBlock Text="{Binding SelectedBranch}"/>
-			</StackPanel>
-
-
-			<StackPanel
-				Classes="selectedAccount">
-				<icons:MaterialIcon
-					Foreground="#DDDDDD"
-					Height="18"
-					Width="18"
-					Kind="SourceCommit"/>
-				<TextBlock Text="{Binding SelectedCommit}"/>
-			</StackPanel>
-
-		</StackPanel>
-	</Grid>
 </UserControl>

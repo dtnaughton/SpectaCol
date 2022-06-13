@@ -43,7 +43,7 @@ namespace SpectaCol.ViewModels
         _accounts.Add(accViewModel);
       });
 
-      LoginAccountCommand = new LoginAccountCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(accountStore), new NavigationBarViewModel(accountStore, navigationStore)));
+      LoginAccountCommand = new LoginAccountCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(), new NavigationBarViewModel(accountStore, navigationStore), new FooterViewModel(accountStore)));
     }
   }
 }

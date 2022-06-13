@@ -18,6 +18,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <ContentControl Margin="0 25" Content="{Binding CurrentViewModel}"/>
+    <ContentControl Content="{Binding CurrentViewModel}"/>
 
 </Window>

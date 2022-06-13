@@ -10,11 +10,12 @@ namespace SpectaCol.ViewModels
   {
     public NavigationBarViewModel NavigationBarViewModel { get; }
     public ViewModelBase ContentViewModel { get; }
-    public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, ViewModelBase contentViewModel)
+    public FooterViewModel FooterViewModel { get; }
+    public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, ViewModelBase contentViewModel)
     {
       NavigationBarViewModel = navigationBarViewModel;
       ContentViewModel = contentViewModel;
+      FooterViewModel = footerViewModel;
     }
-
   }
 }

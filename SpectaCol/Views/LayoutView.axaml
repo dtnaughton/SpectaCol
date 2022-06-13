@@ -5,11 +5,12 @@
 			 xmlns:components="clr-namespace:SpectaCol.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.LayoutView">
-	<Grid ColumnDefinitions="auto, *">
-		<components:NavigationBar Grid.Column="0" DataContext="{Binding NavigationBarViewModel}"/>
+	<Grid ShowGridLines="False" ColumnDefinitions="auto, *" RowDefinitions="*, auto">
+		<components:NavigationBar Grid.Column="0" Grid.RowSpan="2" DataContext="{Binding NavigationBarViewModel}"/>
 		<ContentControl 
 			Grid.Column="1"
-			Margin="30 0"
+			Margin="30 30 30 0"
 			Content="{Binding ContentViewModel}"/>
+		<components:Footer Grid.Row="1" Grid.Column="1" Margin="0,0,50,20" DataContext="{Binding FooterViewModel}"/>
 	</Grid>
 </UserControl>
