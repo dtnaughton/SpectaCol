@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:icons="using:Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Components.NavigationBar"
 			 Background="#19191D">
@@ -10,33 +11,70 @@
 			<Setter Property="Padding" Value="25 25"/>
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>
+		<Style Selector="Button.navIcon:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#303034"/>
+		</Style>
 		<Style Selector="Button.navIcon > PathIcon">
 			<Setter Property="Foreground" Value="#DDDDDD"/>
 			<Setter Property="HorizontalAlignment" Value="Center"/>
 		</Style>
 	</UserControl.Styles>
-	<Grid RowDefinitions="auto, auto, auto, *">
-		<Button 
+	<Grid RowDefinitions="auto, auto, auto, *, auto, auto">
+		<Button
 			Grid.Row="0"
 			Classes="navIcon">
-			<PathIcon Data="{StaticResource homeIcon}"/>
+			<!--<PathIcon Data="{StaticResource homeIcon}"/>-->
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				Kind="Home"/>
 		</Button>
-		<Button 
+		<Button
 			Grid.Row="1"
 			Classes="navIcon">
-			<PathIcon Data="{StaticResource branchesIcon}"/>
+			<!--<PathIcon Data="{StaticResource branchesIcon}"/>-->
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				Kind="SourceBranch"/>
 		</Button>
-		<Button 
+		<Button
 			Grid.Row="2"
 			Classes="navIcon">
-			<PathIcon Data="{StaticResource columnDesignModuleIcon}"/>
+			<!--<PathIcon Data="{StaticResource columnDesignModuleIcon}"/>-->
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				Kind="DotsSquare"/>
 		</Button>
-		<Button 
-			Grid.Row="3"
+		<Button
+			Grid.Row="4"
 			Classes="navIcon"
 			VerticalAlignment="Bottom">
-			<PathIcon Data="{StaticResource settingsIcon}"/>
+			<!--<PathIcon Data="{StaticResource settingsIcon}"/>-->
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				Kind="Cog"/>
 		</Button>
-		
+		<Button
+			Grid.Row="5"
+			Classes="navIcon"
+			VerticalAlignment="Bottom">
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				Kind="LogoutVariant">
+				<icons:MaterialIcon.RenderTransform>
+					<RotateTransform CenterX="0" CenterY="0" Angle="180"/>
+				</icons:MaterialIcon.RenderTransform>
+			</icons:MaterialIcon>
+		</Button>
+
 	</Grid>
 </UserControl>

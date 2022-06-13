@@ -24,7 +24,6 @@
 		<!--POINTER OVER CARD-->
 		<Style Selector="Button.accountCard:pointerover /template/ ContentPresenter">
 			<Setter Property="Background" Value="#aaaaaa"/>
-			<!--<Setter	Property="TextBlock.Foreground" Value="#FFFFFF"/>-->
 		</Style>
 		<!--SERVER NAME-->
 		<Style Selector="TextBlock.serverName">
