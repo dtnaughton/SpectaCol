@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SpectaCol.Components.NavigationBar"
+			 Background="#19191D">
+	<UserControl.Styles>
+		<Style Selector="Button.navIcon">
+			<Setter Property="Padding" Value="25 25"/>
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+		<Style Selector="Button.navIcon > PathIcon">
+			<Setter Property="Foreground" Value="#DDDDDD"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+	</UserControl.Styles>
+	<Grid RowDefinitions="auto, auto, auto, *">
+		<Button 
+			Grid.Row="0"
+			Classes="navIcon">
+			<PathIcon Data="{StaticResource homeIcon}"/>
+		</Button>
+		<Button 
+			Grid.Row="1"
+			Classes="navIcon">
+			<PathIcon Data="{StaticResource branchesIcon}"/>
+		</Button>
+		<Button 
+			Grid.Row="2"
+			Classes="navIcon">
+			<PathIcon Data="{StaticResource columnDesignModuleIcon}"/>
+		</Button>
+		<Button 
+			Grid.Row="3"
+			Classes="navIcon"
+			VerticalAlignment="Bottom">
+			<PathIcon Data="{StaticResource settingsIcon}"/>
+		</Button>
+		
+	</Grid>
+</UserControl>

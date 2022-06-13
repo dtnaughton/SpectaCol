@@ -1,4 +1,5 @@
 ﻿using Speckle.Core.Credentials;
+using SpectaCol.Services;
 using SpectaCol.Stores;
 using SpectaCol.ViewModels;
 using System;
@@ -11,26 +12,20 @@ namespace SpectaCol.Commands
 {
   public class LoginSpeckleCommand : CommandBase
   {
-    private readonly NavigationStore _navigationStore;
+    private readonly NavigationService<AccountSelectionViewModel> _navigationService;
+    private readonly AccountStore _accountStore;
 
-    public LoginSpeckleCommand(NavigationStore navigationStore)
+    public LoginSpeckleCommand(NavigationService<AccountSelectionViewModel> navigationService, AccountStore accountStore)
     {
-      _navigationStore = navigationStore;
+      _navigationService = navigationService;
+      _accountStore = accountStore;
     }
 
     public override void Execute(object? parameter)
     {
-      var loadedSpeckleAccounts = AccountManager.GetAccounts();
+      _accountStore.Accounts = AccountManager.GetAccounts().ToList();
 
-      var accountViewModels = new List<AccountViewModel>();
-
-      foreach (var acc in loadedSpeckleAccounts)
-      {
-        var accountViewModel = new AccountViewModel(acc);
-        accountViewModels.Add(accountViewModel);
-      }
-
-      _navigationStore.CurrentViewModel = new AccountSelectionViewModel(_navigationStore, accountViewModels);
+      _navigationService.Navigate();
     }
   }
 }

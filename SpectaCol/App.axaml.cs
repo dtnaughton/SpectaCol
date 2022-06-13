@@ -18,7 +18,8 @@ namespace SpectaCol
     {
 
       var navigationStore = new NavigationStore();
-      navigationStore.CurrentViewModel = new SpeckleLoginViewModel(navigationStore);
+      var accountStore = new AccountStore();
+      navigationStore.CurrentViewModel = new SpeckleLoginViewModel(navigationStore, accountStore);
 
       if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
       {
