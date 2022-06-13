@@ -1,6 +1,4 @@
 ﻿using SpectaCol.Services;
-using SpectaCol.Stores;
-using SpectaCol.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SpectaCol.Commands
 {
-  public class LoginAccountCommand: CommandBase
+  public class NavigateCommand : CommandBase
   {
-    private readonly LayoutNavigationService<HomeViewModel> _navigationService;
+    private readonly INavigationService _navigationService;
 
-    public LoginAccountCommand(LayoutNavigationService<HomeViewModel> navigationService)
+    public NavigateCommand(INavigationService navigationService)
     {
       _navigationService = navigationService;
     }
