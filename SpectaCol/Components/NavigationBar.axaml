@@ -64,7 +64,8 @@
 		<Button
 			Grid.Row="5"
 			Classes="navIcon"
-			VerticalAlignment="Bottom">
+			VerticalAlignment="Bottom"
+			Command="{Binding LogoutCommand}">
 			<icons:MaterialIcon
 				Width="24"
 				Height="24"
