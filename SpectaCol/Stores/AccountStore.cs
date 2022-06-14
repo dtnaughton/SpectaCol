@@ -11,17 +11,21 @@ namespace SpectaCol.Stores
   public class AccountStore
   {
     public List<Account>? Accounts { get; set; }
+    public List<Stream>? Streams { get; set; }
     public List<Branch>? Branches { get; set; }
     public List<Commit>? Commits { get; set; }
     public Account? SelectedAccount { get; set; }
+    public Stream? SelectedStream { get; set; }
     public Branch? SelectedBranch { get; set; }
     public Commit? SelectedCommit { get; set; }
 
     public void ClearSelectedAccount()
     {
       SelectedAccount = null;
+      SelectedStream = null;
       SelectedBranch = null;
       SelectedCommit = null;
+      Streams?.Clear();
       Branches?.Clear();
       Commits?.Clear();
     }

@@ -18,47 +18,10 @@ namespace SpectaCol.ViewModels
     public string Username => _account.userInfo.name;
     public string Email => _account.userInfo.email;
     public string Id => _account.id;
-    private Bitmap _avatarImage;
-    public Bitmap AvatarImage
-    {
-      get => _avatarImage;
-      set
-      {
-        _avatarImage = value;
-        OnPropertyChanged(nameof(AvatarImage));
-      }
-    }
-
     public AccountViewModel(Account account)
     {
       _account = account;
-
-      DownloadAvatarImage(_account.userInfo.avatar);
     }
-
-    private void DownloadAvatarImage(string url)
-    {
-      if (string.IsNullOrEmpty(url))
-        return;
-
-      using (WebClient client = new WebClient())
-      {
-        client.DownloadDataAsync(new Uri(url));
-        client.DownloadDataCompleted += DownloadComplete;
-      }
-    }
-
-    private void DownloadComplete(object sender, DownloadDataCompletedEventArgs e)
-    {
-        byte[] bytes = e.Result;
-
-        System.IO.Stream stream = new MemoryStream(bytes);
-
-        var image = new Avalonia.Media.Imaging.Bitmap(stream);
-        AvatarImage = image;
-        OnPropertyChanged(nameof(AvatarImage));
-    }
-
   }
 }
 

@@ -8,32 +8,34 @@
 			 Background="#19191D">
 	<UserControl.Styles>
 		<Style Selector="Button.navIcon">
-			<Setter Property="Padding" Value="25 25"/>
+			<Setter Property="Padding" Value="25"/>
 			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
 		</Style>
 		<Style Selector="Button.navIcon:pointerover /template/ ContentPresenter">
 			<Setter Property="Background" Value="#303034"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
 		</Style>
 		<Style Selector="Button.navIcon > PathIcon">
 			<Setter Property="Foreground" Value="#DDDDDD"/>
-			<Setter Property="HorizontalAlignment" Value="Center"/>
 		</Style>
 	</UserControl.Styles>
 	<Grid RowDefinitions="auto, auto, auto, *, auto, auto">
 		<Button
+			Command="{Binding NavigateHomeCommand}"
 			Grid.Row="0"
 			Classes="navIcon">
-			<!--<PathIcon Data="{StaticResource homeIcon}"/>-->
 			<icons:MaterialIcon
 				Width="24"
 				Height="24"
 				Foreground="#DDDDDD"
+				HorizontalAlignment="Center"
 				Kind="Home"/>
 		</Button>
 		<Button
+			Command="{Binding NavigateStreamsCommand}"
 			Grid.Row="1"
 			Classes="navIcon">
-			<!--<PathIcon Data="{StaticResource branchesIcon}"/>-->
 			<icons:MaterialIcon
 				Width="24"
 				Height="24"
@@ -43,7 +45,6 @@
 		<Button
 			Grid.Row="2"
 			Classes="navIcon">
-			<!--<PathIcon Data="{StaticResource columnDesignModuleIcon}"/>-->
 			<icons:MaterialIcon
 				Width="24"
 				Height="24"
@@ -52,9 +53,7 @@
 		</Button>
 		<Button
 			Grid.Row="4"
-			Classes="navIcon"
-			VerticalAlignment="Bottom">
-			<!--<PathIcon Data="{StaticResource settingsIcon}"/>-->
+			Classes="navIcon">
 			<icons:MaterialIcon
 				Width="24"
 				Height="24"
@@ -64,7 +63,6 @@
 		<Button
 			Grid.Row="5"
 			Classes="navIcon"
-			VerticalAlignment="Bottom"
 			Command="{Binding LogoutCommand}">
 			<icons:MaterialIcon
 				Width="24"
