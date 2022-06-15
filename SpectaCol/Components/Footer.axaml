@@ -30,6 +30,16 @@
 		</StackPanel>
 
 		<StackPanel
+	Classes="selectedAccount">
+			<icons:MaterialIcon
+				Foreground="#DDDDDD"
+				Height="18"
+				Width="18"
+				Kind="AtomVariant"/>
+			<TextBlock Text="{Binding SelectedStream}"/>
+		</StackPanel>
+
+		<StackPanel
 			Classes="selectedAccount">
 			<icons:MaterialIcon
 				Foreground="#DDDDDD"

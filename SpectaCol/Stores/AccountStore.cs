@@ -32,13 +32,51 @@ namespace SpectaCol.Stores
         CommitsChanged?.Invoke();
       }
     }
-    public Account? SelectedAccount { get; set; }
-    public Stream? SelectedStream { get; set; }
-    public Branch? SelectedBranch { get; set; }
-    public Commit? SelectedCommit { get; set; }
-    
+
+    private Account? _selectedAccount;
+    private Stream? _selectedStream;
+    private Branch? _selectedBranch;
+    private Commit? _selectedCommit;
+    public Account? SelectedAccount
+    {
+      get => _selectedAccount;
+      set
+      {
+        _selectedAccount = value;
+        SelectedTargetChanged?.Invoke();
+      }
+    }
+    public Stream? SelectedStream
+    {
+      get => _selectedStream;
+      set
+      {
+        _selectedStream = value;
+        SelectedTargetChanged?.Invoke();
+      }
+    }
+    public Branch? SelectedBranch
+    {
+      get => _selectedBranch;
+      set
+      {
+        _selectedBranch = value;
+        SelectedTargetChanged?.Invoke();
+      }
+    }
+    public Commit? SelectedCommit
+    {
+      get => _selectedCommit;
+      set
+      {
+        _selectedCommit = value;
+        SelectedTargetChanged?.Invoke();
+      }
+    }
+
     public event Action BranchesChanged;
     public event Action CommitsChanged;
+    public event Action SelectedTargetChanged;
 
     public void ClearSelectedAccount()
     {

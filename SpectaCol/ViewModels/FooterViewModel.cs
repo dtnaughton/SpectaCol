@@ -11,7 +11,10 @@ namespace SpectaCol.ViewModels
   {
     private AccountStore _accountStore;
 
-    public string SelectedAccount => $"{_accountStore.SelectedAccount.serverInfo.name} | {_accountStore.SelectedAccount.userInfo.email}";
+    public string SelectedStream => _accountStore.SelectedStream != null ? $"{_accountStore.SelectedStream.name}" : "none";
+
+    public string SelectedAccount => _accountStore.SelectedAccount != null ? 
+      $"{_accountStore.SelectedAccount.serverInfo.name} | {_accountStore.SelectedAccount.userInfo.email}" : "none";
 
     public string SelectedBranch => _accountStore.SelectedBranch != null ? $"{_accountStore.SelectedBranch.name}" : "none";
 
@@ -20,6 +23,21 @@ namespace SpectaCol.ViewModels
     public FooterViewModel(AccountStore accountStore)
     {
       _accountStore = accountStore;
+      _accountStore.SelectedTargetChanged += OnSelectedTargetChanged;
+    }
+
+    private void OnSelectedTargetChanged()
+    {
+      OnPropertyChanged(nameof(SelectedAccount));
+      OnPropertyChanged(nameof(SelectedStream));
+      OnPropertyChanged(nameof(SelectedBranch));
+      OnPropertyChanged(nameof(SelectedCommit));
+    }
+
+    public override void Dispose()
+    {
+      _accountStore.SelectedTargetChanged -= OnSelectedTargetChanged;
+      base.Dispose();
     }
   }
 }

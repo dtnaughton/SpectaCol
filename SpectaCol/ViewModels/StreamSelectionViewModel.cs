@@ -54,6 +54,7 @@ namespace SpectaCol.ViewModels
       {
         _selectedCommit = value;
         OnPropertyChanged(nameof(SelectedCommit));
+        _accountStore.SelectedCommit = _accountStore.Commits.Where(commit => commit.id == _selectedCommit?.Id).FirstOrDefault();
       }
     }
 
