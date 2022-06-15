@@ -4,45 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SpectaCol.Views.StreamSelectionView">
-	<StackPanel
-		Spacing="10"
-		Orientation="Horizontal"
-		HorizontalAlignment="Center"
-		VerticalAlignment="Center">
-		<Border
-			Width="300"
-			Height="500"
-			CornerRadius="10"
-			BoxShadow="0 2 15 #23242A"
-			Background="#303034">
+	<UserControl.Styles>
+		<Style Selector="StackPanel.cardPanel">
+			<Setter Property="Orientation" Value="Horizontal"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Spacing" Value="10"/>
+		</Style>
+		<Style Selector="StackPanel.cardPanel > Border">
+			<Setter Property="Width" Value="300"/>
+			<Setter Property="Height" Value="500"/>
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="BoxShadow" Value="0 2 15 #23242A"/>
+			<Setter Property="Background" Value="#303034"/>
+		</Style>
+		<Style Selector="StackPanel.cardPanel > Border > ListBox">
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+		</Style>
+		<Style Selector="StackPanel.cardPanel > Border > ListBox > ListBoxItem">
+			<Setter Property="Padding" Value="5 10"/>
+		</Style>
+		<Style Selector="StackPanel.cardPanel > Border > ListBox > ListBoxItem:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#2b2b2f"/>
+		</Style>
+		<Style Selector="StackPanel.cardPanel > Border > ListBox > ListBoxItem:selected /template/ ContentPresenter">
+			<Setter Property="Background" Value="#2b2b2f"/>
+		</Style>
+		<Style Selector="TextBlock.title">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="Foreground" Value="#047EFB"/>
+		</Style>
+		<Style Selector="TextBlock.primaryDetails">
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="Foreground" Value="#DDDDDD"/>
+		</Style>
+		<Style Selector="TextBlock.secondaryDetails">
+			<Setter Property="Foreground" Value="#858585"/>
+		</Style>
+	</UserControl.Styles>
+	<Grid ColumnDefinitions="*, auto, *" RowDefinitions="*, auto, auto, *">
+		
+		<StackPanel Grid.Column="1" Grid.Row="1" Classes="cardPanel">
+			<Border>
 				<ListBox
-					CornerRadius="10"
 					Items="{Binding Streams}"
-					SelectedItem="{Binding SelectedStream}"
-					ScrollViewer.VerticalScrollBarVisibility="Auto"
-					Background="Transparent">
-					<ListBox.Styles>
-						<Style Selector="ListBoxItem">
-							<Setter Property="Padding" Value="5 10"/>
-						</Style>
-						<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-							<Setter Property="Background" Value="#2b2b2f"/>
-						</Style>
-						<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-							<Setter Property="Background" Value="#2b2b2f"/>
-						</Style>
-						<Style Selector="TextBlock.title">
-							<Setter Property="FontSize" Value="16"/>
-							<Setter Property="Foreground" Value="#047EFB"/>
-						</Style>
-						<Style Selector="TextBlock.primaryDetails">
-							<Setter Property="FontSize" Value="12"/>
-							<Setter Property="Foreground" Value="#DDDDDD"/>
-						</Style>
-						<Style Selector="TextBlock.secondaryDetails">
-							<Setter Property="Foreground" Value="#858585"/>
-						</Style>
-					</ListBox.Styles>
+					SelectedItem="{Binding SelectedStream}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Vertical">
@@ -53,96 +61,40 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-		</Border>
-		<Border
-			Width="300"
-			Height="500"
-			CornerRadius="10"
-			BoxShadow="0 2 15 #23242A"
-			Background="#303034">
-			<ListBox
-				CornerRadius="10"
-				Items="{Binding Branches}"
-				SelectedItem="{Binding SelectedBranch}"
-				ScrollViewer.VerticalScrollBarVisibility="Auto"
-				Background="Transparent">
-				<ListBox.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Padding" Value="5 10"/>
-					</Style>
-					<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-						<Setter Property="Background" Value="#2b2b2f"/>
-					</Style>
-					<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-						<Setter Property="Background" Value="#2b2b2f"/>
-					</Style>
-					<Style Selector="TextBlock.title">
-						<Setter Property="FontSize" Value="16"/>
-						<Setter Property="Foreground" Value="#047EFB"/>
-					</Style>
-					<Style Selector="TextBlock.primaryDetails">
-						<Setter Property="FontSize" Value="12"/>
-						<Setter Property="Foreground" Value="#DDDDDD"/>
-					</Style>
-					<Style Selector="TextBlock.secondaryDetails">
-						<Setter Property="Foreground" Value="#858585"/>
-					</Style>
-				</ListBox.Styles>
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Classes="title" Text="{Binding BranchName}"/>
-							<TextBlock Classes="primaryDetails" Text="{Binding BranchId}"/>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Border>
-		<Border
-			Width="300"
-			Height="500"
-			CornerRadius="10"
-			BoxShadow="0 2 15 #23242A"
-			Background="#303034">
-			<ListBox
-				CornerRadius="10"
-				Items="{Binding Commits}"
-				SelectedItem="{Binding SelectedCommit}"
-				ScrollViewer.VerticalScrollBarVisibility="Auto"
-				Background="Transparent">
-				<ListBox.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Padding" Value="5 10"/>
-					</Style>
-					<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-						<Setter Property="Background" Value="#2b2b2f"/>
-					</Style>
-					<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-						<Setter Property="Background" Value="#2b2b2f"/>
-					</Style>
-					<Style Selector="TextBlock.title">
-						<Setter Property="FontSize" Value="16"/>
-						<Setter Property="Foreground" Value="#047EFB"/>
-					</Style>
-					<Style Selector="TextBlock.primaryDetails">
-						<Setter Property="FontSize" Value="12"/>
-						<Setter Property="Foreground" Value="#DDDDDD"/>
-					</Style>
-					<Style Selector="TextBlock.secondaryDetails">
-						<Setter Property="Foreground" Value="#858585"/>
-					</Style>
-				</ListBox.Styles>
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Classes="title" Text="{Binding Id}"/>
-							<TextBlock Classes="primaryDetails" Text="{Binding Author}"/>
-							<TextBlock Classes="secondaryDetails" Text="{Binding CreationDetails}"/>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Border>
+			</Border>
+			<Border>
+				<ListBox
+					Items="{Binding Branches}"
+					SelectedItem="{Binding SelectedBranch}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Classes="title" Text="{Binding BranchName}"/>
+								<TextBlock Classes="primaryDetails" Text="{Binding BranchId}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</Border>
+			<Border>
+				<ListBox
+					Items="{Binding Commits}"
+					SelectedItem="{Binding SelectedCommit}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Classes="title" Text="{Binding Id}"/>
+								<TextBlock Classes="primaryDetails" Text="{Binding Author}"/>
+								<TextBlock Classes="secondaryDetails" Text="{Binding CreationDetails}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</Border>
+		</StackPanel>
+		<Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="0 20 0 0" Padding="20 10" FontSize="16"
+				Foreground="#FFFFFF"
+				Background="#047EFB">Receive</Button>
+	</Grid>
 
-	</StackPanel>
 </UserControl>
