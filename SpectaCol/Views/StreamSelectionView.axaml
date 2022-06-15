@@ -13,28 +13,42 @@
 			Width="300"
 			Height="500"
 			CornerRadius="10"
-			BoxShadow="0 0 5 #303034"
+			BoxShadow="0 2 15 #23242A"
 			Background="#303034">
 				<ListBox
 					CornerRadius="10"
 					Items="{Binding Streams}"
+					SelectedItem="{Binding SelectedStream}"
 					ScrollViewer.VerticalScrollBarVisibility="Auto"
 					Background="Transparent">
 					<ListBox.Styles>
 						<Style Selector="ListBoxItem">
-							<Setter Property="Padding" Value="0"/>
+							<Setter Property="Padding" Value="5 10"/>
 						</Style>
 						<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+							<Setter Property="Background" Value="#2b2b2f"/>
 						</Style>
-						<Style Selector="ListBoxItem:focus /template/ ContentPresenter">
-							<Setter Property="Background" Value="#aaaaaa"/>
+						<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+							<Setter Property="Background" Value="#2b2b2f"/>
+						</Style>
+						<Style Selector="TextBlock.title">
+							<Setter Property="FontSize" Value="16"/>
+							<Setter Property="Foreground" Value="#047EFB"/>
+						</Style>
+						<Style Selector="TextBlock.primaryDetails">
+							<Setter Property="FontSize" Value="12"/>
+							<Setter Property="Foreground" Value="#DDDDDD"/>
+						</Style>
+						<Style Selector="TextBlock.secondaryDetails">
+							<Setter Property="Foreground" Value="#858585"/>
 						</Style>
 					</ListBox.Styles>
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Vertical">
-								<TextBlock Text="{Binding StreamName}"/>
-								<TextBlock Text="{Binding StreamDetails}"/>
+								<TextBlock Classes="title" Text="{Binding StreamName}"/>
+								<TextBlock Classes="primaryDetails" Text="{Binding StreamDetails}"/>
+								<TextBlock Classes="secondaryDetails" Text="{Binding UpdatedAt}"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
@@ -44,71 +58,90 @@
 			Width="300"
 			Height="500"
 			CornerRadius="10"
-			BoxShadow="0 0 5 #303034"
+			BoxShadow="0 2 15 #23242A"
 			Background="#303034">
-			<ScrollViewer>
-				<ListBox Foreground="White" CornerRadius="10" Padding="0" Background="Transparent">
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-				</ListBox>
-			</ScrollViewer>
+			<ListBox
+				CornerRadius="10"
+				Items="{Binding Branches}"
+				SelectedItem="{Binding SelectedBranch}"
+				ScrollViewer.VerticalScrollBarVisibility="Auto"
+				Background="Transparent">
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Padding" Value="5 10"/>
+					</Style>
+					<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+						<Setter Property="Background" Value="#2b2b2f"/>
+					</Style>
+					<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+						<Setter Property="Background" Value="#2b2b2f"/>
+					</Style>
+					<Style Selector="TextBlock.title">
+						<Setter Property="FontSize" Value="16"/>
+						<Setter Property="Foreground" Value="#047EFB"/>
+					</Style>
+					<Style Selector="TextBlock.primaryDetails">
+						<Setter Property="FontSize" Value="12"/>
+						<Setter Property="Foreground" Value="#DDDDDD"/>
+					</Style>
+					<Style Selector="TextBlock.secondaryDetails">
+						<Setter Property="Foreground" Value="#858585"/>
+					</Style>
+				</ListBox.Styles>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Vertical">
+							<TextBlock Classes="title" Text="{Binding BranchName}"/>
+							<TextBlock Classes="primaryDetails" Text="{Binding BranchId}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 		</Border>
 		<Border
 			Width="300"
 			Height="500"
 			CornerRadius="10"
-			BoxShadow="0 0 5 #303034"
+			BoxShadow="0 2 15 #23242A"
 			Background="#303034">
-			<ScrollViewer>
-				<ListBox Foreground="White" CornerRadius="10" Padding="0" Background="Transparent">
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-					<ListBoxItem Content="Test"/>
-				</ListBox>
-			</ScrollViewer>
+			<ListBox
+				CornerRadius="10"
+				Items="{Binding Commits}"
+				SelectedItem="{Binding SelectedCommit}"
+				ScrollViewer.VerticalScrollBarVisibility="Auto"
+				Background="Transparent">
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Padding" Value="5 10"/>
+					</Style>
+					<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+						<Setter Property="Background" Value="#2b2b2f"/>
+					</Style>
+					<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+						<Setter Property="Background" Value="#2b2b2f"/>
+					</Style>
+					<Style Selector="TextBlock.title">
+						<Setter Property="FontSize" Value="16"/>
+						<Setter Property="Foreground" Value="#047EFB"/>
+					</Style>
+					<Style Selector="TextBlock.primaryDetails">
+						<Setter Property="FontSize" Value="12"/>
+						<Setter Property="Foreground" Value="#DDDDDD"/>
+					</Style>
+					<Style Selector="TextBlock.secondaryDetails">
+						<Setter Property="Foreground" Value="#858585"/>
+					</Style>
+				</ListBox.Styles>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Vertical">
+							<TextBlock Classes="title" Text="{Binding Id}"/>
+							<TextBlock Classes="primaryDetails" Text="{Binding Author}"/>
+							<TextBlock Classes="secondaryDetails" Text="{Binding CreationDetails}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 		</Border>
 
 	</StackPanel>

@@ -28,7 +28,7 @@ namespace SpectaCol.ViewModels
         _selectedAccount = value;
         OnPropertyChanged(nameof(SelectedAccount));
         _accountStore.SelectedAccount = _accountStore.Accounts?.Where(account => account.id == _selectedAccount?.Id).FirstOrDefault();
-        LoginAccountCommand.Execute(SelectedAccount);
+        LoginAccountCommand.Execute(null);
       }
     }
 
