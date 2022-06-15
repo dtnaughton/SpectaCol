@@ -76,7 +76,6 @@ namespace SpectaCol.ViewModels
             
     }
 
-
     private void OnBranchesChanged()
     {
       _branches.Clear();
@@ -98,5 +97,14 @@ namespace SpectaCol.ViewModels
         _commits.Add(commitViewModel);
       });
     }
+
+    public override void Dispose()
+    {
+      _accountStore.BranchesChanged -= OnBranchesChanged;
+      _accountStore.CommitsChanged -= OnCommitsChanged;
+
+      base.Dispose();
+    }
+
   }
 }
