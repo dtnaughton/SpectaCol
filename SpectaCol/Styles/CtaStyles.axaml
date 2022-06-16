@@ -1,0 +1,37 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<Button Classes="secondaryAction">Secondary</Button>
+				<Button Classes="primaryAction">Primary</Button>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+	<!--PRIMARY ACTION-->
+	<Style Selector="Button.primaryAction">
+		<Setter Property="Background" Value="#047EFB"/>
+		<Setter Property="Foreground" Value="#FFFFFF"/>
+		<Setter Property="Padding" Value="20 10"/>
+		<Setter Property="FontSize" Value="16"/>
+	</Style>
+	<Style Selector="Button.primaryAction:pointerover /template/ ContentPresenter">
+		<Setter Property="Background" Value="#0365c9"/>
+		<Setter Property="TextBlock.Foreground" Value="#FFFFFF"/>
+		<Setter Property="Padding" Value="20 10"/>
+	</Style>
+	<!--SECONDARY ACTION-->
+	<Style Selector="Button.secondaryAction">
+		<Setter Property="Background" Value="#FFFFFF"/>
+		<Setter Property="BorderBrush" Value="#047EFB"/>
+		<Setter Property="Foreground" Value="#047EFB"/>
+		<Setter Property="Padding" Value="20 10"/>
+		<Setter Property="FontSize" Value="16"/>
+	</Style>
+	<Style Selector="Button.secondaryAction:pointerover /template/ ContentPresenter">
+		<Setter Property="Background" Value="#cde5fe"/>
+		<Setter Property="TextBlock.Foreground" Value="#047EFB"/>
+		<Setter Property="BorderBrush" Value="#047EFB"/>
+		<Setter Property="Padding" Value="20 10"/>
+	</Style>
+</Styles>
