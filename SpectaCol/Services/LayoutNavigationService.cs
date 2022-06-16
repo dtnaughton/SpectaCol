@@ -8,24 +8,30 @@ using System.Threading.Tasks;
 
 namespace SpectaCol.Services
 {
-  public class LayoutNavigationService<TViewModel> : INavigationService where TViewModel : ViewModelBase
+  public class LayoutNavigationService<TContentViewModel, TDialogViewModel> : INavigationService 
+    where TContentViewModel : ViewModelBase
+    where TDialogViewModel : ViewModelBase
   {
     private readonly NavigationStore _navigationStore;
-    private readonly Func<TViewModel> _createViewModel;
+    private readonly IDialogStore _dialogStore;
+    private readonly Func<TContentViewModel> _createMainContentViewModel;
     private readonly NavigationBarViewModel _navigationBarViewModel;
     private readonly FooterViewModel _footerViewModel;
+    private readonly Func<TDialogViewModel> _createDialogViewModel;
 
-    public LayoutNavigationService(NavigationStore navigationStore, Func<TViewModel> createViewModel, NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel)
+    public LayoutNavigationService(NavigationStore navigationStore, Func<TContentViewModel> createMainContentViewModel, NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, Func<TDialogViewModel> createDialogViewModel, IDialogStore dialogStore)
     {
       _navigationStore = navigationStore;
-      _createViewModel = createViewModel;
+      _createMainContentViewModel = createMainContentViewModel;
       _navigationBarViewModel = navigationBarViewModel;
       _footerViewModel = footerViewModel;
+      _createDialogViewModel = createDialogViewModel;
+      _dialogStore = dialogStore;
     }
 
     public void Navigate()
     {
-      _navigationStore.CurrentViewModel = new LayoutViewModel(_navigationBarViewModel, _footerViewModel, _createViewModel());
+      _navigationStore.CurrentViewModel = new LayoutViewModel(_navigationBarViewModel, _footerViewModel, _createMainContentViewModel(), _createDialogViewModel(), _dialogStore);
     }
   }
 }

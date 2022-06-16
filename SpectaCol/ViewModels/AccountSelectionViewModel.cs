@@ -32,7 +32,7 @@ namespace SpectaCol.ViewModels
       }
     }
 
-    public AccountSelectionViewModel(NavigationStore navigationStore, AccountStore accountStore)
+    public AccountSelectionViewModel(NavigationStore navigationStore, AccountStore accountStore, SettingsStore settingsStore)
     {
       _accounts = new ObservableCollection<AccountViewModel>();
       _accountStore = accountStore;
@@ -44,7 +44,7 @@ namespace SpectaCol.ViewModels
       });
 
       //LoginAccountCommand = new LoginAccountCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(), new NavigationBarViewModel(accountStore, navigationStore), new FooterViewModel(accountStore)));
-      LoginAccountCommand = new NavigateCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(), new NavigationBarViewModel(accountStore, navigationStore), new FooterViewModel(accountStore)));
+      LoginAccountCommand = new NavigateCommand(new LayoutNavigationService<HomeViewModel, ViewModelBase>(navigationStore, () => new HomeViewModel(), new NavigationBarViewModel(accountStore, navigationStore, settingsStore), new FooterViewModel(accountStore), () => new SettingsViewModel(settingsStore), settingsStore));
     }
   }
 }

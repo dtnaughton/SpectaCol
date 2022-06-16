@@ -15,10 +15,10 @@ namespace SpectaCol.ViewModels
     private readonly NavigationStore _navigationStore;
     public ICommand LoginSpeckleCommand { get; }
 
-    public SpeckleLoginViewModel(NavigationStore navigationStore, AccountStore accountStore)
+    public SpeckleLoginViewModel(NavigationStore navigationStore, AccountStore accountStore, SettingsStore settingsStore)
     {
       _navigationStore = navigationStore;
-      LoginSpeckleCommand = new LoginSpeckleCommand(new NavigationService<AccountSelectionViewModel>(navigationStore, () => new AccountSelectionViewModel(navigationStore, accountStore)), accountStore);
+      LoginSpeckleCommand = new LoginSpeckleCommand(new NavigationService<AccountSelectionViewModel>(navigationStore, () => new AccountSelectionViewModel(navigationStore, accountStore, settingsStore)), accountStore);
     }
   }
 }

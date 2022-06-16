@@ -15,12 +15,14 @@ namespace SpectaCol.ViewModels
     public ICommand NavigateHomeCommand { get; }
     public ICommand LogoutCommand { get; }
     public ICommand NavigateStreamsCommand { get; }
+    public ICommand OpenSettings { get; }
 
-    public NavigationBarViewModel(AccountStore accountStore, NavigationStore navigationStore)
+    public NavigationBarViewModel(AccountStore accountStore, NavigationStore navigationStore, SettingsStore settingsStore)
     {
-      NavigateHomeCommand = new NavigateCommand(new LayoutNavigationService<HomeViewModel>(navigationStore, () => new HomeViewModel(), this, new FooterViewModel(accountStore)));
-      LogoutCommand = new LogoutCommand(accountStore, new NavigationService<AccountSelectionViewModel>(navigationStore, () => new AccountSelectionViewModel(navigationStore, accountStore)));
-      NavigateStreamsCommand = new NavigateStreamsCommand(accountStore, new LayoutNavigationService<StreamSelectionViewModel>(navigationStore, () => new StreamSelectionViewModel(accountStore), this, new FooterViewModel(accountStore)));
+      NavigateHomeCommand = new NavigateCommand(new LayoutNavigationService<HomeViewModel, ViewModelBase>(navigationStore, () => new HomeViewModel(), this, new FooterViewModel(accountStore), () => new SettingsViewModel(settingsStore), settingsStore));
+      LogoutCommand = new LogoutCommand(accountStore, new NavigationService<AccountSelectionViewModel>(navigationStore, () => new AccountSelectionViewModel(navigationStore, accountStore, settingsStore)));
+      NavigateStreamsCommand = new NavigateStreamsCommand(accountStore, new LayoutNavigationService<StreamSelectionViewModel, ViewModelBase>(navigationStore, () => new StreamSelectionViewModel(accountStore), this, new FooterViewModel(accountStore), () => new SettingsViewModel(settingsStore), settingsStore));
+      OpenSettings = new ToggleDialogVisibilityCommand(settingsStore);
     }
   }
 }
