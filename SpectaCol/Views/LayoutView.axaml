@@ -6,7 +6,7 @@
 			 xmlns:dialogHost="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.LayoutView">
-	<dialogHost:DialogHost IsOpen="{Binding IsDialogOpen}">
+	<dialogHost:DialogHost IsOpen="{Binding IsDialogOpen}" DisableOpeningAnimation="True" DialogMargin="0">
 		<dialogHost:DialogHost.DialogContent>
 			<ContentControl Content="{Binding DialogViewModel}"/>
 		</dialogHost:DialogHost.DialogContent>
