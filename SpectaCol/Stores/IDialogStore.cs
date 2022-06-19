@@ -10,5 +10,6 @@ namespace SpectaCol.Stores
   {
     event Action IsOpenChanged;
     bool IsOpen { get; set; }
+    void SaveState();
   }
 }

@@ -3,8 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
-             x:Class="SpectaCol.Views.SettingsView"
-			 Background="#1C1D22">
+             x:Class="SpectaCol.Views.SettingsView">
 	<UserControl.Styles>
 		<Style Selector="TextBlock.header">
 			<Setter Property="FontSize" Value="18"/>
@@ -22,12 +21,14 @@
 			<Setter Property="FontSize" Value="16"/>
 			<Setter Property="HorizontalAlignment" Value="Right"/>
 			<Setter Property="Width" Value="70"/>
+			<Setter Property="Background" Value="#FFFFFF"/>
 		</Style>
 		<Style Selector="TextBox.inputNumber">
 			<Setter Property="FontSize" Value="16"/>
 			<Setter Property="HorizontalAlignment" Value="Right"/>
 			<Setter Property="HorizontalContentAlignment" Value="Right"/>
 			<Setter Property="Width" Value="70"/>
+			<Setter Property="Background" Value="#FFFFFF"/>
 		</Style>
 		<Style Selector="StackPanel.actions">
 			<Setter Property="Orientation" Value="Horizontal"/>
@@ -35,12 +36,11 @@
 			<Setter Property="Spacing" Value="10"/>
 		</Style>
 	</UserControl.Styles>
-	<Border Padding="30" CornerRadius="100">
 	<Grid
 		Width="300"
 		ShowGridLines="False"
 		ColumnDefinitions="*, *"
-		RowDefinitions="auto, 10, auto, 10, auto, 20, auto, 10, auto, 10, auto, 10, auto, 50, *"
+		RowDefinitions="auto, 10, auto, 10, auto, 10, auto 20, auto, 10, auto, 10, auto, 10, auto, 50, *"
 		HorizontalAlignment="Center"
 		VerticalAlignment="Center">
 		<TextBlock Grid.Row="0"
@@ -53,6 +53,8 @@
 			Classes="label"
 			Text="Force units"/>
 		<ComboBox
+			Items="{Binding ForceUnits}"
+			SelectedItem="{Binding SelectedForceUnit}"
 			Grid.Row="2"
 			Grid.Column="1"
 			Classes="inputDropdown"/>
@@ -62,43 +64,56 @@
 			Classes="label"
 			Text="Length units"/>
 		<ComboBox
+			Items="{Binding LengthUnits}"
+			SelectedItem="{Binding SelectedLengthUnit}"
 			Grid.Row="4"
 			Grid.Column="1"
 			Classes="inputDropdown"/>
 		<TextBlock
 			Grid.Row="6"
+			Grid.Column="0"
+			Classes="label"
+			Text="Design code"/>
+		<ComboBox
+			Items="{Binding DesignCodes}"
+			SelectedItem="{Binding SelectedDesignCode}"
+			Grid.Row="6"
+			Grid.Column="1"
+			Classes="inputDropdown"/>
+		<!--<TextBlock
+			Grid.Row="8"
 			Grid.ColumnSpan="2"
 			Classes="header"
 			Text="Speckle Settings"/>
 		<TextBlock
-			Grid.Row="8"
+			Grid.Row="10"
 			Grid.Column="0"
 			Classes="label"
 			Text="Streams Limit"/>
 		<TextBox
-			Grid.Row="8"
+			Grid.Row="10"
 			Grid.Column="1"
 			Classes="inputNumber"/>
 		<TextBlock
-			Grid.Row="10"
+			Grid.Row="12"
 			Grid.Column="0"
 			Classes="label"
 			Text="Branches Limit"/>
 		<TextBox
-			Grid.Row="10"
+			Grid.Row="12"
 			Grid.Column="1"
 			Classes="inputNumber"/>
 		<TextBlock
-			Grid.Row="12"
+			Grid.Row="14"
 			Grid.Column="0"
 			Classes="label"
 			Text="Commits Limit"/>
 		<TextBox
-			Grid.Row="12"
+			Grid.Row="14"
 			Grid.Column="1"
-			Classes="inputNumber"/>
+			Classes="inputNumber"/>-->
 		<StackPanel 
-			Grid.Row="14" 
+			Grid.Row="16" 
 			Grid.ColumnSpan="2"
 			Classes="actions">
 			<Button
@@ -106,10 +121,10 @@
 			Command="{Binding CloseDialogCommand}"
 			Content="Close"/>
 			<Button
+				Command="{Binding SaveSettings}"
 				Classes="primaryAction"
 				Content="Save"/>
 		</StackPanel>
 	</Grid>
-	</Border>
 
 </UserControl>
