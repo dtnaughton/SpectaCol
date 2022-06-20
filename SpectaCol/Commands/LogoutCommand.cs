@@ -12,9 +12,9 @@ namespace SpectaCol.Commands
   public class LogoutCommand : CommandBase
   {
     private readonly AccountStore _accountStore;
-    private readonly NavigationService<AccountSelectionViewModel> _navigationService;
+    private readonly INavigationService _navigationService;
 
-    public LogoutCommand(AccountStore accountStore, NavigationService<AccountSelectionViewModel> navigationService)
+    public LogoutCommand(AccountStore accountStore, INavigationService navigationService)
     {
       _accountStore = accountStore;
       _navigationService = navigationService;

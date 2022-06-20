@@ -12,10 +12,10 @@ namespace SpectaCol.Commands
 {
   public class LoginSpeckleCommand : CommandBase
   {
-    private readonly NavigationService<AccountSelectionViewModel> _navigationService;
+    private readonly INavigationService _navigationService;
     private readonly AccountStore _accountStore;
 
-    public LoginSpeckleCommand(NavigationService<AccountSelectionViewModel> navigationService, AccountStore accountStore)
+    public LoginSpeckleCommand(INavigationService navigationService, AccountStore accountStore)
     {
       _navigationService = navigationService;
       _accountStore = accountStore;
