@@ -15,15 +15,21 @@ namespace SpectaCol.Services
     private readonly NavigationStore _navigationStore;
     private readonly IDialogStore _dialogStore;
     private readonly Func<TContentViewModel> _createMainContentViewModel;
-    private readonly NavigationBarViewModel _navigationBarViewModel;
+    private readonly Func<NavigationBarViewModel> _createNavigationBarViewModel;
     private readonly FooterViewModel _footerViewModel;
     private readonly Func<TDialogViewModel> _createDialogViewModel;
 
-    public LayoutNavigationService(NavigationStore navigationStore, Func<TContentViewModel> createMainContentViewModel, NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, Func<TDialogViewModel> createDialogViewModel, IDialogStore dialogStore)
+    public LayoutNavigationService(
+      NavigationStore navigationStore, 
+      Func<TContentViewModel> createMainContentViewModel, 
+      Func<NavigationBarViewModel> createNavigationBarViewModel, 
+      FooterViewModel footerViewModel, 
+      Func<TDialogViewModel> createDialogViewModel, 
+      IDialogStore dialogStore)
     {
       _navigationStore = navigationStore;
       _createMainContentViewModel = createMainContentViewModel;
-      _navigationBarViewModel = navigationBarViewModel;
+      _createNavigationBarViewModel = createNavigationBarViewModel;
       _footerViewModel = footerViewModel;
       _createDialogViewModel = createDialogViewModel;
       _dialogStore = dialogStore;
@@ -31,7 +37,7 @@ namespace SpectaCol.Services
 
     public void Navigate()
     {
-      _navigationStore.CurrentViewModel = new LayoutViewModel(_navigationBarViewModel, _footerViewModel, _createMainContentViewModel(), _createDialogViewModel(), _dialogStore);
+      _navigationStore.CurrentViewModel = new LayoutViewModel(_createNavigationBarViewModel(), _footerViewModel, _createMainContentViewModel(), _createDialogViewModel(), _dialogStore);
     }
   }
 }

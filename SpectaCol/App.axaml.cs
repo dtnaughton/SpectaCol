@@ -91,7 +91,7 @@ namespace SpectaCol
       return new LayoutNavigationService<HomeViewModel, ViewModelBase>(
         navigationStore,
         () => homeService,
-        navigationService,
+        () => navigationService,
         footerService,
         () => settingService,
         settingsStore
@@ -106,7 +106,7 @@ namespace SpectaCol
       return new LayoutNavigationService<StreamSelectionViewModel, ViewModelBase>(
         navigationStore,
         () => serviceProvider.GetRequiredService<StreamSelectionViewModel>(),
-        serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+        () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
         serviceProvider.GetRequiredService<FooterViewModel>(),
         () => serviceProvider.GetRequiredService<SettingsViewModel>(),
         settingsStore
