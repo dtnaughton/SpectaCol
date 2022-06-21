@@ -48,7 +48,7 @@ namespace SpectaCol
       services.AddTransient<AccountSelectionViewModel>(s => CreateAccountSelectionViewModel(s));
       services.AddTransient<HomeViewModel>(CreateHomeViewModel);
       services.AddTransient<StreamSelectionViewModel>(s => CreateStreamSelectionViewModel(s));
-      services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewmodel);
+      services.AddTransient<NavigationBarViewModel>(CreateNavigationBarViewModel);
       services.AddTransient<FooterViewModel>(s => CreateFooterViewModel(s));
       services.AddTransient<SettingsViewModel>(s => CreateSettingsViewModel(s));
       services.AddTransient<SpeckleLoginViewModel>(s => CreateSpeckleLoginViewModel(s));
@@ -64,71 +64,55 @@ namespace SpectaCol
 
     private INavigationService CreateSpeckleLoginNavigationService(IServiceProvider serviceProvider)
     {
-      var navigationStore = serviceProvider.GetRequiredService<NavigationStore>();
-      var accountStore = serviceProvider.GetRequiredService<AccountStore>();
-      var settingsStore = serviceProvider.GetRequiredService<SettingsStore>();
-      return new NavigationService<SpeckleLoginViewModel>(navigationStore, () => serviceProvider.GetRequiredService<SpeckleLoginViewModel>());
+      return new NavigationService<SpeckleLoginViewModel>(
+        serviceProvider.GetRequiredService<NavigationStore>(), 
+        () => serviceProvider.GetRequiredService<SpeckleLoginViewModel>());
     }
 
     private INavigationService CreateAccountSelectionNavigationService(IServiceProvider serviceProvider)
     {
-      var navigationStore = serviceProvider.GetRequiredService<NavigationStore>();
-      var accountStore = serviceProvider.GetRequiredService<AccountStore>();
-      var settingsStore = serviceProvider.GetRequiredService<SettingsStore>();
-      return new NavigationService<AccountSelectionViewModel>(navigationStore, () => CreateAccountSelectionViewModel(serviceProvider));
+      return new NavigationService<AccountSelectionViewModel>(
+        serviceProvider.GetRequiredService<NavigationStore>(), 
+        () => serviceProvider.GetRequiredService<AccountSelectionViewModel>());
     }
 
     private INavigationService CreateHomeViewModelService(IServiceProvider serviceProvider)
     {
-      var navigationStore = serviceProvider.GetRequiredService<NavigationStore>();
-      var settingsStore = serviceProvider.GetRequiredService<SettingsStore>();
-
-      var homeService = serviceProvider.GetRequiredService<HomeViewModel>();
-      var footerService = serviceProvider.GetRequiredService<FooterViewModel>();
-      var navigationService = serviceProvider.GetRequiredService<NavigationBarViewModel>();
-      var settingService = serviceProvider.GetRequiredService<SettingsViewModel>();
-
       return new LayoutNavigationService<HomeViewModel, ViewModelBase>(
-        navigationStore,
-        () => homeService,
-        () => navigationService,
-        footerService,
-        () => settingService,
-        settingsStore
-        );
+        serviceProvider.GetRequiredService<NavigationStore>(),
+        () => serviceProvider.GetRequiredService<HomeViewModel>(),
+        () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+        serviceProvider.GetRequiredService<FooterViewModel>(),
+        () => serviceProvider.GetRequiredService<SettingsViewModel>(),
+        serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private INavigationService CreateStreamSelectionService(IServiceProvider serviceProvider)
     {
-      var navigationStore = serviceProvider.GetRequiredService<NavigationStore>();
-      var settingsStore = serviceProvider.GetRequiredService<SettingsStore>();
-
       return new LayoutNavigationService<StreamSelectionViewModel, ViewModelBase>(
-        navigationStore,
+        serviceProvider.GetRequiredService<NavigationStore>(),
         () => serviceProvider.GetRequiredService<StreamSelectionViewModel>(),
         () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
         serviceProvider.GetRequiredService<FooterViewModel>(),
         () => serviceProvider.GetRequiredService<SettingsViewModel>(),
-        settingsStore
-        );
+        serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private AccountSelectionViewModel CreateAccountSelectionViewModel(IServiceProvider serviceProvider)
     {
-      return new AccountSelectionViewModel(CreateHomeViewModelService(serviceProvider), _serviceProvider.GetRequiredService<AccountStore>());
+      return new AccountSelectionViewModel(
+        CreateHomeViewModelService(serviceProvider), 
+        _serviceProvider.GetRequiredService<AccountStore>()); // MODIFY THIS LINE?
     }
 
-    private NavigationBarViewModel CreateNavigationBarViewmodel(IServiceProvider serviceProvider)
+    private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
     {
-      var accountStore = serviceProvider.GetRequiredService<AccountStore>();
-      var settingsStore = serviceProvider.GetRequiredService<SettingsStore>();
-
       return new NavigationBarViewModel(
         CreateHomeViewModelService(serviceProvider),
         CreateAccountSelectionNavigationService(serviceProvider),
         CreateStreamSelectionService(serviceProvider),
-        accountStore,
-        settingsStore);
+        serviceProvider.GetRequiredService<AccountStore>(),
+        serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private FooterViewModel CreateFooterViewModel(IServiceProvider serviceProvider)
