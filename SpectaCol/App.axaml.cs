@@ -42,6 +42,7 @@ namespace SpectaCol
       services.AddSingleton<NavigationStore>();
       services.AddSingleton<AccountStore>();
       services.AddSingleton<SettingsStore>();
+      services.AddSingleton<ObjectStore>();
 
       services.AddSingleton<INavigationService>(s => CreateSpeckleLoginNavigationService(s));
 
@@ -127,7 +128,7 @@ namespace SpectaCol
 
     private StreamSelectionViewModel CreateStreamSelectionViewModel(IServiceProvider serviceProvider)
     {
-      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>());
+      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>(), serviceProvider.GetRequiredService<ObjectStore>());
     }
 
     private SpeckleLoginViewModel CreateSpeckleLoginViewModel(IServiceProvider serviceProvider)
