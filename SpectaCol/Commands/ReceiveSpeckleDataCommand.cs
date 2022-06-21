@@ -1,6 +1,7 @@
 ﻿using Speckle.Core.Api;
 using Speckle.Core.Transports;
 using SpectaCol.Converters;
+using SpectaCol.Models.Sections;
 using SpectaCol.Stores;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace SpectaCol.Commands
   public class ReceiveSpeckleDataCommand : CommandBase
   {
     private readonly AccountStore _accountStore;
+    private readonly ObjectStore _objectStore;
 
-    public ReceiveSpeckleDataCommand(AccountStore accountStore)
+    public ReceiveSpeckleDataCommand(AccountStore accountStore, ObjectStore objectStore)
     {
       _accountStore = accountStore;
+      _objectStore = objectStore;
     }
 
     public override async void Execute(object? parameter)
@@ -28,6 +31,8 @@ namespace SpectaCol.Commands
       var commitObj = await Operations.Receive(_accountStore?.SelectedCommit?.referencedObject, transport);
 
       var flattenedCommitObj = ConversionUtils.FlattenCommitObject(commitObj, converter);
+
+      _objectStore.ConcreteColumns = converter.ConvertToNative(flattenedCommitObj).Cast<ConcreteColumn>().ToList();
     }
   }
 }

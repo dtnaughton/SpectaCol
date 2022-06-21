@@ -3,11 +3,17 @@ using Objects.Structural.Geometry;
 using Objects.Structural.GSA.Properties;
 using Objects.Structural.Properties;
 using Speckle.Core.Kits;
+using SpectaCol.Models.Materials;
+using SM = Objects.Structural.Materials;
+using SpectaCol.Models.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Objects.Structural.GSA.Materials;
+using Objects.Structural.Properties.Profiles;
+using Objects.Geometry;
 
 namespace SpectaCol.Converters
 {
@@ -18,113 +24,115 @@ namespace SpectaCol.Converters
           typeof(Element1D),
       };
 
+
     #region conversion methods
-    //public ConcreteColumn Element1DToNative(Element1D speckleElement)
-    //{
-    //  if (speckleElement.memberType != MemberType.Column)
-    //  {
-    //    throw new NotSupportedException($"Support for only {MemberType.Column}");
-    //  }
+    public ConcreteColumn Element1DToNative(Element1D speckleElement)
+    {
+      if (speckleElement.memberType != MemberType.Column)
+      {
+        throw new NotSupportedException($"Support for only {MemberType.Column}");
+      }
 
-    //  var nativeColumn = new ConcreteColumn()
-    //  {
-    //    ApplicationId = speckleElement.applicationId,
-    //    Material = Property1DToNative(speckleElement.property),
-    //    Units = speckleElement.units
-    //  };
+      var speckleProperty = (Property1D)speckleElement.property;
 
-    //  if (speckleElement.baseLine != null && speckleElement.baseLine.length != 0)
-    //  {
-    //    nativeColumn.Length = speckleElement.baseLine.length;
-    //  }
+      var nativeColumn = new ConcreteColumn()
+      {
+        ApplicationId = speckleElement.applicationId,
+        Material = Property1DToNative((Property1D)speckleElement.property),
+        Units = speckleElement.units
+      };
 
-    //  else
-    //  {
-    //    nativeColumn.Length = Point.Distance(speckleElement.end1Node.basePoint, speckleElement.end2Node.basePoint);
-    //  }
+      if (speckleElement.baseLine != null && speckleElement.baseLine.length != 0)
+      {
+        nativeColumn.Length = speckleElement.baseLine.length;
+      }
 
-    //  if (speckleElement.property.profile.shapeType == ShapeType.Rectangular)
-    //  {
-    //    var sectionProfile = (Rectangular)speckleElement.property.profile;
-    //    nativeColumn.Width = sectionProfile.width;
-    //    nativeColumn.Depth = sectionProfile.depth;
-    //  }
+      else
+      {
+        nativeColumn.Length = Point.Distance(speckleElement.end1Node.basePoint, speckleElement.end2Node.basePoint);
+      }
 
-    //  else if (speckleElement.property.profile.shapeType == ShapeType.Circular)
-    //  {
-    //    var sectionProfile = (Circular)speckleElement.property.profile;
+      if (speckleProperty.profile.shapeType == ShapeType.Rectangular)
+      {
+        var sectionProfile = (Rectangular)speckleProperty.profile;
+        nativeColumn.Width = sectionProfile.width;
+        nativeColumn.Depth = sectionProfile.depth;
+      }
 
-    //    nativeColumn.Width = sectionProfile.radius * 2;
-    //    nativeColumn.Depth = 0;
-    //  }
+      else if (speckleProperty.profile.shapeType == ShapeType.Circular)
+      {
+        var sectionProfile = (Circular)speckleProperty.profile;
 
-    //  else
-    //  {
-    //    throw new NotSupportedException($"Support for only {Objects.Structural.ShapeType.Circular} and {Objects.Structural.ShapeType.Rectangular} shapes");
-    //  }
+        nativeColumn.Width = sectionProfile.radius * 2;
+        nativeColumn.Depth = 0;
+      }
 
-    //  return nativeColumn;
-    //}
+      else
+      {
+        throw new NotSupportedException($"Support for only {Objects.Structural.ShapeType.Circular} and {Objects.Structural.ShapeType.Rectangular} shapes");
+      }
 
-    //public Concrete ConcreteToNative(SM.Material material)
-    //{
-    //  if (material == null)
-    //  {
-    //    return new Concrete();
-    //  }
+      return nativeColumn;
+    }
 
-    //  var materialType = material.GetType();
+    public Concrete ConcreteToNative(SM.Material material)
+    {
+      if (material == null)
+      {
+        return new Concrete();
+      }
 
-    //  if (materialType == typeof(SM.Material) || materialType == typeof(GSAMaterial))
-    //  {
-    //    return new Concrete()
-    //    {
-    //      Grade = material.grade,
-    //      CompressiveStrength = material.strength,
-    //      IsLightweight = false,
-    //      ElasticModulus = material.elasticModulus
-    //    };
-    //  }
+      var materialType = material.GetType();
 
-    //  else if (materialType == typeof(SM.Concrete) || materialType == typeof(GSAConcrete))
-    //  {
-    //    var castedMaterial = (SM.Concrete)material;
+      if (materialType == typeof(SM.Material) || materialType == typeof(GSAMaterial))
+      {
+        return new Concrete()
+        {
+          Grade = material.grade,
+          CompressiveStrength = material.strength,
+          IsLightweight = false,
+          ElasticModulus = material.elasticModulus
+        };
+      }
 
-    //    return new Concrete()
-    //    {
-    //      Grade = castedMaterial.grade,
-    //      CompressiveStrength = castedMaterial.compressiveStrength,
-    //      IsLightweight = castedMaterial.lightweight,
-    //      ElasticModulus = castedMaterial.elasticModulus
-    //    };
-    //  }
+      else if (materialType == typeof(SM.Concrete) || materialType == typeof(GSAConcrete))
+      {
+        var castedMaterial = (SM.Concrete)material;
 
-    //  else
-    //  {
-    //    throw new NotSupportedException($"{typeof(SM.Material).FullName} is not supported.");
-    //  }
-    //}
+        return new Concrete()
+        {
+          Grade = castedMaterial.grade,
+          CompressiveStrength = castedMaterial.compressiveStrength,
+          IsLightweight = castedMaterial.lightweight,
+          ElasticModulus = castedMaterial.elasticModulus
+        };
+      }
 
-    //public Concrete Property1DToNative(Property1D property1d)
-    //{
-    //  var material = property1d.material;
+      else
+      {
+        throw new NotSupportedException($"{typeof(SM.Material).FullName} is not supported.");
+      }
+    }
 
-    //  if (material == null && property1d.GetType() == typeof(GSAProperty1D))
-    //  {
-    //    var gsaProperty1d = (GSAProperty1D)property1d;
-    //    material = gsaProperty1d.designMaterial;
-    //  }
+    public Concrete Property1DToNative(Property1D property1d)
+    {
+      var material = property1d.material;
 
-    //  if material is null set default material based on selected design code? Write a warning log of columns that could not detect material, default values assigned msg.
-    //  if (material == null || material.materialType != MaterialType.Concrete)
-    //  {
-    //    throw new NotSupportedException("Material must be concrete and not null;");
-    //  }
+      if (material == null && property1d.GetType() == typeof(GSAProperty1D))
+      {
+        var gsaProperty1d = (GSAProperty1D)property1d;
+        material = gsaProperty1d.designMaterial;
+      }
 
-    //  var nativeConcrete = ConcreteToNative(material);
+      if (material == null || material.materialType != MaterialType.Concrete)
+      {
+        throw new NotSupportedException("Material must be concrete and not null;");
+      }
 
-    //  return nativeConcrete;
-    //}
+      var nativeConcrete = ConcreteToNative(material);
+
+      return nativeConcrete;
+    }
     #endregion
   }
 }

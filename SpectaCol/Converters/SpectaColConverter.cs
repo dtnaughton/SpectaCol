@@ -24,7 +24,7 @@ namespace SpectaCol.Converters
     public bool CanConvertToNative(Base @object)
     {
       // Convert only element1d or classes that inherit it
-      return @object.GetType() == typeof(Element1D) || @object.GetType().IsSubclassOf(typeof(Element1D));
+      return @object.GetType() == typeof(Element1D) || @object.GetType().IsSubclassOf(typeof(Element1D)); // EXPAND TO INCLUDE RESULTS & LOAD CASES
     }
 
     public bool CanConvertToSpeckle(object @object)
@@ -37,32 +37,38 @@ namespace SpectaCol.Converters
       switch (@object)
       {
         case Element1D obj:
-          throw new Exception();
-          //return Element1DToNative(obj);
+          return Element1DToNative(obj);
         default:
           throw new NotSupportedException();
       }
     }
 
-    public List<object> ConvertToNative(List<Base> objects, IProgress<int> progress)
+    public List<object> ConvertToNative(List<Base> objects)
     {
       var retList = new List<object>();
 
       for (int i = 1; i <= objects.Count(); i++)
       {
-        var speckleObject = ConvertToNative(objects[i - 1]);
-        retList.Add(speckleObject);
-        var percentComplete = (i * 100) / objects.Count();
-        progress.Report(percentComplete);
+        try
+        {
+          var nativeColumn = ConvertToNative(objects[i - 1]);
+          retList.Add(nativeColumn);
+          var percentComplete = (i * 100) / objects.Count();
+          //progress.Report(percentComplete);
+        }
+        catch (Exception)
+        {
+
+        }
       }
 
       return retList;
     }
 
-    public List<object> ConvertToNative(List<Base> objects)
-    {
-      return objects.Select(x => ConvertToNative(x)).ToList();
-    }
+    //public List<object> ConvertToNative(List<Base> objects)
+    //{
+    //  return objects.Select(x => ConvertToNative(x)).ToList();
+    //}
 
     public Base ConvertToSpeckle(object @object)
     {
@@ -98,5 +104,7 @@ namespace SpectaCol.Converters
     {
       throw new NotImplementedException();
     }
+
+    public ReceiveMode ReceiveMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
   }
 }
