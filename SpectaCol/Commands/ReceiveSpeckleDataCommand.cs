@@ -33,6 +33,8 @@ namespace SpectaCol.Commands
       var flattenedCommitObj = ConversionUtils.FlattenCommitObject(commitObj, converter);
 
       _objectStore.ConcreteColumns = converter.ConvertToNative(flattenedCommitObj).Cast<ConcreteColumn>().ToList();
+
+      _accountStore?.InvokeSelectedTargetChanged();
     }
   }
 }
