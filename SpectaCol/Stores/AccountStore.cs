@@ -43,7 +43,6 @@ namespace SpectaCol.Stores
       set
       {
         _selectedAccount = value;
-        //SelectedTargetChanged?.Invoke();
       }
     }
     public Stream? SelectedStream
@@ -52,7 +51,6 @@ namespace SpectaCol.Stores
       set
       {
         _selectedStream = value;
-        //SelectedTargetChanged?.Invoke();
       }
     }
     public Branch? SelectedBranch
@@ -61,7 +59,6 @@ namespace SpectaCol.Stores
       set
       {
         _selectedBranch = value;
-        //SelectedTargetChanged?.Invoke();
       }
     }
     public Commit? SelectedCommit
@@ -70,7 +67,6 @@ namespace SpectaCol.Stores
       set
       {
         _selectedCommit = value;
-        //SelectedTargetChanged?.Invoke();
       }
     }
 
