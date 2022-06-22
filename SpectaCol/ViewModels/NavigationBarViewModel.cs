@@ -16,17 +16,20 @@ namespace SpectaCol.ViewModels
     public ICommand LogoutCommand { get; }
     public ICommand NavigateStreamsCommand { get; }
     public ICommand OpenSettings { get; }
+    public ICommand NavigateConcreteColumnDesignModule { get; }
 
     public NavigationBarViewModel(
       INavigationService homeNavigationService, 
       INavigationService accountSelectionNavigationService, 
-      INavigationService streamSelectionNavigationService, 
+      INavigationService streamSelectionNavigationService,
+      INavigationService concreteColumnNavigationService,
       AccountStore accountStore, 
       SettingsStore settingsStore)
     {
       NavigateHomeCommand = new NavigateCommand(homeNavigationService);
       LogoutCommand = new LogoutCommand(accountStore, accountSelectionNavigationService);
       NavigateStreamsCommand = new NavigateStreamsCommand(accountStore, streamSelectionNavigationService);
+      NavigateConcreteColumnDesignModule = new NavigateCommand(concreteColumnNavigationService);
       OpenSettings = new ToggleDialogVisibilityCommand(settingsStore);
     }
   }

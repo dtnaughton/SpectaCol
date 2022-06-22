@@ -52,6 +52,9 @@
     <Compile Update="Views\AccountSelectionView.axaml.cs">
       <DependentUpon>AccountSelectionView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\ConcreteColumnDesignView.axaml.cs">
+      <DependentUpon>ConcreteColumnDesignView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\SpeckleLoginView.axaml.cs">
       <DependentUpon>SpeckleLoginView.axaml</DependentUpon>
     </Compile>
