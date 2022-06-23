@@ -42,6 +42,7 @@ namespace SpectaCol
       services.AddSingleton<NavigationStore>();
       services.AddSingleton<AccountStore>();
       services.AddSingleton<SettingsStore>();
+      services.AddSingleton<ObjectStore>();
 
       services.AddSingleton<INavigationService>(s => CreateSpeckleLoginNavigationService(s));
 
@@ -52,6 +53,7 @@ namespace SpectaCol
       services.AddTransient<FooterViewModel>(s => CreateFooterViewModel(s));
       services.AddTransient<SettingsViewModel>(s => CreateSettingsViewModel(s));
       services.AddTransient<SpeckleLoginViewModel>(s => CreateSpeckleLoginViewModel(s));
+      services.AddTransient<ConcreteColumnDesignViewModel>(s => CreateConcreteColumnDesignModuleViewModel(s));
 
       services.AddSingleton<MainWindowViewModel>();
       services.AddSingleton<MainWindow>(s => new MainWindow()
@@ -98,6 +100,17 @@ namespace SpectaCol
         serviceProvider.GetRequiredService<SettingsStore>());
     }
 
+    private INavigationService CreateConcreteColumnDesignModuleService(IServiceProvider serviceProvider)
+    {
+         return new LayoutNavigationService<ConcreteColumnDesignViewModel, ViewModelBase>(
+        serviceProvider.GetRequiredService<NavigationStore>(),
+        () => serviceProvider.GetRequiredService<ConcreteColumnDesignViewModel>(),
+        () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
+        serviceProvider.GetRequiredService<FooterViewModel>(),
+        () => serviceProvider.GetRequiredService<SettingsViewModel>(),
+        serviceProvider.GetRequiredService<SettingsStore>());
+    }
+
     private AccountSelectionViewModel CreateAccountSelectionViewModel(IServiceProvider serviceProvider)
     {
       return new AccountSelectionViewModel(
@@ -111,6 +124,7 @@ namespace SpectaCol
         CreateHomeViewModelService(serviceProvider),
         CreateAccountSelectionNavigationService(serviceProvider),
         CreateStreamSelectionService(serviceProvider),
+        CreateConcreteColumnDesignModuleService(serviceProvider),
         serviceProvider.GetRequiredService<AccountStore>(),
         serviceProvider.GetRequiredService<SettingsStore>());
     }
@@ -127,7 +141,12 @@ namespace SpectaCol
 
     private StreamSelectionViewModel CreateStreamSelectionViewModel(IServiceProvider serviceProvider)
     {
-      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>());
+      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>(), serviceProvider.GetRequiredService<ObjectStore>());
+    }
+
+    private ConcreteColumnDesignViewModel CreateConcreteColumnDesignModuleViewModel(IServiceProvider serviceProvider)
+    {
+      return new ConcreteColumnDesignViewModel(serviceProvider.GetRequiredService<ObjectStore>());
     }
 
     private SpeckleLoginViewModel CreateSpeckleLoginViewModel(IServiceProvider serviceProvider)
