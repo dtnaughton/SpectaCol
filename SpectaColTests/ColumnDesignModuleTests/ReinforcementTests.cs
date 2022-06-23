@@ -41,7 +41,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         new Rebar(){ XDistance =  178.95, YDistance = 178.95}
       };
 
-      Assert.Equal(reinforcement.Rebar.Count, mockReinforcement.Count);
+      Assert.Equal(mockReinforcement.Count, reinforcement.Rebar.Count);
 
       reinforcement.Rebar[0].ShouldDeepEqual(mockReinforcement[0]);
       reinforcement.Rebar[1].ShouldDeepEqual(mockReinforcement[1]);

@@ -82,7 +82,14 @@ namespace SpectaCol.Models.Materials
       switch (Configuration)
       {
         case ReinforcementConfiguration.Rectangular:
-          Rebar = DefineRectangularConfiguration(crossSectionParameters, stirrupDiameter);
+          var edgeDistance = crossSectionParameters.Cover + GetDiameter(stirrupDiameter) + GetDiameter(Diameter) / 2;
+          var extremeDistanceXBars = crossSectionParameters.Width - (2 * edgeDistance);
+          var extremeDistanceYBars = crossSectionParameters.Depth - (2 * edgeDistance);
+
+          var xCenterToCenter = (extremeDistanceXBars) / (QuantityX - 1);
+          var yCenterToCenter = (extremeDistanceYBars) / (QuantityY - 1);
+          //Rebar = DefineRectangularConfiguration(crossSectionParameters, stirrupDiameter);
+          Rebar = DefineRectangularConfiguration_Recursion(crossSectionParameters.Width, crossSectionParameters.Depth, QuantityX, QuantityY, QuantityLayers, edgeDistance, xCenterToCenter, yCenterToCenter);
           break;
         case ReinforcementConfiguration.Circular:
           Rebar = DefineCircularConfiguration(crossSectionParameters, stirrupDiameter);
@@ -151,33 +158,33 @@ namespace SpectaCol.Models.Materials
       return rebar;
     }
 
-    private List<Rebar> DefineRectangularConfiguration_Recursion(double width, double depth, int quantityX, int quantityY, int quantityLayers, double edgeDistance, double centerToCenterX, double centerToCenterY)
+    private List<Rebar> DefineRectangularConfiguration_Recursion(double width, double depth, int quantityX, int quantityY, double edgeDistanceX, double edgeDistanceY, double centerToCenterX, double centerToCenterY, double initialCoordX, double initialCoordY)
     {
-      if (quantityLayers == 1)
+      var rebar = new List<Rebar>();
+
+      if (quantityX == 2 && quantityY == 2)
       {
-        var rebar = new List<Rebar>();
-
-        var extremeDistanceXBars = width - (2 * edgeDistance);
-        var extremeDistanceYBars = depth - (2 * edgeDistance);
-
-        double cumulativeYCoordinate;
-
+        double cumulativeYCoordinate = initialCoordY;
         for (int i = 0; i < quantityY; i++)
         {
-          cumulativeYCoordinate = (-depth / 2) + edgeDistance + (i * centerToCenterY);
-          double cumulativeXCoordinate;
+          cumulativeYCoordinate += centerToCenterY;
+          double cumulativeXCoordinate = initialCoordX;
 
           for (int j = 0; j < quantityX; j++)
           {
-            cumulativeXCoordinate = (-width / 2) + edgeDistance + (j * centerToCenterX);
+            cumulativeXCoordinate += centerToCenterX;
             rebar.Add(new Rebar() { XDistance = cumulativeXCoordinate, YDistance = cumulativeYCoordinate });
           }
         }
-
-        return rebar;
       }
 
-      return new List<Rebar>();
+      else
+      {
+        rebar.AddRange(DefineRectangularConfiguration_Recursion(width - 2 * edgeDistanceX, depth - 2 * edgeDistanceY, quantityX - 2, quantityY - 2, centerToCenterX, centerToCenterY, centerToCenterX, centerToCenterX, initialCoordX + centerToCenterX, initialCoordY + centerToCenterY));
+      }
+
+      return rebar;
+
     }
 
     private List<Rebar> DefineCircularConfiguration(CrossSectionParameters crossSectionParameters, ReinforcementDiameter stirrupDiameter)
