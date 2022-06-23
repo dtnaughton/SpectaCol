@@ -11,7 +11,7 @@ namespace SpectaCol.Models.Interfaces
   {
     public double PhiC { get; set; }
     public double PhiS { get; set; }
-    public int Cover { get; set; }
+    public double Cover { get; set; }
     public Concrete Material { get; set; }
     public double ReinforcementYieldStrength { get; set; }
     public double LongitudinalBarDiameter { get; set; }

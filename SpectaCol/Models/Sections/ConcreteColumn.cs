@@ -14,10 +14,10 @@ namespace SpectaCol.Models.Sections
     public SectionShape Shape { get; set; }
     public double PhiC { get; set; }
     public double PhiS { get; set; }
-    public int Cover { get; set; }
     public Concrete Material { get; set; }
     public double Width { get; set; }
     public double Depth { get; set; }
+    public double Cover { get; set; }
     public double Length { get; set; }
     public double ReinforcementYieldStrength { get; set; }
     public double LongitudinalBarDiameter { get; set; }
