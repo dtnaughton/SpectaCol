@@ -14,7 +14,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
   public class ReinforcementTests
   {
     [Fact]
-    public void Defines_4x4_Single_Layer_Rectangular_Longitudinal_Rebar()
+    public void Defines_500x500_1_Layer_Rectangular_Longitudinal_Rebar()
     {
       var crossSectionParameters = new CrossSectionParameters()
       {
@@ -27,38 +27,34 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       var mockReinforcement = new List<Rebar>()
       {
-        new Rebar(){ XDistance =  -178.95, YDistance = -178.95},
-        new Rebar(){ XDistance =  -59.65, YDistance = -178.95},
-        new Rebar(){ XDistance =  59.65, YDistance = -178.95},
-        new Rebar(){ XDistance =  178.95, YDistance = -178.95},
-        new Rebar(){ XDistance =  -178.95, YDistance = -59.65},
-        new Rebar(){ XDistance =  178.95, YDistance = -59.65},
-        new Rebar(){ XDistance =  -178.95, YDistance = 59.65},
-        new Rebar(){ XDistance =  178.95, YDistance = 59.65},
-        new Rebar(){ XDistance =  -178.95, YDistance = 178.95},
-        new Rebar(){ XDistance =  -59.65, YDistance = 178.95},
-        new Rebar(){ XDistance =  59.65, YDistance = 178.95},
-        new Rebar(){ XDistance =  178.95, YDistance = 178.95}
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = -178.95},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = -59.65},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = -59.65},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = 59.65},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = 59.65},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = 178.95}
       };
 
       Assert.Equal(mockReinforcement.Count, reinforcement.Rebar.Count);
 
-      reinforcement.Rebar[0].ShouldDeepEqual(mockReinforcement[0]);
-      reinforcement.Rebar[1].ShouldDeepEqual(mockReinforcement[1]);
-      reinforcement.Rebar[2].ShouldDeepEqual(mockReinforcement[2]);
-      reinforcement.Rebar[3].ShouldDeepEqual(mockReinforcement[3]);
-      reinforcement.Rebar[4].ShouldDeepEqual(mockReinforcement[4]);
-      reinforcement.Rebar[5].ShouldDeepEqual(mockReinforcement[5]);
-      reinforcement.Rebar[6].ShouldDeepEqual(mockReinforcement[6]);
-      reinforcement.Rebar[7].ShouldDeepEqual(mockReinforcement[7]);
-      reinforcement.Rebar[8].ShouldDeepEqual(mockReinforcement[8]);
-      reinforcement.Rebar[9].ShouldDeepEqual(mockReinforcement[9]);
-      reinforcement.Rebar[10].ShouldDeepEqual(mockReinforcement[10]);
-      reinforcement.Rebar[11].ShouldDeepEqual(mockReinforcement[11]);
+      for (int i = 0; i < mockReinforcement.Count; i++)
+      {
+        Assert.Equal(mockReinforcement[i].XCoordinate, reinforcement.Rebar[i].XCoordinate, 1);
+        Assert.Equal(mockReinforcement[i].YCoordinate, reinforcement.Rebar[i].YCoordinate, 1);
+      }
     }
 
     [Fact]
-    public void Defines_4x4_Double_Layer_Rectangular_Longitudinal_Rebar()
+    public void Defines_500x500_2_Layers_Rectangular_Longitudinal_Rebar()
     {
       var crossSectionParameters = new CrossSectionParameters()
       {
@@ -71,38 +67,206 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       var mockReinforcement = new List<Rebar>()
       {
-        new Rebar(){ XDistance =  -178.95, YDistance = -178.95},
-        new Rebar(){ XDistance =  -59.65, YDistance = -178.95},
-        new Rebar(){ XDistance =  59.65, YDistance = -178.95},
-        new Rebar(){ XDistance =  178.95, YDistance = -178.95},
-        new Rebar(){ XDistance =  -178.95, YDistance = -59.65},
-        new Rebar(){ XDistance =  178.95, YDistance = -59.65},
-        new Rebar(){ XDistance =  -178.95, YDistance = 59.65},
-        new Rebar(){ XDistance =  178.95, YDistance = 59.65},
-        new Rebar(){ XDistance =  -178.95, YDistance = 178.95},
-        new Rebar(){ XDistance =  -59.65, YDistance = 178.95},
-        new Rebar(){ XDistance =  59.65, YDistance = 178.95},
-        new Rebar(){ XDistance =  178.95, YDistance = 178.95},
-        new Rebar(){ XDistance =  -59.65, YDistance = -59.65},
-        new Rebar(){ XDistance =  59.65, YDistance = -59.65},
-        new Rebar(){ XDistance =  -59.65, YDistance = 59.65},
-        new Rebar(){ XDistance =  59.65, YDistance = 59.65}
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = -59.65},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = -59.65},
+
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = 59.65},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = 59.65},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = -178.95},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = -178.95},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = -59.65},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = -59.65},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = 59.65},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = 59.65},
+
+        new Rebar(){ XCoordinate =  -178.95, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  -59.65, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  59.65, YCoordinate = 178.95},
+        new Rebar(){ XCoordinate =  178.95, YCoordinate = 178.95}
       };
 
-      Assert.Equal(reinforcement.Rebar.Count, mockReinforcement.Count);
+      Assert.Equal(mockReinforcement.Count, reinforcement.Rebar.Count);
 
-      reinforcement.Rebar[0].ShouldDeepEqual(mockReinforcement[0]);
-      reinforcement.Rebar[1].ShouldDeepEqual(mockReinforcement[1]);
-      reinforcement.Rebar[2].ShouldDeepEqual(mockReinforcement[2]);
-      reinforcement.Rebar[3].ShouldDeepEqual(mockReinforcement[3]);
-      reinforcement.Rebar[4].ShouldDeepEqual(mockReinforcement[4]);
-      reinforcement.Rebar[5].ShouldDeepEqual(mockReinforcement[5]);
-      reinforcement.Rebar[6].ShouldDeepEqual(mockReinforcement[6]);
-      reinforcement.Rebar[7].ShouldDeepEqual(mockReinforcement[7]);
-      reinforcement.Rebar[8].ShouldDeepEqual(mockReinforcement[8]);
-      reinforcement.Rebar[9].ShouldDeepEqual(mockReinforcement[9]);
-      reinforcement.Rebar[10].ShouldDeepEqual(mockReinforcement[10]);
-      reinforcement.Rebar[11].ShouldDeepEqual(mockReinforcement[11]);
+      for (int i = 0; i < mockReinforcement.Count; i++)
+      {
+        Assert.Equal(mockReinforcement[i].XCoordinate, reinforcement.Rebar[i].XCoordinate, 1);
+        Assert.Equal(mockReinforcement[i].YCoordinate, reinforcement.Rebar[i].YCoordinate, 1);
+      }
+    }
+
+    [Fact]
+    public void Defines_400x900_2_Layers_Rectangular_Longitudinal_Rebar()
+    {
+      var crossSectionParameters = new CrossSectionParameters()
+      {
+        Width = 400,
+        Depth = 900,
+        Cover = 30
+      };
+
+      var reinforcement = new LongitudinalReinforcement(5, 9, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+
+      var mockReinforcement = new List<Rebar>()
+      {
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  0, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -299.2125},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -199.475},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -199.475},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -99.7375},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -99.7375},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 0},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 0},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 99.7375},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 99.7375},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 199.475},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 199.475},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  0, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  0, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -398.95},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -199.475},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -199.475},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -99.7375},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -99.7375},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 0},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 0},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 99.7375},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 99.7375},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 199.475},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 199.475},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  0, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 398.95}
+      };
+
+      Assert.Equal(mockReinforcement.Count, reinforcement.Rebar.Count);
+
+      for (int i = 0; i < mockReinforcement.Count; i++)
+      {
+        Assert.Equal(mockReinforcement[i].XCoordinate, reinforcement.Rebar[i].XCoordinate, 1);
+        Assert.Equal(mockReinforcement[i].YCoordinate, reinforcement.Rebar[i].YCoordinate, 1);
+      }
+    }
+
+    [Fact]
+    public void Defines_400x900_3_Layers_Rectangular_Longitudinal_Rebar()
+    {
+      var crossSectionParameters = new CrossSectionParameters()
+      {
+        Width = 400,
+        Depth = 900,
+        Cover = 30
+      };
+
+      var reinforcement = new LongitudinalReinforcement(5, 9, 3, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+
+      var mockReinforcement = new List<Rebar>()
+      {
+        new Rebar(){ XCoordinate =  0, YCoordinate = -199.475},
+
+        new Rebar(){ XCoordinate =  0, YCoordinate = -99.7375},
+
+        new Rebar(){ XCoordinate =  0, YCoordinate = 0},
+
+        new Rebar(){ XCoordinate =  0, YCoordinate = 99.7375},
+
+        new Rebar(){ XCoordinate =  0, YCoordinate = 199.475},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  0, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -299.2125},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -199.475},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -199.475},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -99.7375},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -99.7375},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 0},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 0},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 99.7375},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 99.7375},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 199.475},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 199.475},
+
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  0, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  0, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = -398.95},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -398.95},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -299.2125},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -199.475},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -199.475},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = -99.7375},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = -99.7375},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 0},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 0},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 99.7375},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 99.7375},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 199.475},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 199.475},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 299.2125},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 299.2125},
+
+        new Rebar(){ XCoordinate =  -148.95, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  -74.475, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  0, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  74.475, YCoordinate = 398.95},
+        new Rebar(){ XCoordinate =  148.95, YCoordinate = 398.95}
+      };
+
+      Assert.Equal(mockReinforcement.Count, reinforcement.Rebar.Count);
+
+      for (int i = 0; i < mockReinforcement.Count; i++)
+      {
+        Assert.Equal(mockReinforcement[i].XCoordinate, reinforcement.Rebar[i].XCoordinate, 1);
+        Assert.Equal(mockReinforcement[i].YCoordinate, reinforcement.Rebar[i].YCoordinate, 1);
+      }
     }
 
     [Fact]

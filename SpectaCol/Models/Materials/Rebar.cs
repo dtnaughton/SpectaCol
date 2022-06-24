@@ -8,7 +8,7 @@ namespace SpectaCol.Models.Materials
 {
   public class Rebar
   {
-    public double XDistance { get; set; }
-    public double YDistance { get; set; }
+    public double XCoordinate { get; set; }
+    public double YCoordinate { get; set; }
   }
 }
