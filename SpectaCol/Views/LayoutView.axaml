@@ -24,6 +24,7 @@
 			<ContentControl
 				Grid.Column="1"
 				Margin="30 30 30 0"
+				Padding="0 10"
 				Content="{Binding ContentViewModel}"/>
 			<components:Footer Grid.Row="1" Grid.Column="1" Margin="0,0,50,20" DataContext="{Binding FooterViewModel}"/>
 		</Grid>

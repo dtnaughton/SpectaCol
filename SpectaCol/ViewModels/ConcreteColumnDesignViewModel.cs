@@ -1,4 +1,6 @@
 ﻿using SpectaCol.Extensions;
+using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
 using SpectaCol.Stores;
 using System;
@@ -18,5 +20,6 @@ namespace SpectaCol.ViewModels
     {
       ConcreteColumns = objectStore.ConcreteColumns.ToObservableCollection();
     }
+
   }
 }

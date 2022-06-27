@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpectaCol.Models.Interfaces
 {
-  public interface IMaterial : IDesignParameter
+  public interface IDesignParameter
   {
-    string Grade { get; set; }
-    double ElasticModulus { get; set; }
+    bool HasDefaultParameters();
+    void SetDefaultParameters();
   }
 }

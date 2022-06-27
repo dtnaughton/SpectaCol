@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Materials;
+﻿using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,9 @@ namespace SpectaCol.Models.Interfaces
   {
     public double PhiC { get; set; }
     public double PhiS { get; set; }
-    public double Cover { get; set; }
+    public CrossSectionParameters CrossSectionParameters { get; set; }
     public Concrete Material { get; set; }
-    public double ReinforcementYieldStrength { get; set; }
-    public double LongitudinalBarDiameter { get; set; }
+    public LongitudinalReinforcement LongitudinalReinforcement { get; set; }
     public double StirrupBarDiameter { get; set; }
     public double Alpha { get; set; }
     public double Beta { get; set; }

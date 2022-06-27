@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Objects.Structural.GSA.Materials;
 using Objects.Structural.Properties.Profiles;
 using Objects.Geometry;
+using SpectaCol.Models.Geometry;
 
 namespace SpectaCol.Converters
 {
@@ -52,19 +53,21 @@ namespace SpectaCol.Converters
         nativeColumn.Length = Point.Distance(speckleElement.end1Node.basePoint, speckleElement.end2Node.basePoint);
       }
 
+      var crossSectionParameters = new CrossSectionParameters();
+
       if (speckleProperty.profile.shapeType == ShapeType.Rectangular)
       {
         var sectionProfile = (Rectangular)speckleProperty.profile;
-        nativeColumn.Width = sectionProfile.width;
-        nativeColumn.Depth = sectionProfile.depth;
+        crossSectionParameters.Width = sectionProfile.width;
+        crossSectionParameters.Depth = sectionProfile.depth;
       }
 
       else if (speckleProperty.profile.shapeType == ShapeType.Circular)
       {
         var sectionProfile = (Circular)speckleProperty.profile;
 
-        nativeColumn.Width = sectionProfile.radius * 2;
-        nativeColumn.Depth = 0;
+        crossSectionParameters.Width = sectionProfile.radius * 2;
+        crossSectionParameters.Depth = 0;
       }
 
       else
@@ -72,46 +75,55 @@ namespace SpectaCol.Converters
         throw new NotSupportedException($"Support for only {Objects.Structural.ShapeType.Circular} and {Objects.Structural.ShapeType.Rectangular} shapes");
       }
 
+      nativeColumn.CrossSectionParameters = crossSectionParameters;
+
+      // Currently no reinforcement information sent from Speckle
+      nativeColumn.LongitudinalReinforcement = new LongitudinalReinforcement(crossSectionParameters);
+
+      // Sets any default design parameters for column that are not provided by Speckle
+      nativeColumn.SetDefaultParameters();
+
       return nativeColumn;
     }
 
     public Concrete ConcreteToNative(SM.Material material)
     {
+      var nativeConcrete = new Concrete();
+
       if (material == null)
       {
-        return new Concrete();
+        nativeConcrete.SetDefaultParameters();
       }
 
       var materialType = material.GetType();
 
       if (materialType == typeof(SM.Material) || materialType == typeof(GSAMaterial))
       {
-        return new Concrete()
-        {
-          Grade = material.grade,
-          CompressiveStrength = material.strength,
-          IsLightweight = false,
-          ElasticModulus = material.elasticModulus
-        };
+        nativeConcrete.Grade = material.grade;
+        nativeConcrete.CompressiveStrength = material.strength;
+        nativeConcrete.IsLightweight = false;
+        nativeConcrete.ElasticModulus = material.elasticModulus;
       }
 
       else if (materialType == typeof(SM.Concrete) || materialType == typeof(GSAConcrete))
       {
         var castedMaterial = (SM.Concrete)material;
 
-        return new Concrete()
-        {
-          Grade = castedMaterial.grade,
-          CompressiveStrength = castedMaterial.compressiveStrength,
-          IsLightweight = castedMaterial.lightweight,
-          ElasticModulus = castedMaterial.elasticModulus
-        };
+        nativeConcrete.Grade = castedMaterial.grade;
+        nativeConcrete.CompressiveStrength = castedMaterial.compressiveStrength;
+        nativeConcrete.IsLightweight = castedMaterial.lightweight;
+        nativeConcrete.ElasticModulus = castedMaterial.elasticModulus;
       }
 
       else
       {
         throw new NotSupportedException($"{typeof(SM.Material).FullName} is not supported.");
       }
+
+      if (nativeConcrete.HasDefaultParameters())
+        nativeConcrete.SetDefaultParameters();
+
+      return nativeConcrete;
     }
 
     public Concrete Property1DToNative(Property1D property1d)

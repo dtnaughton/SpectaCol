@@ -13,5 +13,22 @@ namespace SpectaCol.Models.Materials
     public double ElasticModulus { get; set; }
     public double CompressiveStrength { get; set; }
     public bool IsLightweight { get; set; }
+
+    public Concrete()
+    {
+
+    }
+
+    public void SetDefaultParameters()
+    {
+      if (string.IsNullOrEmpty(Grade)) Grade = "C35";
+      if (ElasticModulus == 0) ElasticModulus = 24000;
+      if (CompressiveStrength == 0) CompressiveStrength = 30;
+    }
+
+    public bool HasDefaultParameters()
+    {
+      return string.IsNullOrEmpty(Grade) || ElasticModulus == 0 || CompressiveStrength == 0;
+    }
   }
 }
