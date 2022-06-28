@@ -172,6 +172,9 @@ namespace SpectaCol.Models.Materials
 
     private double GetReinforcementPercentage(CrossSectionParameters crossSectionParameters, List<Rebar> rebar, ReinforcementDiameter diameter)
     {
+      // Prevent divide by zero errors
+      if (crossSectionParameters.Width == 0 || crossSectionParameters.Depth == 0) return 0;
+
       var barCrossSectionalArea = GetCrossSectionalArea(diameter);
 
       var totalReinforcementArea = rebar.Count() * barCrossSectionalArea;

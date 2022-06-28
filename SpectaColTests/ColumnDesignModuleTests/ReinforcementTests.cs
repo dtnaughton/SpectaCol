@@ -427,5 +427,46 @@ namespace SpectaColTests.ColumnDesignModuleTests
       Assert.Equal(4, reinforcement.QuantityLayers);
 
     }
+
+    [Fact]
+    public void Reinforcement_Percentage_Check_Good_Parameters_1_Layer()
+    {
+      var crossSection = new CrossSectionParameters()
+      {
+        Width = 500,
+        Depth = 500,
+        Cover = 40
+      };
+      var longitudinalReinforcement = new LongitudinalReinforcement(3, 4, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M25, crossSection, ReinforcementDiameter.M10);
+
+      Assert.Equal(2, longitudinalReinforcement.ReinforcementPercentage);
+    }
+
+    [Fact]
+    public void Reinforcement_Percentage_Check_Good_Parameters_2_Layers()
+    {
+      var crossSection = new CrossSectionParameters()
+      {
+        Width = 300,
+        Depth = 300,
+        Cover = 40
+      };
+      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+
+      Assert.Equal(5.33, longitudinalReinforcement.ReinforcementPercentage, 1);
+    }
+
+    public void Reinforcement_Percentage_Check_Bad_Parameters_1_Layer()
+    {
+      var crossSection = new CrossSectionParameters()
+      {
+        Width = 0,
+        Depth = 300,
+        Cover = 40
+      };
+      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+
+      Assert.Equal(0, longitudinalReinforcement.ReinforcementPercentage, 1);
+    }
   }
 }
