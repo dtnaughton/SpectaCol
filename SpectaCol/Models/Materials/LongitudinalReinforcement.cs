@@ -176,9 +176,7 @@ namespace SpectaCol.Models.Materials
 
       var totalReinforcementArea = rebar.Count() * barCrossSectionalArea;
 
-      var reinforcementPercentage = (totalReinforcementArea / (crossSectionParameters.Width * crossSectionParameters.Depth)) * 100;
-
-      return Math.Round(reinforcementPercentage, 3);
+      return (totalReinforcementArea / (crossSectionParameters.Width * crossSectionParameters.Depth)) * 100;
     }
 
     public void SetDefaultParameters()

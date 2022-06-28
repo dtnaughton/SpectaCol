@@ -12,6 +12,7 @@ namespace SpectaCol.Models.Sections
 {
   public class ConcreteColumn : IConcreteSection, IDesignParameter
   {
+    public bool IsSelected { get; set; }
     public SectionShape Shape { get; set; }
     public double PhiC { get; set; } // Belong to design code?
     public double PhiS { get; set; } // Belong to design code?

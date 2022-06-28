@@ -14,11 +14,16 @@ namespace SpectaCol.ViewModels
 {
   public class ConcreteColumnDesignViewModel : ViewModelBase
   {
-    public ObservableCollection<ConcreteColumn> ConcreteColumns { get; }
+    private ObservableCollection<ConcreteColumnViewModel> _concreteColumnViewModels = new ObservableCollection<ConcreteColumnViewModel>();
+    public IEnumerable<ConcreteColumnViewModel> ConcreteColumnViewModels => _concreteColumnViewModels;
 
     public ConcreteColumnDesignViewModel(ObjectStore objectStore)
     {
-      ConcreteColumns = objectStore.ConcreteColumns.ToObservableCollection();
+      objectStore.ConcreteColumns?.ForEach(column =>
+      {
+        var columnViewModel = new ConcreteColumnViewModel(column);
+        _concreteColumnViewModels.Add(columnViewModel);
+      });
     }
 
   }

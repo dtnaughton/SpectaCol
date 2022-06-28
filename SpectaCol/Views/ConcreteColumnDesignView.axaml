@@ -1,9 +1,18 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:extensions="clr-namespace:SpectaCol.Extensions;assembly=SpectaCol"
+			 xmlns:vm="using:SpectaCol.ViewModels"
+			 xmlns:enum="clr-namespace:SpectaCol.Models.Enums;assembly=SpectaCol"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.ConcreteColumnDesignView">
+	<UserControl.Resources>
+		<SolidColorBrush x:Key="DataGridGridLinesBrush"
+						 Color="#2e3134"
+						 Opacity="0.4"/>
+
+	</UserControl.Resources>
 	<UserControl.Styles>
 		<Style Selector="DataGrid">
 			<Setter Property="Background" Value="#1C1D22"/>
@@ -26,22 +35,43 @@
 		<Style Selector="DataGridCell">
 			<Setter Property="VerticalContentAlignment" Value="Center"/>
 		</Style>
+		<Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+			<Setter Property="Fill" Value="Transparent" />
+		</Style>
 	</UserControl.Styles>
-		<DataGrid Items="{Binding ConcreteColumns}">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Shape" Binding="{Binding Shape}"/>
-				<DataGridTextColumn Header="Width" Binding="{Binding CrossSectionParameters.Width}"/>
-				<DataGridTextColumn Header="Depth" Binding="{Binding CrossSectionParameters.Depth}"/>
-				<DataGridTextColumn Header="Cover" Binding="{Binding CrossSectionParameters.Cover}"/>
-				<DataGridTextColumn Header="Length" Binding="{Binding Length}"/>
-				<DataGridTextColumn Header="Concrete" Binding="{Binding Material.Grade}"/>
-				<DataGridTextColumn Header="Steel" Binding="{Binding LongitudinalReinforcement.YieldStrength}"/>
-				<DataGridTextColumn Header="Layers" Binding="{Binding LongitudinalReinforcement.QuantityLayers}"/>
-				<DataGridTextColumn Header="Quant. X" Binding="{Binding LongitudinalReinforcement.QuantityX}"/>
-				<DataGridTextColumn Header="Quant. Y" Binding="{Binding LongitudinalReinforcement.QuantityY}"/>
-				<DataGridTextColumn Header="Diameter" Binding="{Binding LongitudinalReinforcement.Diameter}"/>
-				<DataGridTextColumn Header="%" Binding="{Binding LongitudinalReinforcement.ReinforcementPercentage}"/>
-			</DataGrid.Columns>
-		</DataGrid>
+	<DataGrid Focusable="True" Items="{Binding ConcreteColumnViewModels}">
+		<DataGrid.Columns>
+
+			<DataGridTemplateColumn Width="Auto">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<CheckBox HorizontalContentAlignment="Center" IsChecked="{Binding IsSelected}"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+
+			<DataGridTemplateColumn Header="Shape" Width="Auto">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<ComboBox
+							SelectedItem="{Binding SectionShape}"
+							Items="{Binding Source={extensions:EnumBindingSourceExtension {x:Type enum:SectionShape}}}"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+
+			<DataGridTextColumn Header="Width" Binding="{Binding Width}" Width="Auto"/>
+			<DataGridTextColumn Header="Depth" Binding="{Binding Depth}" Width="Auto"/>
+			<DataGridTextColumn Header="Cover" Binding="{Binding Cover}" Width="Auto"/>
+			<DataGridTextColumn Header="Length" Binding="{Binding Length}" Width="Auto"/>
+			<DataGridTextColumn Header="Concrete" Binding="{Binding ConcreteStrength}" Width="Auto"/>
+			<DataGridTextColumn Header="Steel" Binding="{Binding LongitudinalReinforcementStrength}" Width="Auto"/>
+			<DataGridTextColumn Header="Layers" Binding="{Binding QuantityLayers}" Width="Auto"/>
+			<DataGridTextColumn Header="Quant. X" Binding="{Binding QuantityX}" Width="Auto"/>
+			<DataGridTextColumn Header="Quant. Y" Binding="{Binding QuantityY}" Width="Auto"/>
+			<DataGridTextColumn Header="Diameter" Binding="{Binding LongitudinalBarDiameter}" Width="Auto"/>
+			<DataGridTextColumn Header="%" Binding="{Binding LongitudinalReinforcementPercentage}" Width="Auto"/>
+		</DataGrid.Columns>
+	</DataGrid>
 
 </UserControl>
