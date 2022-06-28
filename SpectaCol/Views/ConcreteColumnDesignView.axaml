@@ -39,7 +39,7 @@
 			<Setter Property="Fill" Value="Transparent" />
 		</Style>
 	</UserControl.Styles>
-	<DataGrid Focusable="True" Items="{Binding ConcreteColumnViewModels}">
+	<DataGrid x:Name="ColumnDataGrid" Items="{Binding ConcreteColumnViewModels}">
 		<DataGrid.Columns>
 
 			<DataGridTemplateColumn Width="Auto">

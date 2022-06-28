@@ -1,4 +1,5 @@
-﻿using SpectaCol.Extensions;
+﻿using SpectaCol.Commands;
+using SpectaCol.Extensions;
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
@@ -9,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SpectaCol.ViewModels
 {
