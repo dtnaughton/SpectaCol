@@ -15,6 +15,8 @@ using Objects.Structural.GSA.Materials;
 using Objects.Structural.Properties.Profiles;
 using Objects.Geometry;
 using SpectaCol.Models.Geometry;
+using Objects.Structural.Results;
+using SpectaCol.Models.Results;
 
 namespace SpectaCol.Converters
 {
@@ -23,13 +25,15 @@ namespace SpectaCol.Converters
     public static List<Type> SupportedConversions { get; } = new List<Type>()
       {
           typeof(Element1D),
+          typeof(ResultSetAll),
+          typeof(ResultSet1D),
+          typeof(Result1D)
       };
-
 
     #region conversion methods
     public ConcreteColumn Element1DToNative(Element1D speckleElement)
     {
-      if (speckleElement.memberType != MemberType.Column)
+      if (speckleElement.type != ElementType1D.Column)
       {
         throw new NotSupportedException($"Support for only {MemberType.Column}");
       }
@@ -82,6 +86,8 @@ namespace SpectaCol.Converters
 
       // Sets any default design parameters for column that are not provided by Speckle
       nativeColumn.SetDefaultParameters();
+
+      _objectStore.ConcreteColumns?.Add(nativeColumn);
 
       return nativeColumn;
     }
@@ -144,6 +150,52 @@ namespace SpectaCol.Converters
       var nativeConcrete = ConcreteToNative(material);
 
       return nativeConcrete;
+    }
+
+    public List<FrameResult> ResultSetAllToNative(ResultSetAll results)
+    {
+      var frameResults = new List<FrameResult>();
+
+      if (results != null)
+      {
+        frameResults.AddRange(ResultSet1dToNative(results.results1D));
+      }
+
+      return frameResults;
+    }
+
+    public List<FrameResult> ResultSet1dToNative(ResultSet1D resultSet1D)
+    {
+      var frameResults = new List<FrameResult>();
+
+      foreach (var result1D in resultSet1D.results1D)
+      {
+        frameResults.AddRange(Result1dToNative(result1D));
+      }
+
+      return frameResults;
+    }
+
+    public List<FrameResult> Result1dToNative(Result1D result1D)
+    {
+      var frameResults = new List<FrameResult>();
+
+      var frameResult = new FrameResult(
+              Convert.ToDouble(result1D.forceZ),
+              Convert.ToDouble(result1D.forceX),
+              Convert.ToDouble(result1D.forceY),
+              Convert.ToDouble(result1D.momentXX),
+              Convert.ToDouble(result1D.momentYY),
+              Convert.ToDouble(result1D.momentZZ),
+              Convert.ToDouble(result1D.position),
+              result1D.permutation,
+              result1D.element.applicationId);
+
+      _objectStore.ColumnResults?.Add(frameResult);
+
+      frameResults.Add(frameResult);
+
+      return frameResults;
     }
     #endregion
   }

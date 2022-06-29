@@ -1,6 +1,10 @@
 ﻿using Objects.Structural.Geometry;
+using Objects.Structural.Results;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
+using SpectaCol.Models.Results;
+using SpectaCol.Models.Sections;
+using SpectaCol.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +15,7 @@ namespace SpectaCol.Converters
 {
   public partial class SpectaColConverter : ISpeckleConverter
   {
+    private readonly ObjectStore _objectStore;
     public string Description => throw new NotImplementedException();
 
     public string Name => throw new NotImplementedException();
@@ -23,8 +28,8 @@ namespace SpectaCol.Converters
 
     public bool CanConvertToNative(Base @object)
     {
-      // Convert only element1d or classes that inherit it
-      return @object.GetType() == typeof(Element1D) || @object.GetType().IsSubclassOf(typeof(Element1D)); // EXPAND TO INCLUDE RESULTS & LOAD CASES
+      // Check if objects are converted or parents of objects
+      return SupportedConversions.Contains(@object.GetType()) || SupportedConversions.Any(obj => @object.GetType().BaseType == obj);
     }
 
     public bool CanConvertToSpeckle(object @object)
@@ -38,6 +43,12 @@ namespace SpectaCol.Converters
       {
         case Element1D obj:
           return Element1DToNative(obj);
+        case ResultSetAll obj:
+          return ResultSetAllToNative(obj);
+        case ResultSet1D obj:
+          return ResultSet1dToNative(obj);
+        case Result1D obj:
+          return Result1dToNative(obj);
         default:
           throw new NotSupportedException();
       }
@@ -51,9 +62,9 @@ namespace SpectaCol.Converters
       {
         try
         {
-          var nativeColumn = ConvertToNative(objects[i - 1]);
-          retList.Add(nativeColumn);
-          var percentComplete = (i * 100) / objects.Count();
+          var nativeObject = ConvertToNative(objects[i - 1]);
+          
+          //var percentComplete = (i * 100) / objects.Count();
           //progress.Report(percentComplete);
         }
         catch (Exception)
@@ -103,6 +114,11 @@ namespace SpectaCol.Converters
     public void SetPreviousContextObjects(List<ApplicationPlaceholderObject> objects)
     {
       throw new NotImplementedException();
+    }
+
+    public SpectaColConverter(ObjectStore objectStore)
+    {
+      _objectStore = objectStore;
     }
 
     //public ReceiveMode ReceiveMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

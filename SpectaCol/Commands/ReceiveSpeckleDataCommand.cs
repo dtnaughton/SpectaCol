@@ -26,13 +26,16 @@ namespace SpectaCol.Commands
     {
       var transport = new ServerTransport(_accountStore?.SelectedAccount, _accountStore?.SelectedStream?.id);
 
-      var converter = new SpectaColConverter(); // add this to store?
+      var converter = new SpectaColConverter(_objectStore); // add this to store?
 
       var commitObj = await Operations.Receive(_accountStore?.SelectedCommit?.referencedObject, transport);
 
       var flattenedCommitObj = ConversionUtils.FlattenCommitObject(commitObj, converter);
 
-      _objectStore.ConcreteColumns = converter.ConvertToNative(flattenedCommitObj).Cast<ConcreteColumn>().ToList();
+      var convertedObjects = converter.ConvertToNative(flattenedCommitObj);
+
+      var column = _objectStore.ConcreteColumns;
+      var results = _objectStore.ColumnResults;
 
       _accountStore?.InvokeSelectedTargetChanged();
     }

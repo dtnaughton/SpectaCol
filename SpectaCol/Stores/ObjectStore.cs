@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Sections;
+﻿using SpectaCol.Models.Results;
+using SpectaCol.Models.Sections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SpectaCol.Stores
 {
   public class ObjectStore
   {
-    public List<ConcreteColumn> ConcreteColumns { get; set; }
+    public List<ConcreteColumn>? ConcreteColumns { get; set; } = new List<ConcreteColumn>();
+
+    public List<FrameResult>? ColumnResults { get; set; } = new List<FrameResult>();
   }
 }
