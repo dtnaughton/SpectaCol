@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Enums;
+﻿using SpectaCol.Converters.Units;
+using SpectaCol.Models.Enums;
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SpectaCol.Settings.Units;
 
 namespace SpectaCol.ViewModels
 {
@@ -19,7 +21,6 @@ namespace SpectaCol.ViewModels
     }
 
     public bool IsSelected { get; set; }
-
     public SectionShape SectionShape
     {
       get => Column.Shape;
@@ -29,7 +30,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(SectionShape));
       }
     }
-
     public double Width
     {
       get => DisplayRounding(Column.CrossSectionParameters.Width);
@@ -40,7 +40,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementPercentage));
       }
     }
-
     public double Depth
     {
       get => DisplayRounding(Column.CrossSectionParameters.Depth);
@@ -51,7 +50,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementPercentage));
       }
     }
-
     public double Cover
     {
       get => DisplayRounding(Column.CrossSectionParameters.Cover);
@@ -61,7 +59,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(Cover));
       }
     }
-
     public double Length
     {
       get => DisplayRounding(Column.Length);
@@ -71,7 +68,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(Length));
       }
     }
-
     public double ConcreteStrength
     {
       get => DisplayRounding(Column.Material.CompressiveStrength);
@@ -81,7 +77,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(ConcreteStrength));
       }
     }
-
     public double LongitudinalReinforcementStrength
     {
       get => DisplayRounding(Column.LongitudinalReinforcement.YieldStrength);
@@ -91,7 +86,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementStrength));
       }
     }
-
     public int QuantityLayers
     {
       get => Column.LongitudinalReinforcement.QuantityLayers;
@@ -102,7 +96,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementPercentage));
       }
     }
-
     public int QuantityX
     {
       get => Column.LongitudinalReinforcement.QuantityX;
@@ -123,7 +116,6 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementPercentage));
       }
     }
-
     public ReinforcementDiameter LongitudinalBarDiameter
     {
       get => Column.LongitudinalReinforcement.Diameter;
@@ -134,10 +126,25 @@ namespace SpectaCol.ViewModels
         OnPropertyChanged(nameof(LongitudinalReinforcementPercentage));
       }
     }
-
     public double LongitudinalReinforcementPercentage
     {
       get => DisplayRounding(Column.LongitudinalReinforcement.ReinforcementPercentage);
+    }
+    public MetricForceUnit CurrentForceUnit
+    {
+      get => Column.ForceUnit;
+      set
+      {
+        Column.ForceUnit = value;
+      }
+    }
+    public MetricLengthUnit CurrentLengthUnit
+    {
+      get => Column.LengthUnit;
+      set
+      {
+        Column.LengthUnit = value;
+      }
     }
 
 
@@ -150,6 +157,11 @@ namespace SpectaCol.ViewModels
     private double DisplayRounding(double number)
     {
       return Math.Round(number, 3);
+    }
+
+    public void ConvertUnits(MetricForceUnit newForceUnit, MetricLengthUnit newLengthUnit)
+    {
+      //var forceScaleFactor = UnitConverter.GetForceScaleFactor(CurrentForceUnit, newForceUnit);
     }
   }
 }

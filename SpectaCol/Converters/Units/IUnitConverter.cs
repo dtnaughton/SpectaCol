@@ -9,7 +9,7 @@ namespace SpectaCol.Converters.Units
 {
   public interface IUnitConverter
   {
-    double GetForceScaleFactor(ForceUnit currentForceUnit, ForceUnit updatedForceUnit);
-    double GetLengthScaleFactor(LengthUnit currentLengthUnit, LengthUnit updatedLengthUnit);
+    double GetForceScaleFactor(MetricForceUnit currentForceUnit, MetricForceUnit updatedForceUnit);
+    double GetLengthScaleFactor(MetricLengthUnit currentLengthUnit, MetricLengthUnit updatedLengthUnit);
   }
 }

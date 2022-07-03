@@ -12,6 +12,17 @@ namespace SpectaCol.Stores
   {
     public List<ConcreteColumn>? ConcreteColumns { get; set; } = new List<ConcreteColumn>();
 
-    public List<FrameResult>? ColumnResults { get; set; } = new List<FrameResult>();
+    public List<FrameResult>? Results { get; set; } = new List<FrameResult>();
+
+    public void SyncColumnResults()
+    {
+      if (ConcreteColumns != null && Results != null)
+      {
+        foreach (var column in ConcreteColumns)
+        {
+          column.Results = Results.Where(result => result.AssociatedElementId == column.ApplicationId).ToList();
+        }
+      }
+    }
   }
 }

@@ -2,11 +2,13 @@
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Interfaces;
 using SpectaCol.Models.Materials;
+using SpectaCol.Models.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SpectaCol.Settings.Units;
 
 namespace SpectaCol.Models.Sections
 {
@@ -25,6 +27,9 @@ namespace SpectaCol.Models.Sections
     public double Beta { get; set; } // Belong to design code?
     public string Units { get; set; }
     public string ApplicationId { get; set; }
+    public List<FrameResult> Results { get; set; } = new List<FrameResult>();
+    public MetricForceUnit ForceUnit { get; set; }
+    public MetricLengthUnit LengthUnit { get; set; }
 
     public bool HasDefaultParameters()
     {
@@ -33,7 +38,8 @@ namespace SpectaCol.Models.Sections
 
     public void SetDefaultParameters()
     {
-      // Set any default parameters that are required but likely not to be received by Speckle
+      ForceUnit = MetricForceUnit.N;
+      LengthUnit = MetricLengthUnit.mm;
     }
   }
 }

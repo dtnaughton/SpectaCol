@@ -146,7 +146,7 @@ namespace SpectaCol
 
     private ConcreteColumnDesignViewModel CreateConcreteColumnDesignModuleViewModel(IServiceProvider serviceProvider)
     {
-      return new ConcreteColumnDesignViewModel(serviceProvider.GetRequiredService<ObjectStore>());
+      return new ConcreteColumnDesignViewModel(serviceProvider.GetRequiredService<ObjectStore>(), serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private SpeckleLoginViewModel CreateSpeckleLoginViewModel(IServiceProvider serviceProvider)

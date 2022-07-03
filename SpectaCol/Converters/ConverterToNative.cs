@@ -191,7 +191,7 @@ namespace SpectaCol.Converters
               result1D.permutation,
               result1D.element.applicationId);
 
-      _objectStore.ColumnResults?.Add(frameResult);
+      _objectStore.Results?.Add(frameResult);
 
       frameResults.Add(frameResult);
 
