@@ -27,7 +27,7 @@ namespace SpectaCol.ViewModels
     {
       objectStore.ConcreteColumns?.ForEach(column =>
       {
-        var columnViewModel = new ConcreteColumnViewModel(column);
+        var columnViewModel = new ConcreteColumnViewModel(column, settingsStore);
         _concreteColumnViewModels.Add(columnViewModel);
       });
 
