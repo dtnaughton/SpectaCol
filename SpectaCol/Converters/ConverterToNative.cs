@@ -47,6 +47,8 @@ namespace SpectaCol.Converters
         Units = speckleElement.units
       };
 
+      nativeColumn.SetDefaultUnits();
+
       if (speckleElement.baseLine != null && speckleElement.baseLine.length != 0)
       {
         nativeColumn.Length = speckleElement.baseLine.length;

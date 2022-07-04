@@ -78,6 +78,10 @@ namespace SpectaCol.ViewModels
       DesignCodes = _settingsStore.DesignCodes.Select(designCode => designCode.GetDescription()).ToList();
       SelectedDesignCode = _settingsStore.SelectedDesignCode.GetDescription();
 
+      SelectedForceUnit = _settingsStore.SelectedUnits.ForceUnit.GetDescription();
+      SelectedLengthUnit = _settingsStore.SelectedUnits.LengthUnit.GetDescription();
+      SelectedStressUnit = _settingsStore.SelectedUnits.StressUnit.GetDescription();
+
       CloseDialogCommand = new ToggleDialogVisibilityCommand(settingsStore);
       SaveCommand = new ToggleDialogVisibilityCommand(settingsStore);
     }

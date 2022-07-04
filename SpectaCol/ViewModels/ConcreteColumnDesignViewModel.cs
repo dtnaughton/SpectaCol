@@ -46,17 +46,6 @@ namespace SpectaCol.ViewModels
     {
       foreach (var column in _concreteColumnViewModels)
       {
-        var forceScaleFactor = UnitConverter.UnitScaleFactor(column.ForceUnit, _settingsStore.SelectedUnits.ForceUnit);
-        var lengthScaleFactor = UnitConverter.UnitScaleFactor(column.LengthUnit, _settingsStore.SelectedUnits.LengthUnit);
-        var stressScaleFactor = UnitConverter.UnitScaleFactor(column.StressUnit, _settingsStore.SelectedUnits.StressUnit);
-
-        column.Width *= lengthScaleFactor;
-        column.Depth *= lengthScaleFactor;
-        column.Cover *= lengthScaleFactor;
-        column.Length *= lengthScaleFactor;
-        column.ConcreteStrength *= stressScaleFactor;
-        column.LongitudinalReinforcementStrength *= stressScaleFactor;
-
         column.ForceUnit = _settingsStore.SelectedUnits.ForceUnit;
         column.LengthUnit = _settingsStore.SelectedUnits.LengthUnit;
         column.StressUnit = _settingsStore.SelectedUnits.StressUnit;

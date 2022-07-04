@@ -14,7 +14,6 @@ namespace SpectaCol.Stores
   {
     private bool _isOpen;
     private DesignCode _selectedDesignCode;
-    private UnitType _selectedUnitType;
     private DisplayUnits _selectedUnits;
 
     public int UnitSettingsToChange { get; set; }
@@ -24,9 +23,6 @@ namespace SpectaCol.Stores
     public List<ForceUnit> ForceUnits { get; } = new List<ForceUnit>();
     public List<LengthUnit> LengthUnits { get; } = new List<LengthUnit>();
     public List<StressUnit> StressUnits { get; } = new List<StressUnit>();
-    public ForceUnit SelectedForceUnit { get; set; }
-    public LengthUnit SelectedLengthUnit { get; set; }
-    public StressUnit SelectedStressUnit { get; set; }
 
     public DisplayUnits SelectedUnits
     {
@@ -71,22 +67,24 @@ namespace SpectaCol.Stores
       LengthUnits = Enum.GetValues(typeof(LengthUnit)).Cast<LengthUnit>().ToList();
       StressUnits = Enum.GetValues(typeof(StressUnit)).Cast<StressUnit>().ToList();
 
-      SelectedUnits = new DisplayUnits(
-        ForceUnits
-        .Where
-          (fu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(fu).UnitType == SelectedUnitType)
-        .ToList()
-        .FirstOrDefault(),
-        LengthUnits
-        .Where
-          (lu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(lu).UnitType == SelectedUnitType)
-        .ToList()
-        .FirstOrDefault(),
-        StressUnits
-        .Where
-          (su => EnumHelpers.GetAttribute<Attributes.UnitSystem>(su).UnitType == SelectedUnitType)
-        .ToList()
-        .FirstOrDefault());
+      //SelectedUnits = new DisplayUnits(
+      //  ForceUnits
+      //  .Where
+      //    (fu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(fu).UnitType == SelectedUnitType)
+      //  .ToList()
+      //  .FirstOrDefault(),
+      //  LengthUnits
+      //  .Where
+      //    (lu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(lu).UnitType == SelectedUnitType)
+      //  .ToList()
+      //  .FirstOrDefault(),
+      //  StressUnits
+      //  .Where
+      //    (su => EnumHelpers.GetAttribute<Attributes.UnitSystem>(su).UnitType == SelectedUnitType)
+      //  .ToList()
+      //  .FirstOrDefault());
+
+      SelectedUnits = new DisplayUnits(ForceUnit.N, LengthUnit.mm, StressUnit.mPa);
     }
 
     public void SaveState()

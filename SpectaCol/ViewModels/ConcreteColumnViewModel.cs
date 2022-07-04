@@ -38,7 +38,7 @@ namespace SpectaCol.ViewModels
     }
     public double Width
     {
-      get => DisplayRounding(Column.CrossSectionParameters.Width);
+      get => DisplayRounding(FrontendLengthConversion(Column.CrossSectionParameters.Width));
       set
       {
         Column.CrossSectionParameters.Width = BackendLengthConversion(value);
@@ -48,7 +48,7 @@ namespace SpectaCol.ViewModels
     }
     public double Depth
     {
-      get => DisplayRounding(Column.CrossSectionParameters.Depth);
+      get => DisplayRounding(FrontendLengthConversion(Column.CrossSectionParameters.Depth));
       set
       {
         Column.CrossSectionParameters.Depth = BackendLengthConversion(value);
@@ -58,7 +58,7 @@ namespace SpectaCol.ViewModels
     }
     public double Cover
     {
-      get => DisplayRounding(Column.CrossSectionParameters.Cover);
+      get => DisplayRounding(FrontendLengthConversion(Column.CrossSectionParameters.Cover));
       set
       {
         Column.CrossSectionParameters.Cover =  BackendLengthConversion(value);
@@ -67,7 +67,7 @@ namespace SpectaCol.ViewModels
     }
     public double Length
     {
-      get => DisplayRounding(Column.Length);
+      get => DisplayRounding(FrontendLengthConversion(Column.Length));
       set
       {
         Column.Length = BackendLengthConversion(value);
@@ -76,7 +76,7 @@ namespace SpectaCol.ViewModels
     }
     public double ConcreteStrength
     {
-      get => DisplayRounding(Column.Material.CompressiveStrength);
+      get => DisplayRounding(FrontendStressConversion(Column.Material.CompressiveStrength));
       set
       {
         Column.Material.CompressiveStrength = BackendStressConversion(value);
@@ -85,7 +85,7 @@ namespace SpectaCol.ViewModels
     }
     public double LongitudinalReinforcementStrength
     {
-      get => DisplayRounding(Column.LongitudinalReinforcement.YieldStrength);
+      get => DisplayRounding(FrontendStressConversion(Column.LongitudinalReinforcement.YieldStrength));
       set
       {
         Column.LongitudinalReinforcement.YieldStrength = BackendStressConversion(value);
@@ -142,16 +142,21 @@ namespace SpectaCol.ViewModels
       set
       {
         Column.ForceUnit = value;
+        UpdateForceUnits();
       }
     }
+
+
     public LengthUnit LengthUnit
     {
       get => Column.LengthUnit;
       set
       {
         Column.LengthUnit = value;
+        UpdateLengthUnits();
       }
     }
+
 
     public StressUnit StressUnit
     {
@@ -159,7 +164,25 @@ namespace SpectaCol.ViewModels
       set
       {
         Column.StressUnit = value;
+        UpdateStressUnits();
       }
+    }
+
+    private void UpdateForceUnits()
+    {
+      // To be implemented
+    }
+    private void UpdateLengthUnits()
+    {
+      OnPropertyChanged(nameof(Width));
+      OnPropertyChanged(nameof(Depth));
+      OnPropertyChanged(nameof(Cover));
+      OnPropertyChanged(nameof(Length));
+    }
+    private void UpdateStressUnits()
+    {
+      OnPropertyChanged(nameof(ConcreteStrength));
+      OnPropertyChanged(nameof(LongitudinalReinforcementStrength));
     }
 
     public ConcreteColumnViewModel(ConcreteColumn concreteColumn, SettingsStore settingsStore)
@@ -186,6 +209,21 @@ namespace SpectaCol.ViewModels
     private double BackendStressConversion(double value)
     {
       return value * UnitConverter.UnitScaleFactor(_settingsStore.SelectedUnits.StressUnit, _backendStressUnit);
+    }
+
+    private double FrontendForceConversion(double value)
+    {
+      return value * UnitConverter.UnitScaleFactor(_backendForceUnit, _settingsStore.SelectedUnits.ForceUnit);
+    }
+
+    private double FrontendLengthConversion(double value)
+    {
+      return value * UnitConverter.UnitScaleFactor(_backendLengthUnit, _settingsStore.SelectedUnits.LengthUnit);
+    }
+
+    private double FrontendStressConversion(double value)
+    {
+      return value * UnitConverter.UnitScaleFactor(_backendStressUnit, _settingsStore.SelectedUnits.StressUnit);
     }
   }
 }
