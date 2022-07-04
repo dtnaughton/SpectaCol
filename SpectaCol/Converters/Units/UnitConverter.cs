@@ -15,140 +15,51 @@ namespace SpectaCol.Converters.Units
     }
 
     #region Length Conversion
-    public static double MetricToImperialScaleFactor(MetricLengthUnit metricUnit, ImperialLengthUnit imperialUnit)
+    public static double UnitScaleFactor(LengthUnit currentUnit, LengthUnit nextUnit)
     {
       double currentValue;
       double updatedValue;
 
-      switch (metricUnit)
+      switch (currentUnit)
       {
-        case MetricLengthUnit.m:
+        case LengthUnit.m:
           currentValue = 1000;
           break;
-        case MetricLengthUnit.cm:
+        case LengthUnit.cm:
           currentValue = 10;
           break;
-        case MetricLengthUnit.mm:
+        case LengthUnit.mm:
           currentValue = 1;
           break;
+        case LengthUnit.Inches:
+          currentValue = 25.4;
+          break;
+        case LengthUnit.Feet:
+          currentValue = 304.8;
+          break;
         default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {currentUnit} unit type.");
       }
 
-      switch (imperialUnit)
+      switch (nextUnit)
       {
-        case ImperialLengthUnit.Inches:
+        case LengthUnit.m:
+          updatedValue = 1000;
+          break;
+        case LengthUnit.cm:
+          updatedValue = 10;
+          break;
+        case LengthUnit.mm:
+          updatedValue = 1;
+          break;
+        case LengthUnit.Inches:
           updatedValue = 25.4;
           break;
-        case ImperialLengthUnit.Feet:
+        case LengthUnit.Feet:
           updatedValue = 304.8;
           break;
         default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
-      }
-
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialToMetricScaleFactor(ImperialLengthUnit imperialUnit, MetricLengthUnit metricUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (imperialUnit)
-      {
-        case ImperialLengthUnit.Inches:
-          currentValue = 1;
-          break;
-        case ImperialLengthUnit.Feet:
-          currentValue = 12;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
-      }
-
-      switch (metricUnit)
-      {
-        case MetricLengthUnit.m:
-          updatedValue = 1/0.0254;
-          break;
-        case MetricLengthUnit.cm:
-          updatedValue = 1/2.54;
-          break;
-        case MetricLengthUnit.mm:
-          updatedValue = 1/25.4;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
-      }
-      return currentValue / updatedValue;
-    }
-
-    public static double MetricScaleFactor(MetricLengthUnit currentLengthUnit, MetricLengthUnit updatedLengthUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentLengthUnit)
-      {
-        case MetricLengthUnit.m:
-          currentValue = 1000;
-          break;
-        case MetricLengthUnit.cm:
-          currentValue = 10;
-          break;
-        case MetricLengthUnit.mm:
-          currentValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentLengthUnit} unit type.");
-      }
-
-      switch (updatedLengthUnit)
-      {
-        case MetricLengthUnit.m:
-          updatedValue = 1000;
-          break;
-        case MetricLengthUnit.cm:
-          updatedValue = 10;
-          break;
-        case MetricLengthUnit.mm:
-          updatedValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {updatedLengthUnit} unit type.");
-      }
-
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialScaleFactor(ImperialLengthUnit currentLengthUnit, ImperialLengthUnit updatedLengthUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentLengthUnit)
-      {
-        case ImperialLengthUnit.Inches:
-          currentValue = 1;
-          break;
-        case ImperialLengthUnit.Feet:
-          currentValue = 12;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentLengthUnit} unit type.");
-      }
-
-      switch (updatedLengthUnit)
-      {
-        case ImperialLengthUnit.Inches:
-          updatedValue = 1;
-          break;
-        case ImperialLengthUnit.Feet:
-          updatedValue = 12;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentLengthUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {nextUnit} unit type.");
       }
 
       return currentValue / updatedValue;
@@ -156,129 +67,45 @@ namespace SpectaCol.Converters.Units
     #endregion
 
     #region Force Conversion
-
-    public static double MetricToImperialScaleFactor(MetricForceUnit metricUnit, ImperialForceUnit imperialUnit)
+    public static double UnitScaleFactor(ForceUnit currentUnit, ForceUnit nextUnit)
     {
       double currentValue;
       double updatedValue;
 
-      switch (metricUnit)
+      switch (currentUnit)
       {
-        case MetricForceUnit.kN:
+        case ForceUnit.kN:
           currentValue = 1000;
           break;
-        case MetricForceUnit.N:
+        case ForceUnit.N:
           currentValue = 1;
           break;
-        default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
-      }
-
-      switch (imperialUnit)
-      {
-        case ImperialForceUnit.Pounds:
-          updatedValue = 1/ 0.2248089431;
+        case ForceUnit.Pounds:
+          currentValue = 1 / 0.2248089431;
           break;
-        case ImperialForceUnit.Kips:
-          updatedValue = 1/ 0.0002248089431;
+        case ForceUnit.Kips:
+          currentValue = 1 / 0.0002248089431;
           break;
         default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {currentUnit} unit type.");
       }
 
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialToMetricScaleFactor(ImperialForceUnit imperialUnit, MetricForceUnit metricUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (imperialUnit)
+      switch (nextUnit)
       {
-        case ImperialForceUnit.Pounds:
-          currentValue = 1;
-          break;
-        case ImperialForceUnit.Kips:
-          currentValue = 1000;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
-      }
-
-      switch (metricUnit)
-      {
-        case MetricForceUnit.kN:
-          updatedValue = 1/ 0.0044482216153;
-          break;
-        case MetricForceUnit.N:
-          updatedValue = 1/ 4.4482216153;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
-      }
-      return currentValue / updatedValue;
-    }
-
-    public static double MetricScaleFactor(MetricForceUnit currentForceUnit, MetricForceUnit updatedForceUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentForceUnit)
-      {
-        case MetricForceUnit.kN:
-          currentValue = 1000;
-          break;
-        case MetricForceUnit.N:
-          currentValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
-      }
-
-      switch (updatedForceUnit)
-      {
-        case MetricForceUnit.kN:
+        case ForceUnit.kN:
           updatedValue = 1000;
           break;
-        case MetricForceUnit.N:
+        case ForceUnit.N:
           updatedValue = 1;
           break;
-        default:
-          throw new NotImplementedException($"Unable to convert {updatedForceUnit} unit type.");
-      }
-
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialScaleFactor(ImperialForceUnit currentForceUnit, ImperialForceUnit updatedForceUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentForceUnit)
-      {
-        case ImperialForceUnit.Kips:
-          currentValue = 1000;
+        case ForceUnit.Pounds:
+          updatedValue = 1 / 0.2248089431;
           break;
-        case ImperialForceUnit.Pounds:
-          currentValue = 1;
+        case ForceUnit.Kips:
+          updatedValue = 1 / 0.0002248089431;
           break;
         default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
-      }
-
-      switch (updatedForceUnit)
-      {
-        case ImperialForceUnit.Kips:
-          updatedValue = 1000;
-          break;
-        case ImperialForceUnit.Pounds:
-          updatedValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {nextUnit} unit type.");
       }
 
       return currentValue / updatedValue;
@@ -286,129 +113,45 @@ namespace SpectaCol.Converters.Units
     #endregion
 
     #region Stress Conversion
-
-    public static double MetricToImperialScaleFactor(MetricStressUnit metricUnit, ImperialStressUnit imperialUnit)
+    public static double UnitScaleFactor(StressUnit currentUnit, StressUnit nextUnit)
     {
       double currentValue;
       double updatedValue;
 
-      switch (metricUnit)
+      switch (currentUnit)
       {
-        case MetricStressUnit.kPa:
+        case StressUnit.kPa:
           currentValue = 0.001;
           break;
-        case MetricStressUnit.mPa:
+        case StressUnit.mPa:
           currentValue = 1;
           break;
-        default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
-      }
-
-      switch (imperialUnit)
-      {
-        case ImperialStressUnit.Ksi:
-          updatedValue = 1/0.1450377377;
+        case StressUnit.Ksi:
+          currentValue = 1 / 0.1450377377;
           break;
-        case ImperialStressUnit.Psi:
-          updatedValue = 1/145.03773773;
+        case StressUnit.Psi:
+          currentValue = 1 / 145.03773773;
           break;
         default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {currentUnit} unit type.");
       }
 
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialToMetricScaleFactor(ImperialStressUnit imperialUnit, MetricStressUnit metricUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (imperialUnit)
+      switch (nextUnit)
       {
-        case ImperialStressUnit.Ksi:
-          currentValue = 1000;
-          break;
-        case ImperialStressUnit.Psi:
-          currentValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {imperialUnit} unit type.");
-      }
-
-      switch (metricUnit)
-      {
-        case MetricStressUnit.kPa:
-          updatedValue = 1 / 6.8947572932;
-          break;
-        case MetricStressUnit.mPa:
-          updatedValue = 1 / 0.0068947573;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {metricUnit} unit type.");
-      }
-      return currentValue / updatedValue;
-    }
-
-    public static double MetricScaleFactor(MetricStressUnit currentForceUnit, MetricStressUnit updatedForceUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentForceUnit)
-      {
-        case MetricStressUnit.kPa:
-          currentValue = 0.001;
-          break;
-        case MetricStressUnit.mPa:
-          currentValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
-      }
-
-      switch (updatedForceUnit)
-      {
-        case MetricStressUnit.kPa:
+        case StressUnit.kPa:
           updatedValue = 0.001;
           break;
-        case MetricStressUnit.mPa:
+        case StressUnit.mPa:
           updatedValue = 1;
           break;
-        default:
-          throw new NotImplementedException($"Unable to convert {updatedForceUnit} unit type.");
-      }
-
-      return currentValue / updatedValue;
-    }
-
-    public static double ImperialScaleFactor(ImperialStressUnit currentForceUnit, ImperialStressUnit updatedForceUnit)
-    {
-      double currentValue;
-      double updatedValue;
-
-      switch (currentForceUnit)
-      {
-        case ImperialStressUnit.Ksi:
-          currentValue = 1000;
+        case StressUnit.Ksi:
+          updatedValue = 1 / 0.1450377377;
           break;
-        case ImperialStressUnit.Psi:
-          currentValue = 1;
+        case StressUnit.Psi:
+          updatedValue = 1 / 145.03773773;
           break;
         default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
-      }
-
-      switch (updatedForceUnit)
-      {
-        case ImperialStressUnit.Ksi:
-          updatedValue = 1000;
-          break;
-        case ImperialStressUnit.Psi:
-          updatedValue = 1;
-          break;
-        default:
-          throw new NotImplementedException($"Unable to convert {currentForceUnit} unit type.");
+          throw new NotImplementedException($"Unable to convert {nextUnit} unit type.");
       }
 
       return currentValue / updatedValue;

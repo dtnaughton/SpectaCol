@@ -14,12 +14,12 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Metric_To_Imperial_Length_Conversion()
     {
-      var mmToInch = 345.43 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.mm, ImperialLengthUnit.Inches);
-      var mmToFeet = 501439.213 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.mm, ImperialLengthUnit.Feet);
-      var cmToInch = 213 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.cm, ImperialLengthUnit.Inches);
-      var cmToFeet = 40.3 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.cm, ImperialLengthUnit.Feet);
-      var mToInch = 213 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.m, ImperialLengthUnit.Inches);
-      var mToFeet = 23.3 * UnitConverter.MetricToImperialScaleFactor(MetricLengthUnit.m, ImperialLengthUnit.Feet);
+      var mmToInch = 345.43 * UnitConverter.UnitScaleFactor(LengthUnit.mm, LengthUnit.Inches);
+      var mmToFeet = 501439.213 * UnitConverter.UnitScaleFactor(LengthUnit.mm, LengthUnit.Feet);
+      var cmToInch = 213 * UnitConverter.UnitScaleFactor(LengthUnit.cm, LengthUnit.Inches);
+      var cmToFeet = 40.3 * UnitConverter.UnitScaleFactor(LengthUnit.cm, LengthUnit.Feet);
+      var mToInch = 213 * UnitConverter.UnitScaleFactor(LengthUnit.m, LengthUnit.Inches);
+      var mToFeet = 23.3 * UnitConverter.UnitScaleFactor(LengthUnit.m, LengthUnit.Feet);
 
       Assert.Equal(13.5996063, mmToInch, 1);
       Assert.Equal(1645.141774934, mmToFeet, 1);
@@ -32,12 +32,12 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Imperial_To_Metric_Length_Conversion()
     {
-      var inchToMm = 401432.23 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Inches, MetricLengthUnit.mm);
-      var inchToCm = 5324 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Inches, MetricLengthUnit.cm);
-      var inchToM = 523432.12 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Inches, MetricLengthUnit.m);
-      var feetToMm = 993.23 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Feet, MetricLengthUnit.mm);
-      var feetToCm = 95132.1 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Feet, MetricLengthUnit.cm);
-      var feetToM = 1234.1 * UnitConverter.ImperialToMetricScaleFactor(ImperialLengthUnit.Feet, MetricLengthUnit.m);
+      var inchToMm = 401432.23 * UnitConverter.UnitScaleFactor(LengthUnit.Inches, LengthUnit.mm);
+      var inchToCm = 5324 * UnitConverter.UnitScaleFactor(LengthUnit.Inches, LengthUnit.cm);
+      var inchToM = 523432.12 * UnitConverter.UnitScaleFactor(LengthUnit.Inches, LengthUnit.m);
+      var feetToMm = 993.23 * UnitConverter.UnitScaleFactor(LengthUnit.Feet, LengthUnit.mm);
+      var feetToCm = 95132.1 * UnitConverter.UnitScaleFactor(LengthUnit.Feet, LengthUnit.cm);
+      var feetToM = 1234.1 * UnitConverter.UnitScaleFactor(LengthUnit.Feet, LengthUnit.m);
 
       Assert.Equal(10196378.642, inchToMm, 1);
       Assert.Equal(13522.96, inchToCm, 1);
@@ -50,10 +50,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Metric_To_Imperial_Force_Conversion()
     {
-      var nToPounds = 9253214.123 * UnitConverter.MetricToImperialScaleFactor(MetricForceUnit.N, ImperialForceUnit.Pounds);
-      var nToKips = 23129253214.123 * UnitConverter.MetricToImperialScaleFactor(MetricForceUnit.N, ImperialForceUnit.Kips);
-      var kNToPounds = 452341 * UnitConverter.MetricToImperialScaleFactor(MetricForceUnit.kN, ImperialForceUnit.Pounds);
-      var kNToKips = 1356.3241 * UnitConverter.MetricToImperialScaleFactor(MetricForceUnit.kN, ImperialForceUnit.Kips);
+      var nToPounds = 9253214.123 * UnitConverter.UnitScaleFactor(ForceUnit.N, ForceUnit.Pounds);
+      var nToKips = 23129253214.123 * UnitConverter.UnitScaleFactor(ForceUnit.N, ForceUnit.Kips);
+      var kNToPounds = 452341 * UnitConverter.UnitScaleFactor(ForceUnit.kN, ForceUnit.Pounds);
+      var kNToKips = 1356.3241 * UnitConverter.UnitScaleFactor(ForceUnit.kN, ForceUnit.Kips);
 
       Assert.Equal(2080205.2944035, nToPounds, 0);
       Assert.Equal(5199662.9698, nToKips, 0);
@@ -64,10 +64,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Imperial_To_Metric_Force_Conversion()
     {
-      var poundsToN = 3432419.321 * UnitConverter.ImperialToMetricScaleFactor(ImperialForceUnit.Pounds, MetricForceUnit.N);
-      var poundsToKn = 54324 * UnitConverter.ImperialToMetricScaleFactor(ImperialForceUnit.Pounds, MetricForceUnit.kN);
-      var KipsToN = 6434.1 * UnitConverter.ImperialToMetricScaleFactor(ImperialForceUnit.Kips, MetricForceUnit.N);
-      var KipsToKn = 634624.34 * UnitConverter.ImperialToMetricScaleFactor(ImperialForceUnit.Kips, MetricForceUnit.kN);
+      var poundsToN = 3432419.321 * UnitConverter.UnitScaleFactor(ForceUnit.Pounds, ForceUnit.N);
+      var poundsToKn = 54324 * UnitConverter.UnitScaleFactor(ForceUnit.Pounds, ForceUnit.kN);
+      var KipsToN = 6434.1 * UnitConverter.UnitScaleFactor(ForceUnit.Kips, ForceUnit.N);
+      var KipsToKn = 634624.34 * UnitConverter.UnitScaleFactor(ForceUnit.Kips, ForceUnit.kN);
 
       Assert.Equal(15268161.816, poundsToN, 0);
       Assert.Equal(241.64519, poundsToKn, 0);
@@ -78,10 +78,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Metric_To_Imperial_Stress_Conversion()
     {
-      var mPaToKsi = 5982 * UnitConverter.MetricToImperialScaleFactor(MetricStressUnit.mPa, ImperialStressUnit.Ksi);
-      var mPaToPsi = 5982 * UnitConverter.MetricToImperialScaleFactor(MetricStressUnit.mPa, ImperialStressUnit.Psi);
-      var kPaToKsi = 5982 * UnitConverter.MetricToImperialScaleFactor(MetricStressUnit.kPa, ImperialStressUnit.Ksi);
-      var kPaToPsi = 5982 * UnitConverter.MetricToImperialScaleFactor(MetricStressUnit.kPa, ImperialStressUnit.Psi);
+      var mPaToKsi = 5982 * UnitConverter.UnitScaleFactor(StressUnit.mPa, StressUnit.Ksi);
+      var mPaToPsi = 5982 * UnitConverter.UnitScaleFactor(StressUnit.mPa, StressUnit.Psi);
+      var kPaToKsi = 5982 * UnitConverter.UnitScaleFactor(StressUnit.kPa, StressUnit.Ksi);
+      var kPaToPsi = 5982 * UnitConverter.UnitScaleFactor(StressUnit.kPa, StressUnit.Psi);
 
       Assert.Equal(867.6157, mPaToKsi, 3);
       Assert.Equal(867615.7471, mPaToPsi, 3);
@@ -92,29 +92,29 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Imperial_To_Metric_Stress_Conversion()
     {
-      var ksiToMpa = 1231 * UnitConverter.ImperialToMetricScaleFactor(ImperialStressUnit.Ksi, MetricStressUnit.mPa);
-      var ksiToKpa = 1231 * UnitConverter.ImperialToMetricScaleFactor(ImperialStressUnit.Ksi, MetricStressUnit.kPa);
-      var psiToMpa = 1231 * UnitConverter.ImperialToMetricScaleFactor(ImperialStressUnit.Psi, MetricStressUnit.mPa);
-      var psiToKpa = 1231 * UnitConverter.ImperialToMetricScaleFactor(ImperialStressUnit.Psi, MetricStressUnit.kPa);
+      var ksiToMpa = 1231 * UnitConverter.UnitScaleFactor(StressUnit.Ksi, StressUnit.mPa);
+      var ksiToKpa = 1231 * UnitConverter.UnitScaleFactor(StressUnit.Ksi, StressUnit.kPa);
+      var psiToMpa = 1231 * UnitConverter.UnitScaleFactor(StressUnit.Psi, StressUnit.mPa);
+      var psiToKpa = 1231 * UnitConverter.UnitScaleFactor(StressUnit.Psi, StressUnit.kPa);
 
-      Assert.Equal(8487.4462279, ksiToMpa, 3);
-      Assert.Equal(8487446.2279, ksiToKpa, 3);
-      Assert.Equal(8.4874462279, psiToMpa, 3);
-      Assert.Equal(8487.4462279, psiToKpa, 3);
+      Assert.Equal(8487.4462279, ksiToMpa, 0);
+      Assert.Equal(8487446.2279, ksiToKpa, 0);
+      Assert.Equal(8.4874462279, psiToMpa, 0);
+      Assert.Equal(8487.4462279, psiToKpa, 0);
     }
 
     [Fact]
     public void Metric_Length_Conversion()
     {
-      var mmToMm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.mm, MetricLengthUnit.mm);
-      var mmToCm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.mm, MetricLengthUnit.cm);
-      var mmToM = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.mm, MetricLengthUnit.m);
-      var cmToMm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.cm, MetricLengthUnit.mm);
-      var cmToCm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.cm, MetricLengthUnit.cm);
-      var cmToM = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.cm, MetricLengthUnit.m);
-      var mToMm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.m, MetricLengthUnit.mm);
-      var mToCm = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.m, MetricLengthUnit.cm);
-      var mToM = 3420 * UnitConverter.MetricScaleFactor(MetricLengthUnit.m, MetricLengthUnit.m);
+      var mmToMm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.mm, LengthUnit.mm);
+      var mmToCm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.mm, LengthUnit.cm);
+      var mmToM = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.mm, LengthUnit.m);
+      var cmToMm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.cm, LengthUnit.mm);
+      var cmToCm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.cm, LengthUnit.cm);
+      var cmToM = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.cm, LengthUnit.m);
+      var mToMm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.m, LengthUnit.mm);
+      var mToCm = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.m, LengthUnit.cm);
+      var mToM = 3420 * UnitConverter.UnitScaleFactor(LengthUnit.m, LengthUnit.m);
 
       Assert.Equal(3420, mmToMm, 3);
       Assert.Equal(342, mmToCm, 3);
@@ -130,10 +130,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Metric_Force_Conversion()
     {
-      var nToN = 5432 * UnitConverter.MetricScaleFactor(MetricForceUnit.N, MetricForceUnit.N);
-      var nToKn = 5432 * UnitConverter.MetricScaleFactor(MetricForceUnit.N, MetricForceUnit.kN);
-      var knToN = 5432 * UnitConverter.MetricScaleFactor(MetricForceUnit.kN, MetricForceUnit.N);
-      var knToKn = 5432 * UnitConverter.MetricScaleFactor(MetricForceUnit.kN, MetricForceUnit.kN);
+      var nToN = 5432 * UnitConverter.UnitScaleFactor(ForceUnit.N, ForceUnit.N);
+      var nToKn = 5432 * UnitConverter.UnitScaleFactor(ForceUnit.N, ForceUnit.kN);
+      var knToN = 5432 * UnitConverter.UnitScaleFactor(ForceUnit.kN, ForceUnit.N);
+      var knToKn = 5432 * UnitConverter.UnitScaleFactor(ForceUnit.kN, ForceUnit.kN);
 
       Assert.Equal(5432, nToN, 3);
       Assert.Equal(5.432, nToKn, 3);
@@ -144,10 +144,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Metric_Stress_Conversion()
     {
-      var mPaToMpa = 4132.23 * UnitConverter.MetricScaleFactor(MetricStressUnit.mPa, MetricStressUnit.mPa);
-      var mPaToKpa = 4132.23 * UnitConverter.MetricScaleFactor(MetricStressUnit.mPa, MetricStressUnit.kPa);
-      var kPaToMpa = 4132.23 * UnitConverter.MetricScaleFactor(MetricStressUnit.kPa, MetricStressUnit.mPa);
-      var kPaToKpa = 4132.23 * UnitConverter.MetricScaleFactor(MetricStressUnit.kPa, MetricStressUnit.kPa);
+      var mPaToMpa = 4132.23 * UnitConverter.UnitScaleFactor(StressUnit.mPa, StressUnit.mPa);
+      var mPaToKpa = 4132.23 * UnitConverter.UnitScaleFactor(StressUnit.mPa, StressUnit.kPa);
+      var kPaToMpa = 4132.23 * UnitConverter.UnitScaleFactor(StressUnit.kPa, StressUnit.mPa);
+      var kPaToKpa = 4132.23 * UnitConverter.UnitScaleFactor(StressUnit.kPa, StressUnit.kPa);
 
       Assert.Equal(4132.23, mPaToMpa, 3);
       Assert.Equal(4132230, mPaToKpa, 3);
@@ -158,10 +158,10 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Imperial_Force_Conversion()
     {
-      var poundsToPounds = 3230 * UnitConverter.ImperialScaleFactor(ImperialForceUnit.Pounds, ImperialForceUnit.Pounds);
-      var poundsToKips = 3230 * UnitConverter.ImperialScaleFactor(ImperialForceUnit.Pounds, ImperialForceUnit.Kips);
-      var kipsToPounds = 3230 * UnitConverter.ImperialScaleFactor(ImperialForceUnit.Kips, ImperialForceUnit.Pounds);
-      var kipsToKips = 3230 * UnitConverter.ImperialScaleFactor(ImperialForceUnit.Kips, ImperialForceUnit.Kips);
+      var poundsToPounds = 3230 * UnitConverter.UnitScaleFactor(ForceUnit.Pounds, ForceUnit.Pounds);
+      var poundsToKips = 3230 * UnitConverter.UnitScaleFactor(ForceUnit.Pounds, ForceUnit.Kips);
+      var kipsToPounds = 3230 * UnitConverter.UnitScaleFactor(ForceUnit.Kips, ForceUnit.Pounds);
+      var kipsToKips = 3230 * UnitConverter.UnitScaleFactor(ForceUnit.Kips, ForceUnit.Kips);
 
       Assert.Equal(3230, poundsToPounds, 3);
       Assert.Equal(3.230, poundsToKips, 3);
@@ -172,24 +172,24 @@ namespace SpectaColTests.UnitConversionTests
     [Fact]
     public void Imperial_Stress_Conversion()
     {
-      var psiToPsi = 5203.235 * UnitConverter.ImperialScaleFactor(ImperialStressUnit.Psi, ImperialStressUnit.Psi);
-      var psiToKsi = 5203.235 * UnitConverter.ImperialScaleFactor(ImperialStressUnit.Psi, ImperialStressUnit.Ksi);
-      var ksiToPsi = 5203.235 * UnitConverter.ImperialScaleFactor(ImperialStressUnit.Ksi, ImperialStressUnit.Psi);
-      var ksiToKsi = 5203.235 * UnitConverter.ImperialScaleFactor(ImperialStressUnit.Ksi, ImperialStressUnit.Ksi);
+      var psiToPsi = 5203.235 * UnitConverter.UnitScaleFactor(StressUnit.Psi, StressUnit.Psi);
+      var psiToKsi = 5203.235 * UnitConverter.UnitScaleFactor(StressUnit.Psi, StressUnit.Ksi);
+      var ksiToPsi = 5203.235 * UnitConverter.UnitScaleFactor(StressUnit.Ksi, StressUnit.Psi);
+      var ksiToKsi = 5203.235 * UnitConverter.UnitScaleFactor(StressUnit.Ksi, StressUnit.Ksi);
 
-      Assert.Equal(5203.235, psiToPsi, 3);
-      Assert.Equal(5.2032350023, psiToKsi, 3);
-      Assert.Equal(5203235, ksiToPsi, 3);
-      Assert.Equal(5203.235, ksiToKsi, 3);
+      Assert.Equal(5203.235, psiToPsi, 0);
+      Assert.Equal(5.2032350023, psiToKsi, 0);
+      Assert.Equal(5203235, ksiToPsi, 0);
+      Assert.Equal(5203.235, ksiToKsi, 0);
     }
 
     [Fact]
     public void Imperial_Length_Conversion()
     {
-      var inchToInch = 439 * UnitConverter.ImperialScaleFactor(ImperialLengthUnit.Inches, ImperialLengthUnit.Inches);
-      var inchToFeet = 439 * UnitConverter.ImperialScaleFactor(ImperialLengthUnit.Inches, ImperialLengthUnit.Feet);
-      var feetToInches = 439 * UnitConverter.ImperialScaleFactor(ImperialLengthUnit.Feet, ImperialLengthUnit.Inches);
-      var feetToFeet = 439 * UnitConverter.ImperialScaleFactor(ImperialLengthUnit.Feet, ImperialLengthUnit.Feet);
+      var inchToInch = 439 * UnitConverter.UnitScaleFactor(LengthUnit.Inches, LengthUnit.Inches);
+      var inchToFeet = 439 * UnitConverter.UnitScaleFactor(LengthUnit.Inches, LengthUnit.Feet);
+      var feetToInches = 439 * UnitConverter.UnitScaleFactor(LengthUnit.Feet, LengthUnit.Inches);
+      var feetToFeet = 439 * UnitConverter.UnitScaleFactor(LengthUnit.Feet, LengthUnit.Feet);
 
       Assert.Equal(439, inchToInch, 3);
       Assert.Equal(36.58333333, inchToFeet, 3);

@@ -130,7 +130,7 @@ namespace SpectaCol.ViewModels
     {
       get => DisplayRounding(Column.LongitudinalReinforcement.ReinforcementPercentage);
     }
-    public MetricForceUnit CurrentForceUnit
+    public ForceUnit ForceUnit
     {
       get => Column.ForceUnit;
       set
@@ -138,7 +138,7 @@ namespace SpectaCol.ViewModels
         Column.ForceUnit = value;
       }
     }
-    public MetricLengthUnit CurrentLengthUnit
+    public LengthUnit LengthUnit
     {
       get => Column.LengthUnit;
       set
@@ -147,7 +147,14 @@ namespace SpectaCol.ViewModels
       }
     }
 
-
+    public StressUnit StressUnit
+    {
+      get => Column.StressUnit;
+      set
+      {
+        Column.StressUnit = value;
+      }
+    }
 
     public ConcreteColumnViewModel(ConcreteColumn concreteColumn)
     {
@@ -157,11 +164,6 @@ namespace SpectaCol.ViewModels
     private double DisplayRounding(double number)
     {
       return Math.Round(number, 3);
-    }
-
-    public void ConvertUnits(MetricForceUnit newForceUnit, MetricLengthUnit newLengthUnit)
-    {
-      //var forceScaleFactor = UnitConverter.GetForceScaleFactor(CurrentForceUnit, newForceUnit);
     }
   }
 }

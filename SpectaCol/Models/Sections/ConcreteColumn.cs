@@ -28,18 +28,25 @@ namespace SpectaCol.Models.Sections
     public string Units { get; set; }
     public string ApplicationId { get; set; }
     public List<FrameResult> Results { get; set; } = new List<FrameResult>();
-    public MetricForceUnit ForceUnit { get; set; }
-    public MetricLengthUnit LengthUnit { get; set; }
+    public ForceUnit ForceUnit { get; set; }
+    public LengthUnit LengthUnit { get; set; }
+    public StressUnit StressUnit { get; set; }
 
     public bool HasDefaultParameters()
     {
       throw new NotImplementedException();
     }
 
+    public void SetDefaultUnits()
+    {
+      ForceUnit = ForceUnit.N;
+      LengthUnit = LengthUnit.mm;
+      StressUnit = StressUnit.mPa;
+    }
+
     public void SetDefaultParameters()
     {
-      ForceUnit = MetricForceUnit.N;
-      LengthUnit = MetricLengthUnit.mm;
+      
     }
   }
 }
