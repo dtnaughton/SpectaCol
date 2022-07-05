@@ -1,5 +1,6 @@
 ﻿using SpectaCol.Converters.Units;
 using SpectaCol.Extensions;
+using SpectaCol.Models.DesignCodes;
 using SpectaCol.Settings;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace SpectaCol.Stores
   public class SettingsStore : IDialogStore
   {
     private bool _isOpen;
-    private DesignCode _selectedDesignCode;
     private DisplayUnits _selectedUnits;
+    private IDesignCode _selectedDesignCode;
 
     public int UnitSettingsToChange { get; set; }
     public List<UnitType> UnitTypes { get; }
-    public List<DesignCode> DesignCodes { get; }
+    public List<IDesignCode> DesignCodes { get; } = new List<IDesignCode>();
 
     public List<ForceUnit> ForceUnits { get; } = new List<ForceUnit>();
     public List<LengthUnit> LengthUnits { get; } = new List<LengthUnit>();
@@ -34,7 +35,7 @@ namespace SpectaCol.Stores
       }
     }
 
-    public DesignCode SelectedDesignCode
+    public IDesignCode SelectedDesignCode
     {
       get => _selectedDesignCode;
       set
@@ -43,6 +44,7 @@ namespace SpectaCol.Stores
         DesignCodeChanged?.Invoke();
       }
     }
+
     public UnitType SelectedUnitType { get; set; }
     public bool IsOpen
     {
@@ -61,30 +63,45 @@ namespace SpectaCol.Stores
     public SettingsStore()
     {
       UnitTypes = Enum.GetValues(typeof(UnitType)).Cast<UnitType>().ToList();
-      DesignCodes = Enum.GetValues(typeof(DesignCode)).Cast<DesignCode>().ToList();
+
+      SetDesignCodes();
 
       ForceUnits = Enum.GetValues(typeof(ForceUnit)).Cast<ForceUnit>().ToList();
       LengthUnits = Enum.GetValues(typeof(LengthUnit)).Cast<LengthUnit>().ToList();
       StressUnits = Enum.GetValues(typeof(StressUnit)).Cast<StressUnit>().ToList();
 
-      //SelectedUnits = new DisplayUnits(
-      //  ForceUnits
-      //  .Where
-      //    (fu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(fu).UnitType == SelectedUnitType)
-      //  .ToList()
-      //  .FirstOrDefault(),
-      //  LengthUnits
-      //  .Where
-      //    (lu => EnumHelpers.GetAttribute<Attributes.UnitSystem>(lu).UnitType == SelectedUnitType)
-      //  .ToList()
-      //  .FirstOrDefault(),
-      //  StressUnits
-      //  .Where
-      //    (su => EnumHelpers.GetAttribute<Attributes.UnitSystem>(su).UnitType == SelectedUnitType)
-      //  .ToList()
-      //  .FirstOrDefault());
-
       SelectedUnits = new DisplayUnits(ForceUnit.N, LengthUnit.mm, StressUnit.mPa);
+    }
+
+    private void SetDesignCodes()
+    {
+      var designCodeTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).Where(t => typeof(IDesignCode).IsAssignableFrom(t)).ToList();
+
+      DesignCodes.Clear();
+
+      foreach (var type in designCodeTypes)
+      {
+        if (type != typeof(IDesignCode))
+        {
+          IDesignCode? code = (IDesignCode?)Activator.CreateInstance(type);
+
+          if (code != null)
+          {
+            DesignCodes.Add(code);
+          }
+        }
+      }
+
+      if (DesignCodes.Count > 0)
+      {
+        IDesignCode? defaultCode = DesignCodes.FirstOrDefault(dc => dc.Title == DesignCode.A23319);
+
+        if (defaultCode is not null)
+        {
+          SelectedDesignCode = defaultCode;
+        }
+      }
+
     }
 
     public void SaveState()

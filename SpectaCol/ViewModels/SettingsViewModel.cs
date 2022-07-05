@@ -75,8 +75,8 @@ namespace SpectaCol.ViewModels
 
       UnitTypes = _settingsStore.UnitTypes.Select(unitType => unitType.GetDescription()).ToList();
       SelectedUnitType = _settingsStore.SelectedUnitType.GetDescription();
-      DesignCodes = _settingsStore.DesignCodes.Select(designCode => designCode.GetDescription()).ToList();
-      SelectedDesignCode = _settingsStore.SelectedDesignCode.GetDescription();
+      DesignCodes = _settingsStore.DesignCodes.Select(designCode => designCode.Title.GetDescription()).ToList();
+      SelectedDesignCode = _settingsStore.SelectedDesignCode.Title.GetDescription();
 
       SelectedForceUnit = _settingsStore.SelectedUnits.ForceUnit.GetDescription();
       SelectedLengthUnit = _settingsStore.SelectedUnits.LengthUnit.GetDescription();
@@ -121,8 +121,8 @@ namespace SpectaCol.ViewModels
     public void SaveSettings()
     {
       var newDesignCode = EnumHelpers.GetValueFromDescription<DesignCode>(SelectedDesignCode);
-      if (_settingsStore.SelectedDesignCode != newDesignCode)
-        _settingsStore.SelectedDesignCode = newDesignCode;
+      if (_settingsStore.SelectedDesignCode.Title != newDesignCode)
+        _settingsStore.SelectedDesignCode = _settingsStore.DesignCodes.FirstOrDefault(dc => dc.Title == newDesignCode);
 
       var newUnitType = EnumHelpers.GetValueFromDescription<UnitType>(SelectedUnitType);
       if (_settingsStore.SelectedUnitType != newUnitType)
@@ -147,7 +147,7 @@ namespace SpectaCol.ViewModels
     /// </summary>
     public void CloseCommand()
     {
-      SelectedDesignCode = _settingsStore.SelectedDesignCode.GetDescription();
+      SelectedDesignCode = _settingsStore.SelectedDesignCode.Title.GetDescription();
       SelectedUnitType = _settingsStore.SelectedUnitType.GetDescription();
       UpdateUnits(_settingsStore.SelectedUnitType);
 
