@@ -1,6 +1,7 @@
 ﻿using SpectaCol.Converters.Units;
 using SpectaCol.Models.Enums;
 using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Interfaces;
 using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
 using SpectaCol.Stores;
@@ -15,13 +16,13 @@ namespace SpectaCol.ViewModels
 {
   public class ConcreteColumnViewModel : ViewModelBase
   {
-    private ConcreteColumn _column;
+    private IConcreteSection _column;
     private SettingsStore _settingsStore;
     private ForceUnit _backendForceUnit = ForceUnit.N;
     private LengthUnit _backendLengthUnit = LengthUnit.mm;
     private StressUnit _backendStressUnit = StressUnit.mPa;
 
-    public ConcreteColumn Column
+    public IConcreteSection Column
     {
       get => _column;
     }
@@ -136,6 +137,11 @@ namespace SpectaCol.ViewModels
     {
       get => DisplayRounding(Column.LongitudinalReinforcement.ReinforcementPercentage);
     }
+    public double CompressionResistance
+    {
+      get => DisplayRounding(FrontendForceConversion(Column.StructuralCapacity.CompressionResistance));
+    }
+
     public ForceUnit ForceUnit
     {
       get => Column.ForceUnit;
@@ -185,7 +191,12 @@ namespace SpectaCol.ViewModels
       OnPropertyChanged(nameof(LongitudinalReinforcementStrength));
     }
 
-    public ConcreteColumnViewModel(ConcreteColumn concreteColumn, SettingsStore settingsStore)
+    public void UpdateResults()
+    {
+      OnPropertyChanged(nameof(CompressionResistance));
+    }
+
+    public ConcreteColumnViewModel(IConcreteSection concreteColumn, SettingsStore settingsStore)
     {
       _column = concreteColumn;
       _settingsStore = settingsStore;

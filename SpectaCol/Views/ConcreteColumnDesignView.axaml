@@ -71,6 +71,7 @@
 			<DataGridTextColumn Header="Quant. Y" Binding="{Binding QuantityY}" Width="Auto"/>
 			<DataGridTextColumn Header="Diameter" Binding="{Binding LongitudinalBarDiameter}" Width="Auto"/>
 			<DataGridTextColumn Header="%" Binding="{Binding LongitudinalReinforcementPercentage}" Width="Auto"/>
+			<DataGridTextColumn Header="Pr" Binding="{Binding CompressionResistance}" Width="Auto"/>
 		</DataGrid.Columns>
 	</DataGrid>
 

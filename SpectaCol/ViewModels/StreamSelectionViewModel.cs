@@ -62,7 +62,7 @@ namespace SpectaCol.ViewModels
 
     public ICommand ReceiveSpeckleData { get; }
 
-    public StreamSelectionViewModel(AccountStore accountStore, ObjectStore objectStore)
+    public StreamSelectionViewModel(AccountStore accountStore, ObjectStore objectStore, SettingsStore settingsStore)
     {
       _accountStore = accountStore;
 
@@ -73,7 +73,7 @@ namespace SpectaCol.ViewModels
       });
 
       LoadBranchesCommand = new LoadBranchesCommand(accountStore);
-      ReceiveSpeckleData = new ReceiveSpeckleDataCommand(accountStore, objectStore);
+      ReceiveSpeckleData = new ReceiveSpeckleDataCommand(accountStore, objectStore, settingsStore);
 
       _accountStore.BranchesChanged += OnBranchesChanged;
       _accountStore.CommitsChanged += OnCommitsChanged;

@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Results;
+﻿using SpectaCol.Models.Interfaces;
+using SpectaCol.Models.Results;
 using SpectaCol.Models.Sections;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SpectaCol.Stores
 {
   public class ObjectStore
   {
-    public List<ConcreteColumn>? ConcreteColumns { get; set; } = new List<ConcreteColumn>();
+    public List<IConcreteSection>? ConcreteColumns { get; set; } = new List<IConcreteSection>();
 
     public List<FrameResult>? Results { get; set; } = new List<FrameResult>();
 

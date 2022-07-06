@@ -141,7 +141,7 @@ namespace SpectaCol
 
     private StreamSelectionViewModel CreateStreamSelectionViewModel(IServiceProvider serviceProvider)
     {
-      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>(), serviceProvider.GetRequiredService<ObjectStore>());
+      return new StreamSelectionViewModel(serviceProvider.GetRequiredService<AccountStore>(), serviceProvider.GetRequiredService<ObjectStore>(), serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private ConcreteColumnDesignViewModel CreateConcreteColumnDesignModuleViewModel(IServiceProvider serviceProvider)

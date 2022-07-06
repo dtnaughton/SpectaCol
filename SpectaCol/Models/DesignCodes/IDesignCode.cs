@@ -1,4 +1,5 @@
-﻿using SpectaCol.Settings;
+﻿using SpectaCol.Models.Interfaces;
+using SpectaCol.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace SpectaCol.Models.DesignCodes
   public interface IDesignCode
   {
     DesignCode Title { get; }
+    void DesignColumns(List<IConcreteSection> concreteSections);
     double CalculateCompressionResistance();
   }
 }

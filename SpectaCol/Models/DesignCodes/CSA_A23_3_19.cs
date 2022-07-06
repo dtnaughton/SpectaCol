@@ -1,4 +1,6 @@
-﻿using SpectaCol.Settings;
+﻿using SpectaCol.Models.Interfaces;
+using SpectaCol.Models.Results;
+using SpectaCol.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,17 @@ namespace SpectaCol.Models.DesignCodes
     {
       //Temp
       return 1000;
+    }
+
+    public void DesignColumns(List<IConcreteSection> concreteSections)
+    {
+      foreach (var concSect in concreteSections)
+      {
+        concSect.StructuralCapacity = new StructuralCapacity()
+        {
+          CompressionResistance = CalculateCompressionResistance()
+        };
+      }
     }
   }
 }

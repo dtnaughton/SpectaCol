@@ -31,6 +31,12 @@ namespace SpectaCol.Models.Sections
     public ForceUnit ForceUnit { get; set; }
     public LengthUnit LengthUnit { get; set; }
     public StressUnit StressUnit { get; set; }
+    public StructuralCapacity StructuralCapacity { get; set; }
+
+    public ConcreteColumn()
+    {
+      StructuralCapacity = new StructuralCapacity();
+    }
 
     public bool HasDefaultParameters()
     {
@@ -46,7 +52,6 @@ namespace SpectaCol.Models.Sections
 
     public void SetDefaultParameters()
     {
-      
     }
   }
 }

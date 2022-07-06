@@ -15,11 +15,13 @@ namespace SpectaCol.Commands
   {
     private readonly AccountStore _accountStore;
     private readonly ObjectStore _objectStore;
+    private readonly SettingsStore _settingsStore;
 
-    public ReceiveSpeckleDataCommand(AccountStore accountStore, ObjectStore objectStore)
+    public ReceiveSpeckleDataCommand(AccountStore accountStore, ObjectStore objectStore, SettingsStore settingsStore)
     {
       _accountStore = accountStore;
       _objectStore = objectStore;
+      _settingsStore = settingsStore;
     }
 
     public override async void Execute(object? parameter)
@@ -35,6 +37,8 @@ namespace SpectaCol.Commands
       converter.ConvertToNative(flattenedCommitObj);
 
       _objectStore.SyncColumnResults();
+
+      _settingsStore.SelectedDesignCode.DesignColumns(_objectStore.ConcreteColumns);
 
       _accountStore?.InvokeSelectedTargetChanged();
     }

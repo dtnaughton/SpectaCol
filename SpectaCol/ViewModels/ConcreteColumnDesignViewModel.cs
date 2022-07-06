@@ -19,13 +19,16 @@ namespace SpectaCol.ViewModels
   public class ConcreteColumnDesignViewModel : ViewModelBase
   {
     private readonly SettingsStore _settingsStore;
+    private readonly ObjectStore _objectStore;
     private ObservableCollection<ConcreteColumnViewModel> _concreteColumnViewModels = new ObservableCollection<ConcreteColumnViewModel>();
     public IEnumerable<ConcreteColumnViewModel> ConcreteColumnViewModels => _concreteColumnViewModels;
 
 
     public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore)
     {
-      objectStore.ConcreteColumns?.ForEach(column =>
+      _objectStore = objectStore;
+
+      _objectStore.ConcreteColumns?.ForEach(column =>
       {
         var columnViewModel = new ConcreteColumnViewModel(column, settingsStore);
         _concreteColumnViewModels.Add(columnViewModel);
@@ -35,6 +38,17 @@ namespace SpectaCol.ViewModels
 
       ConvertColumnDisplayUnits();
       _settingsStore.DisplayUnitsChanged += OnDisplayUnitsChanged;
+      _settingsStore.DesignCodeChanged += OnDesignCodeChanged;
+    }
+
+    private void OnDesignCodeChanged()
+    {
+      _settingsStore.SelectedDesignCode.DesignColumns(_objectStore.ConcreteColumns);
+
+      foreach (var columnViewModel in _concreteColumnViewModels)
+      {
+        columnViewModel.UpdateResults();
+      }
     }
 
     private void OnDisplayUnitsChanged()
@@ -44,17 +58,18 @@ namespace SpectaCol.ViewModels
 
     private void ConvertColumnDisplayUnits()
     {
-      foreach (var column in _concreteColumnViewModels)
+      foreach (var columnViewModel in _concreteColumnViewModels)
       {
-        column.ForceUnit = _settingsStore.SelectedUnits.ForceUnit;
-        column.LengthUnit = _settingsStore.SelectedUnits.LengthUnit;
-        column.StressUnit = _settingsStore.SelectedUnits.StressUnit;
+        columnViewModel.ForceUnit = _settingsStore.SelectedUnits.ForceUnit;
+        columnViewModel.LengthUnit = _settingsStore.SelectedUnits.LengthUnit;
+        columnViewModel.StressUnit = _settingsStore.SelectedUnits.StressUnit;
       }
     }
 
     public override void Dispose()
     {
       _settingsStore.DisplayUnitsChanged -= OnDisplayUnitsChanged;
+      _settingsStore.DesignCodeChanged -= OnDesignCodeChanged;
       base.Dispose();
     }
   }
