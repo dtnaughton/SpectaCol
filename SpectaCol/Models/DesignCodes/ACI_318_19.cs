@@ -51,5 +51,13 @@ namespace SpectaCol.Models.DesignCodes
     {
       throw new NotImplementedException();
     }
+
+    public void DesignColumns(IConcreteSection concreteSection)
+    {
+      concreteSection.DesignResults = new DesignResults()
+      {
+        CompressionResistance = CalculateCompressionResistance()
+      };
+    }
   }
 }

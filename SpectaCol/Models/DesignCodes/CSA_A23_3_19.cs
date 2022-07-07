@@ -29,10 +29,14 @@ namespace SpectaCol.Models.DesignCodes
     {
       foreach (var concSect in concreteSections)
       {
-        concSect.DesignResults.Alpha = AlphaStressBlockValue(concSect.Concrete.CompressiveStrength);
-        concSect.DesignResults.Beta = BetaStressBlockValue(concSect.Concrete.CompressiveStrength);
-        concSect.DesignResults.CompressionResistance = CalculateCompressionResistance(concSect.DesignResults.Alpha, concSect.Concrete.CompressiveStrength, concSect.CrossSectionParameters, concSect.LongitudinalReinforcement, concSect.TransverseReinforcement);
+        DesignColumns(concSect);
       }
+    }
+    public void DesignColumns(IConcreteSection concreteSection)
+    {
+      concreteSection.DesignResults.Alpha = AlphaStressBlockValue(concreteSection.Concrete.CompressiveStrength);
+      concreteSection.DesignResults.Beta = BetaStressBlockValue(concreteSection.Concrete.CompressiveStrength);
+      concreteSection.DesignResults.CompressionResistance = CalculateCompressionResistance(concreteSection.DesignResults.Alpha, concreteSection.Concrete.CompressiveStrength, concreteSection.CrossSectionParameters, concreteSection.LongitudinalReinforcement, concreteSection.TransverseReinforcement);
     }
 
     #region Chapter 10
@@ -84,6 +88,7 @@ namespace SpectaCol.Models.DesignCodes
         return Math.Min(((0.2 + 0.002 * Math.Min(crossSectionParameters.Width, crossSectionParameters.Depth)) * P_ro), 0.8 * P_ro) * minReinforcementReductionFactor;
       }
     }
-    #endregion  
+
+    #endregion
   }
 }
