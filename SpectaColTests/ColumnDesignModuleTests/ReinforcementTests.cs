@@ -456,6 +456,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
       Assert.Equal(5.33, longitudinalReinforcement.ReinforcementPercentage, 1);
     }
 
+    [Fact]
     public void Reinforcement_Percentage_Check_Bad_Parameters_1_Layer()
     {
       var crossSection = new CrossSectionParameters()

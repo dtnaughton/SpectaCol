@@ -1,4 +1,7 @@
-﻿using SpectaCol.Models.Interfaces;
+﻿using SpectaCol.Models.Enums;
+using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Interfaces;
+using SpectaCol.Models.Materials;
 using SpectaCol.Models.Results;
 using SpectaCol.Settings;
 using System;
@@ -11,6 +14,8 @@ namespace SpectaCol.Models.DesignCodes
 {
   public class CSA_A23_3_19 : IDesignCode
   {
+    private readonly double _phiC = 0.65;
+    private readonly double _phiS = 0.85;
     public DesignCode Title { get; }
 
     public CSA_A23_3_19()
@@ -18,21 +23,64 @@ namespace SpectaCol.Models.DesignCodes
       Title = DesignCode.A23319;
     }
 
-    public double CalculateCompressionResistance()
-    {
-      //Temp
-      return 1000;
-    }
+
 
     public void DesignColumns(List<IConcreteSection> concreteSections)
     {
       foreach (var concSect in concreteSections)
       {
-        concSect.StructuralCapacity = new StructuralCapacity()
-        {
-          CompressionResistance = CalculateCompressionResistance()
-        };
+        concSect.DesignResults.Alpha = AlphaStressBlockValue(concSect.Concrete.CompressiveStrength);
+        concSect.DesignResults.Beta = BetaStressBlockValue(concSect.Concrete.CompressiveStrength);
+        concSect.DesignResults.CompressionResistance = CalculateCompressionResistance(concSect.DesignResults.Alpha, concSect.Concrete.CompressiveStrength, concSect.CrossSectionParameters, concSect.LongitudinalReinforcement, concSect.TransverseReinforcement);
       }
     }
+
+    #region Chapter 10
+    /// <summary>
+    /// Clause 10.1.7 equation 10.1
+    /// </summary>
+    /// <returns>Average stress factor for equivalent rectangular concrete stress distribution</returns>
+    public double AlphaStressBlockValue(double concreteStrength)
+    {
+      return Math.Max(0.85 - (0.0015 * concreteStrength), 0.67);
+    }
+
+    /// <summary>
+    /// Clause 10.1.7 equation 10.2
+    /// </summary>
+    /// <returns>Ratio of depth of equivalent rectangular block to depth to the neutral axis</returns>
+    public double BetaStressBlockValue(double concreteStrength)
+    {
+      return Math.Max(0.97 - (0.0025 * concreteStrength), 0.67);
+    }
+
+    /// <summary>
+    /// Clause 10.10.4
+    /// </summary>
+    /// <param name="alpha"></param>
+    /// <param name="phiC"></param>
+    /// <param name="concreteStrength"></param>
+    /// <param name="crossSectionParameters"></param>
+    /// <param name="longitudinalReinforcement"></param>
+    /// <param name="transverseReinforcement"></param>
+    /// <returns>Maximum factored axial load resistance of compression members</returns>
+    public double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
+    {
+      // Equation 10.11
+      var P_ro = (alpha * _phiC * concreteStrength * ((crossSectionParameters.Width * crossSectionParameters.Depth) - longitudinalReinforcement.TotalReinforcementArea)) + (_phiS * longitudinalReinforcement.YieldStrength * longitudinalReinforcement.TotalReinforcementArea);
+
+      // Equation 10.8
+      if (transverseReinforcement.Type == StirrupType.Spiral)
+      {
+        return 0.9 * P_ro;
+      }
+
+      //Equation 10.9
+      else
+      {
+        return Math.Min(((0.2 + 0.002 * Math.Min(crossSectionParameters.Width, crossSectionParameters.Depth)) * P_ro), 0.8 * P_ro);
+      }
+    }
+    #endregion  
   }
 }

@@ -15,14 +15,15 @@ namespace SpectaCol.Models.Interfaces
     public double PhiC { get; set; }
     public double PhiS { get; set; }
     public CrossSectionParameters CrossSectionParameters { get; set; }
-    public Concrete Material { get; set; }
+    public Concrete Concrete { get; set; }
     public LongitudinalReinforcement LongitudinalReinforcement { get; set; }
+    public TransverseReinforcement TransverseReinforcement { get; set; }
     public double StirrupBarDiameter { get; set; }
     public double Alpha { get; set; }
     public double Beta { get; set; }
     public string Units { get; set; }
-    public StructuralCapacity StructuralCapacity { get; set; }
-    public List<FrameResult> Results { get; set; }
+    public DesignResults DesignResults { get; set; }
+    public List<FrameResult> ForceResults { get; set; }
     public string ApplicationId { get; set; }
     public double Length { get; set; }
     public ForceUnit ForceUnit { get; set; }

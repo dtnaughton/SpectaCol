@@ -43,7 +43,7 @@ namespace SpectaCol.Converters
       var nativeColumn = new ConcreteColumn()
       {
         ApplicationId = speckleElement.applicationId,
-        Material = Property1DToNative((Property1D)speckleElement.property),
+        Concrete = Property1DToNative((Property1D)speckleElement.property),
         Units = speckleElement.units
       };
 
@@ -85,6 +85,7 @@ namespace SpectaCol.Converters
 
       // Currently no reinforcement information sent from Speckle
       nativeColumn.LongitudinalReinforcement = new LongitudinalReinforcement(crossSectionParameters);
+      nativeColumn.TransverseReinforcement = new TransverseReinforcement();
 
       // Sets any default design parameters for column that are not provided by Speckle
       nativeColumn.SetDefaultParameters();

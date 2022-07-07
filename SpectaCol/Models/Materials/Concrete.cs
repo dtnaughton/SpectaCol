@@ -13,7 +13,7 @@ namespace SpectaCol.Models.Materials
     public double ElasticModulus { get; set; }
     public double CompressiveStrength { get; set; }
     public bool IsLightweight { get; set; }
-
+    
     public Concrete()
     {
 

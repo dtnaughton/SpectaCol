@@ -18,6 +18,13 @@ namespace SpectaCol.Models.Geometry
       SetDefaultParameters();
     }
 
+    public CrossSectionParameters(double width, double depth, double cover)
+    {
+      Width = width;
+      Depth = depth;
+      Cover = cover;
+    }
+
     public void SetDefaultParameters()
     {
       if (Width == 0) Width = 400;

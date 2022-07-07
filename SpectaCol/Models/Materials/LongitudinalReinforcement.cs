@@ -57,6 +57,10 @@ namespace SpectaCol.Models.Materials
     public List<Rebar> Rebar => DefineLongitudinalRebar(_crossSectionParameters, _stirrupDiameter);
     public double ReinforcementPercentage => GetReinforcementPercentage(_crossSectionParameters, Rebar, Diameter);
 
+    public double TotalReinforcementArea => GetReinforcementArea(Diameter, Rebar);
+
+
+
     public LongitudinalReinforcement(int quantityX, int quantityY, int quantityLayers,
       ReinforcementConfiguration reinforcementConfiguration, double yieldStrength,
       ReinforcementDiameter longitudinalReinforcementDiameter, CrossSectionParameters crossSectionParameters,
@@ -175,19 +179,21 @@ namespace SpectaCol.Models.Materials
       // Prevent divide by zero errors
       if (crossSectionParameters.Width == 0 || crossSectionParameters.Depth == 0) return 0;
 
-      var barCrossSectionalArea = GetCrossSectionalArea(diameter);
-
-      var totalReinforcementArea = rebar.Count() * barCrossSectionalArea;
-
-      return (totalReinforcementArea / (crossSectionParameters.Width * crossSectionParameters.Depth)) * 100;
+      return (TotalReinforcementArea / (crossSectionParameters.Width * crossSectionParameters.Depth)) * 100;
     }
 
-    public void SetDefaultParameters()
+    public double GetReinforcementArea(ReinforcementDiameter longitudinalDiameter, List<Rebar> rebar)
+    {
+      return rebar.Count() * GetCrossSectionalArea(longitudinalDiameter);
+    }
+
+    public new void SetDefaultParameters()
     {
       if (QuantityX == 0) QuantityX = 2;
       if (QuantityY == 0) QuantityY = 2;
       if (QuantityLayers == 0) QuantityLayers = 1;
       if (YieldStrength == 0) YieldStrength = 400;
+      Diameter = ReinforcementDiameter.M20;
     }
 
   }

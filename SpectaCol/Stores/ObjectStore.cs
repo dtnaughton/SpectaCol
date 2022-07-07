@@ -21,7 +21,7 @@ namespace SpectaCol.Stores
       {
         foreach (var column in ConcreteColumns)
         {
-          column.Results = Results.Where(result => result.AssociatedElementId == column.ApplicationId).ToList();
+          column.ForceResults = Results.Where(result => result.AssociatedElementId == column.ApplicationId).ToList();
         }
       }
     }

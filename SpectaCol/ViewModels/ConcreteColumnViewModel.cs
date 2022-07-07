@@ -77,10 +77,10 @@ namespace SpectaCol.ViewModels
     }
     public double ConcreteStrength
     {
-      get => DisplayRounding(FrontendStressConversion(Column.Material.CompressiveStrength));
+      get => DisplayRounding(FrontendStressConversion(Column.Concrete.CompressiveStrength));
       set
       {
-        Column.Material.CompressiveStrength = BackendStressConversion(value);
+        Column.Concrete.CompressiveStrength = BackendStressConversion(value);
         OnPropertyChanged(nameof(ConcreteStrength));
       }
     }
@@ -139,7 +139,7 @@ namespace SpectaCol.ViewModels
     }
     public double CompressionResistance
     {
-      get => DisplayRounding(FrontendForceConversion(Column.StructuralCapacity.CompressionResistance));
+      get => DisplayRounding(FrontendForceConversion(Column.DesignResults.CompressionResistance));
     }
 
     public ForceUnit ForceUnit
@@ -176,7 +176,7 @@ namespace SpectaCol.ViewModels
 
     private void UpdateForceUnits()
     {
-      // To be implemented
+      OnPropertyChanged(nameof(CompressionResistance));
     }
     private void UpdateLengthUnits()
     {

@@ -1,4 +1,6 @@
-﻿using SpectaCol.Models.Interfaces;
+﻿using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Interfaces;
+using SpectaCol.Models.Materials;
 using SpectaCol.Models.Results;
 using SpectaCol.Settings;
 using System;
@@ -28,11 +30,26 @@ namespace SpectaCol.Models.DesignCodes
     {
       foreach (var concSect in concreteSections)
       {
-        concSect.StructuralCapacity = new StructuralCapacity()
+        concSect.DesignResults = new DesignResults()
         {
           CompressionResistance = CalculateCompressionResistance()
         };
       }
+    }
+
+    public double AlphaStressBlockValue(double concreteStrength)
+    {
+      throw new NotImplementedException();
+    }
+
+    public double BetaStressBlockValue(double concreteStrength)
+    {
+      throw new NotImplementedException();
+    }
+
+    public double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
+    {
+      throw new NotImplementedException();
     }
   }
 }
