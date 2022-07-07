@@ -82,6 +82,26 @@ namespace SpectaColTests.CSA_A23._3_19
     }
 
     [Fact]
+    // Governed by max factor 0.8 Pro
+    public void Compression_Resistance_With_Less_Than_Minimum_Reinforcement_Governed_By_Max()
+    {
+      var csaCode = new CSA_A23_3_19();
+
+      var crossSectionParameters = new CrossSectionParameters(400, 400, 40);
+
+      var concreteStrength = 35;
+
+      var alpha = csaCode.AlphaStressBlockValue(concreteStrength);
+
+      var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var transReinf = new TransverseReinforcement();
+
+      var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
+
+      Assert.Equal(2302389.775, compressionResistance, 1);
+    }
+
+    [Fact]
     public void Compression_Resistance_With_Greater_Than_Minimum_Reinforcement()
     {
       var csaCode = new CSA_A23_3_19();

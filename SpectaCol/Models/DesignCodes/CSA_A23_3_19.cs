@@ -66,19 +66,22 @@ namespace SpectaCol.Models.DesignCodes
     /// <returns>Maximum factored axial load resistance of compression members</returns>
     public double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
     {
+      // Clause 10.10.5 - reduced capacity factor for less than minimum reinforcement
+      var minReinforcementReductionFactor = Math.Min(1, 0.5 * (1 + (longitudinalReinforcement.ReinforcementPercentage / 100) / 0.01));
+
       // Equation 10.11
       var P_ro = (alpha * _phiC * concreteStrength * ((crossSectionParameters.Width * crossSectionParameters.Depth) - longitudinalReinforcement.TotalReinforcementArea)) + (_phiS * longitudinalReinforcement.YieldStrength * longitudinalReinforcement.TotalReinforcementArea);
 
       // Equation 10.8
       if (transverseReinforcement.Type == StirrupType.Spiral)
       {
-        return 0.9 * P_ro;
+        return 0.9 * P_ro * minReinforcementReductionFactor;
       }
 
       //Equation 10.9
       else
       {
-        return Math.Min(((0.2 + 0.002 * Math.Min(crossSectionParameters.Width, crossSectionParameters.Depth)) * P_ro), 0.8 * P_ro);
+        return Math.Min(((0.2 + 0.002 * Math.Min(crossSectionParameters.Width, crossSectionParameters.Depth)) * P_ro), 0.8 * P_ro) * minReinforcementReductionFactor;
       }
     }
     #endregion  
