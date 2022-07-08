@@ -59,7 +59,4 @@
       <DependentUpon>SpeckleLoginView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ForceSolvingMethods\" />
-  </ItemGroup>
 </Project>
