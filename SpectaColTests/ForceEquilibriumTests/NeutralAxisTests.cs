@@ -51,6 +51,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(30, na.Angle);
       Assert.Equal(158.85, na.WhitneyDepth);
       Assert.Equal(StressBlockShape.Trapezoid, na.StressBlockShape);
+      Assert.Equal(29046.4920, na.WhitneyCompressionArea, 1);
     }
 
     [Fact]
@@ -64,6 +65,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       Assert.Equal(179, na.WhitneyDepth);
       Assert.Equal(StressBlockShape.Trapezoid, na.StressBlockShape);
+      Assert.Equal(71539.1988, na.WhitneyCompressionArea, 1);
     }
 
     [Fact]
@@ -77,10 +79,11 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       Assert.Equal(289.8, na.WhitneyDepth, 1);
       Assert.Equal(StressBlockShape.Trapezoid, na.StressBlockShape);
+      Assert.Equal(131768.6, na.WhitneyCompressionArea, 0);
     }
 
     [Fact]
-    public void Neutral_Axis_Should_Be_Trapezoid_4()
+    public void Neutral_Axis_Should_Be_Rectangle_1()
     {
       var canadianCode = new CSA_A23_3_19();
 
@@ -92,7 +95,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     }
 
     [Fact]
-    public void Neutral_Axis_Should_Be_Trapezoid_5()
+    public void Neutral_Axis_Should_Be_Trapezoid_4()
     {
       var canadianCode = new CSA_A23_3_19();
 
@@ -104,7 +107,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     }
 
     [Fact]
-    public void Neutral_Axis_Should_Be_Trapezoid_6()
+    public void Neutral_Axis_Should_Be_Rectangle_2()
     {
       var canadianCode = new CSA_A23_3_19();
 
@@ -116,7 +119,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     }
 
     [Fact]
-    public void Neutral_Axis_Should_Be_Trapezoid_7()
+    public void Neutral_Axis_Should_Be_Rectangle_3()
     {
       var canadianCode = new CSA_A23_3_19();
 
@@ -128,7 +131,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     }
 
     [Fact]
-    public void Neutral_Axis_Should_Be_Pentagon_3()
+    public void Neutral_Axis_Should_Be_Pentagon_1()
     {
       var canadianCode = new CSA_A23_3_19();
 

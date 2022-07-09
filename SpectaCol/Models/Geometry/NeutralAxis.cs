@@ -22,6 +22,7 @@ namespace SpectaCol.Models.Geometry
       WhitneyDepth = naDepth * beta;
       Angle = angleDegs;
       StressBlockShape = GetStressBlockShape(WhitneyDepth, Angle, sectionWidth, sectionDepth);
+      WhitneyCompressionArea = GetWhitneyCompressionArea(StressBlockShape, sectionWidth, sectionDepth, WhitneyDepth, angleDegs);
     }
 
     private StressBlockShape GetStressBlockShape(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
@@ -36,12 +37,12 @@ namespace SpectaCol.Models.Geometry
       _hypotenuseWidth = Math.Abs(whitneyDepth / Math.Sin(angleRad));
       _hypotenuseDepth = Math.Abs(whitneyDepth / Math.Cos(angleRad));
 
-      if (_hypotenuseDepth <= sectionDepth && _hypotenuseWidth <= sectionWidth)
+      if (!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
       {
         return StressBlockShape.Triangle;
       }
       
-      else if ((_hypotenuseDepth <= sectionDepth && _hypotenuseWidth > sectionWidth) || (_hypotenuseDepth > sectionDepth && _hypotenuseWidth <= sectionWidth))
+      else if ((!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)) || (HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)))
       {
         return StressBlockShape.Trapezoid;
       }
@@ -71,21 +72,44 @@ namespace SpectaCol.Models.Geometry
       return _hypotenuseWidth > sectionWidth;
     }
 
-    private double GetWhitneyCompressionArea(StressBlockShape stressBlockShape, double sectionWidth, double sectionDepth)
+    private double GetWhitneyCompressionArea(StressBlockShape stressBlockShape, double sectionWidth, double sectionDepth, double whitneyDepth, double angleDeg)
     {
       if (stressBlockShape == StressBlockShape.Rectangle)
       {
         return sectionWidth * sectionDepth;
       }
 
-      else if (stressBlockShape == StressBlockShape.Triangle)
+      var angleRad = ConvertDegreesToRadians(angleDeg);
+
+      if (stressBlockShape == StressBlockShape.Triangle)
       {
         return _hypotenuseWidth * _hypotenuseDepth * 0.5;
       }
 
       else if (stressBlockShape == StressBlockShape.Trapezoid)
       {
-        return 0;
+        if (HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
+        {
+          var triangleHeight = sectionWidth * Math.Abs(Math.Tan(angleRad));
+          var triangleArea = sectionWidth * triangleHeight * 0.5;
+
+          var rectangleHeight = (whitneyDepth / Math.Abs(Math.Cos(angleRad))) - triangleHeight;
+          var rectangleArea = rectangleHeight * sectionWidth;
+
+          return triangleArea + rectangleArea;
+        }
+
+        // HypotenuseDepth must govern
+        else
+        {
+          var triangleHeight = sectionDepth / Math.Abs(Math.Tan(angleRad));
+          var triangleArea = triangleHeight * sectionDepth * 0.5;
+
+          var rectangleHeight = (whitneyDepth / Math.Abs(Math.Sin(angleRad))) - triangleHeight;
+          var rectangleArea = rectangleHeight * sectionDepth;
+
+          return triangleArea + rectangleArea;
+        }
       }
 
       return 0;
