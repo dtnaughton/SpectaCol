@@ -28,9 +28,9 @@ namespace SpectaCol.Models.Geometry
     private StressBlockShape GetStressBlockShape(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
     {
       // if angle is 90, 180, 270, or 360 then it is rectangular by default and avoids division by zero errors
-      if (angleDeg == 90 || angleDeg == 180 || angleDeg == 270 || angleDeg == 360)
+      if (IsVertical(angleDeg) || IsHorizontal(angleDeg) || ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg)) 
       {
-        return StressBlockShape.Trapezoid;
+        return StressBlockShape.Rectangle;
       }
 
       var angleRad = ConvertDegreesToRadians(angleDeg);
@@ -41,19 +41,10 @@ namespace SpectaCol.Models.Geometry
       {
         return StressBlockShape.Triangle;
       }
-      
+
       else if ((!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)) || (HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)))
       {
         return StressBlockShape.Trapezoid;
-      }
-
-      // if code reaches this point, shape is either pentagon or full rectangle shape in compression
-
-      var maxNaDepth = MaximumNeutralAxisDepth(sectionWidth, sectionDepth, angleDeg);
-
-      if (whitneyDepth > maxNaDepth)
-      {
-        return StressBlockShape.Rectangle;
       }
 
       else
@@ -72,16 +63,48 @@ namespace SpectaCol.Models.Geometry
       return _hypotenuseWidth > sectionWidth;
     }
 
+    private bool IsHorizontal(double angleDeg)
+    {
+      return angleDeg == 0 || angleDeg == 180 || angleDeg == 360;
+    }
+
+    private bool IsVertical(double angleDeg)
+    {
+      return angleDeg == 90 || angleDeg == 270;
+    }
+
+    private bool ExceedsMaxDepth(double whitneyDepth, double sectionWidth, double sectionDepth, double angleDeg)
+    {
+      var maxNaDepth = MaximumNeutralAxisDepth(sectionWidth, sectionDepth, angleDeg);
+
+      return whitneyDepth > maxNaDepth;
+    }
+
     private double GetWhitneyCompressionArea(StressBlockShape stressBlockShape, double sectionWidth, double sectionDepth, double whitneyDepth, double angleDeg)
     {
-      if (stressBlockShape == StressBlockShape.Rectangle)
-      {
-        return sectionWidth * sectionDepth;
-      }
-
       var angleRad = ConvertDegreesToRadians(angleDeg);
 
-      if (stressBlockShape == StressBlockShape.Triangle)
+      if (stressBlockShape == StressBlockShape.Rectangle)
+      {
+        var exceedsMax = ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg);
+
+        if (IsHorizontal(angleDeg) && !exceedsMax)
+        {
+          return sectionWidth * whitneyDepth;
+        }
+
+        else if (IsVertical(angleDeg) && !exceedsMax)
+        {
+          return sectionDepth * whitneyDepth;
+        }
+
+        else
+        {
+          return sectionWidth * sectionDepth;
+        }
+      }
+
+      else if (stressBlockShape == StressBlockShape.Triangle)
       {
         return _hypotenuseWidth * _hypotenuseDepth * 0.5;
       }
@@ -112,7 +135,20 @@ namespace SpectaCol.Models.Geometry
         }
       }
 
-      return 0;
+      // Must be pentagon
+      else
+      {
+        var primaryRectangleWidth = (whitneyDepth / Math.Abs(Math.Cos(angleRad)) - sectionDepth) / Math.Abs(Math.Tan(angleRad));
+        var primaryRectangleArea = primaryRectangleWidth * sectionDepth;
+
+        var triangleWidth = sectionWidth - primaryRectangleWidth;
+        var triangleHeight = triangleWidth * Math.Abs(Math.Tan(angleRad));
+        var triangleArea = triangleWidth * triangleHeight * 0.5;
+
+        var secondaryRectangleArea = triangleWidth * (sectionDepth - triangleHeight);
+
+        return triangleArea + primaryRectangleArea + secondaryRectangleArea;
+      }
     }
 
     private double ConvertDegreesToRadians(double angleDeg)
@@ -123,8 +159,7 @@ namespace SpectaCol.Models.Geometry
     private double MaximumNeutralAxisDepth(double sectionWidth, double sectionDepth, double naAngleDeg)
     {
       var angleRad = ConvertDegreesToRadians(naAngleDeg);
-
-      return (Math.Abs((sectionDepth / Math.Tan(angleRad)) + sectionWidth) * Math.Abs(Math.Sin(angleRad)));
+      return (Math.Abs(sectionDepth / Math.Tan(angleRad)) + sectionWidth) * Math.Abs(Math.Sin(angleRad));
     }
   }
 
