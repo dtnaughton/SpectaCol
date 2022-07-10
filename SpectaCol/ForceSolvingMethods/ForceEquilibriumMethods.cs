@@ -31,8 +31,7 @@ namespace SpectaCol.ForceSolvingMethods
       Coordinate extremeCompressionCoordinate, DesignResults designResults, double concreteFailureStrain, Concrete concreteMaterial, double phiS, double phiC, 
       LongitudinalReinforcement longitudinalReinforcement)
     {
-
-
+      var neutralAxis = new NeutralAxis(neutralAxisDepth, neutralAxisAngle, designResults.Beta, crossSectionParameters.Width, crossSectionParameters.Depth, extremeCompressionCoordinate);
 
 
       return 0;

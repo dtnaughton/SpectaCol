@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,14 +9,18 @@ namespace SpectaCol.Models.Geometry
   {
     private double _hypotenuseWidth;
     private double _hypotenuseDepth;
+    private Coordinate _extremeCompressionPoint;
     public double Depth { get; }
     public double WhitneyDepth { get; }
     public double Angle { get; }
     public StressBlockShape StressBlockShape { get; }
     public double WhitneyCompressionArea { get; }
+    public List<StressBlockSegmentShape> StressBlockSegments { get; }
+    public Coordinate Centroid { get; }
 
-    public NeutralAxis(double naDepth, double angleDegs, double beta, double sectionWidth, double sectionDepth)
+    public NeutralAxis(double naDepth, double angleDegs, double beta, double sectionWidth, double sectionDepth, Coordinate extremeCompressionPoint)
     {
+      _extremeCompressionPoint = extremeCompressionPoint;
       Depth = naDepth;
       WhitneyDepth = naDepth * beta;
       Angle = angleDegs;
@@ -28,7 +31,7 @@ namespace SpectaCol.Models.Geometry
     private StressBlockShape GetStressBlockShape(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
     {
       // if angle is 90, 180, 270, or 360 then it is rectangular by default and avoids division by zero errors
-      if (IsVertical(angleDeg) || IsHorizontal(angleDeg) || ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg)) 
+      if (IsVertical(angleDeg) || IsHorizontal(angleDeg) || ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg))
       {
         return StressBlockShape.Rectangle;
       }
@@ -161,13 +164,5 @@ namespace SpectaCol.Models.Geometry
       var angleRad = ConvertDegreesToRadians(naAngleDeg);
       return (Math.Abs(sectionDepth / Math.Tan(angleRad)) + sectionWidth) * Math.Abs(Math.Sin(angleRad));
     }
-  }
-
-  public enum StressBlockShape
-  {
-    Triangle,
-    Trapezoid,
-    Pentagon,
-    Rectangle
   }
 }
