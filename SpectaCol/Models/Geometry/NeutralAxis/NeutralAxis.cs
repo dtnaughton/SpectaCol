@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,13 +10,12 @@ namespace SpectaCol.Models.Geometry
   {
     private double _hypotenuseWidth;
     private double _hypotenuseDepth;
-    private Coordinate _extremeCompressionPoint;
+    private readonly Coordinate _extremeCompressionPoint;
     public double Depth { get; }
     public double WhitneyDepth { get; }
     public double Angle { get; }
-    public StressBlockShape StressBlockShape { get; }
     public double WhitneyCompressionArea { get; }
-    public List<StressBlockSegmentShape> StressBlockSegments { get; }
+    public List<StressBlockSegment> StressBlockSegments { get; }
     public Coordinate Centroid { get; }
 
     public NeutralAxis(double naDepth, double angleDegs, double beta, double sectionWidth, double sectionDepth, Coordinate extremeCompressionPoint)
@@ -24,16 +24,60 @@ namespace SpectaCol.Models.Geometry
       Depth = naDepth;
       WhitneyDepth = naDepth * beta;
       Angle = angleDegs;
-      StressBlockShape = GetStressBlockShape(WhitneyDepth, Angle, sectionWidth, sectionDepth);
-      WhitneyCompressionArea = GetWhitneyCompressionArea(StressBlockShape, sectionWidth, sectionDepth, WhitneyDepth, angleDegs);
+      StressBlockSegments = GetStressBlockSegments(WhitneyDepth, Angle, sectionWidth, sectionDepth);
+      WhitneyCompressionArea = GetWhitneyCompressionArea(StressBlockSegments);
+      Centroid = GetStressBlockCentroid(StressBlockSegments);
     }
 
-    private StressBlockShape GetStressBlockShape(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
+    private List<StressBlockSegment> GetStressBlockSegments(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
     {
       // if angle is 90, 180, 270, or 360 then it is rectangular by default and avoids division by zero errors
-      if (IsVertical(angleDeg) || IsHorizontal(angleDeg) || ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg))
+      if (IsVertical(angleDeg))
       {
-        return StressBlockShape.Rectangle;
+        var rectangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, sectionDepth/2),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, whitneyDepth, sectionDepth/2),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, whitneyDepth, -sectionDepth/2),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, -sectionDepth/2),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(rectangleCoords, StressBlockSegmentShape.Rectangle) 
+        };
+      }
+
+      else if (IsHorizontal(angleDeg))
+      {
+        var rectangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth/2, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth/2, whitneyDepth),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, -sectionWidth/2, whitneyDepth),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, -sectionWidth/2, 0),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(rectangleCoords, StressBlockSegmentShape.Rectangle)
+        };
+      }
+
+      else if (ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg))
+      {
+        var rectangleCoords = new List<Coordinate>()
+        {
+          _extremeCompressionPoint,
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth, sectionDepth),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, sectionDepth),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(rectangleCoords, StressBlockSegmentShape.Rectangle)
+        };
       }
 
       var angleRad = ConvertDegreesToRadians(angleDeg);
@@ -42,18 +86,147 @@ namespace SpectaCol.Models.Geometry
 
       if (!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
       {
-        return StressBlockShape.Triangle;
+        var triangleCoords = new List<Coordinate>()
+        {
+          _extremeCompressionPoint,
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, _hypotenuseWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, _hypotenuseDepth),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(triangleCoords, StressBlockSegmentShape.Triangle)
+        };
       }
 
-      else if ((!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)) || (HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth)))
+      else if (!HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
       {
-        return StressBlockShape.Trapezoid;
+        var triangleHeight = sectionWidth * Math.Abs(Math.Tan(angleRad));
+        var rectangleHeight = (whitneyDepth / Math.Abs(Math.Cos(angleRad))) - triangleHeight;
+
+        var triangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, rectangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, rectangleHeight + triangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth, rectangleHeight)
+        };
+
+        var rectangleCoords = new List<Coordinate>()
+        {
+          _extremeCompressionPoint,
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, rectangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth, rectangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, sectionWidth, 0),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(triangleCoords, StressBlockSegmentShape.Triangle),
+          new StressBlockSegment(rectangleCoords, StressBlockSegmentShape.Rectangle)
+        };
+      }
+
+      else if (HypotenuseDepthGoverns(_hypotenuseDepth, sectionDepth) && !HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
+      {
+        var triangleWidth = sectionDepth / Math.Abs(Math.Tan(angleRad));
+        var rectangleWidth = (whitneyDepth / Math.Abs(Math.Sin(angleRad))) - triangleWidth;
+
+        var triangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, rectangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, rectangleWidth + triangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, rectangleWidth, sectionDepth)
+        };
+
+        var rectangleCoords = new List<Coordinate>()
+        {
+          _extremeCompressionPoint,
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, rectangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, rectangleWidth, sectionDepth),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, sectionDepth),
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(triangleCoords, StressBlockSegmentShape.Triangle),
+          new StressBlockSegment(rectangleCoords, StressBlockSegmentShape.Rectangle)
+        };
       }
 
       else
       {
-        return StressBlockShape.Pentagon;
+        var primaryRectangleWidth = (whitneyDepth / Math.Abs(Math.Cos(angleRad)) - sectionDepth) / Math.Abs(Math.Tan(angleRad));
+        var triangleWidth = sectionWidth - primaryRectangleWidth;
+        var triangleHeight = triangleWidth * Math.Abs(Math.Tan(angleRad));
+
+        var primaryRectangleCoords = new List<Coordinate>()
+        {
+          _extremeCompressionPoint,
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, sectionDepth),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, 0, sectionDepth),
+        };
+
+        var secondaryRectangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth + triangleWidth, 0),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, sectionDepth - triangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth + triangleWidth, sectionDepth - triangleHeight)
+        };
+
+        var triangleCoords = new List<Coordinate>()
+        {
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, sectionDepth - triangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth + triangleWidth, sectionDepth - triangleHeight),
+          SetCoordinateRelativeToOther(_extremeCompressionPoint, primaryRectangleWidth, sectionDepth)
+        };
+
+        return new List<StressBlockSegment>()
+        {
+          new StressBlockSegment(triangleCoords, StressBlockSegmentShape.Triangle),
+          new StressBlockSegment(primaryRectangleCoords, StressBlockSegmentShape.Rectangle),
+          new StressBlockSegment(secondaryRectangleCoords, StressBlockSegmentShape.Rectangle)
+        };
       }
+    }
+
+    private Coordinate GetStressBlockCentroid(List<StressBlockSegment> segments)
+    {
+      double xMomentOfArea = 0;
+      double yMomentOfArea = 0;
+      double totalArea = 0;
+
+      foreach (var seg in segments)
+      {
+        var segArea = seg.GetArea();
+        totalArea += segArea;
+        var segCentroid = seg.GetCentroid();
+        xMomentOfArea += segArea * segCentroid.X;
+        yMomentOfArea += segArea * segCentroid.Y;
+      }
+
+      return new Coordinate(xMomentOfArea/totalArea, yMomentOfArea/totalArea);
+    }
+
+    private Coordinate SetCoordinateRelativeToOther(Coordinate relativeCoord, double deltaX, double deltaY)
+    {
+      double newX;
+      double newY;
+
+      if (relativeCoord.X <= 0)
+        newX = relativeCoord.X + deltaX;
+
+      else
+        newX = relativeCoord.X - deltaX;
+
+      if (relativeCoord.Y <= 0)
+        newY = relativeCoord.Y + deltaY;
+
+      else
+        newY = relativeCoord.Y - deltaY;
+
+      return new Coordinate(newX, newY);
     }
 
     private bool HypotenuseDepthGoverns(double _hypotenuseDepth, double sectionDepth)
@@ -83,75 +256,9 @@ namespace SpectaCol.Models.Geometry
       return whitneyDepth > maxNaDepth;
     }
 
-    private double GetWhitneyCompressionArea(StressBlockShape stressBlockShape, double sectionWidth, double sectionDepth, double whitneyDepth, double angleDeg)
+    private double GetWhitneyCompressionArea(List<StressBlockSegment> stressBlockSegments)
     {
-      var angleRad = ConvertDegreesToRadians(angleDeg);
-
-      if (stressBlockShape == StressBlockShape.Rectangle)
-      {
-        var exceedsMax = ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg);
-
-        if (IsHorizontal(angleDeg) && !exceedsMax)
-        {
-          return sectionWidth * whitneyDepth;
-        }
-
-        else if (IsVertical(angleDeg) && !exceedsMax)
-        {
-          return sectionDepth * whitneyDepth;
-        }
-
-        else
-        {
-          return sectionWidth * sectionDepth;
-        }
-      }
-
-      else if (stressBlockShape == StressBlockShape.Triangle)
-      {
-        return _hypotenuseWidth * _hypotenuseDepth * 0.5;
-      }
-
-      else if (stressBlockShape == StressBlockShape.Trapezoid)
-      {
-        if (HypotenuseWidthGoverns(_hypotenuseWidth, sectionWidth))
-        {
-          var triangleHeight = sectionWidth * Math.Abs(Math.Tan(angleRad));
-          var triangleArea = sectionWidth * triangleHeight * 0.5;
-
-          var rectangleHeight = (whitneyDepth / Math.Abs(Math.Cos(angleRad))) - triangleHeight;
-          var rectangleArea = rectangleHeight * sectionWidth;
-
-          return triangleArea + rectangleArea;
-        }
-
-        // HypotenuseDepth must govern
-        else
-        {
-          var triangleHeight = sectionDepth / Math.Abs(Math.Tan(angleRad));
-          var triangleArea = triangleHeight * sectionDepth * 0.5;
-
-          var rectangleHeight = (whitneyDepth / Math.Abs(Math.Sin(angleRad))) - triangleHeight;
-          var rectangleArea = rectangleHeight * sectionDepth;
-
-          return triangleArea + rectangleArea;
-        }
-      }
-
-      // Must be pentagon
-      else
-      {
-        var primaryRectangleWidth = (whitneyDepth / Math.Abs(Math.Cos(angleRad)) - sectionDepth) / Math.Abs(Math.Tan(angleRad));
-        var primaryRectangleArea = primaryRectangleWidth * sectionDepth;
-
-        var triangleWidth = sectionWidth - primaryRectangleWidth;
-        var triangleHeight = triangleWidth * Math.Abs(Math.Tan(angleRad));
-        var triangleArea = triangleWidth * triangleHeight * 0.5;
-
-        var secondaryRectangleArea = triangleWidth * (sectionDepth - triangleHeight);
-
-        return triangleArea + primaryRectangleArea + secondaryRectangleArea;
-      }
+      return stressBlockSegments.Sum(segment => segment.GetArea());
     }
 
     private double ConvertDegreesToRadians(double angleDeg)
