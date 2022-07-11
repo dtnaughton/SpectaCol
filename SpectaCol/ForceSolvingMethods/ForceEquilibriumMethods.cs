@@ -34,7 +34,13 @@ namespace SpectaCol.ForceSolvingMethods
       var neutralAxis = new NeutralAxis(neutralAxisDepth, neutralAxisAngle, designResults.Beta, crossSectionParameters.Width, crossSectionParameters.Depth, extremeCompressionCoordinate);
 
 
+
       return 0;
+    }
+
+    private static double CalculateInternalConcreteCompressionForce(double whitneyStressArea, double concreteStrength, double alpha, double phiC)
+    {
+      return whitneyStressArea * concreteStrength * alpha * phiC;
     }
 
     private static double InternalMomentRatioCircularSection()
