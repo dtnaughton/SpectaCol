@@ -145,7 +145,8 @@ namespace SpectaCol.Models.Materials
         {
           for (int j = 0; j < quantityX; j++)
           {
-            rebar.Add(new Rebar() { XCoordinate = cumulativeXCoordinate, YCoordinate = cumulativeYCoordinate });
+            var coord = new Coordinate(cumulativeXCoordinate, cumulativeYCoordinate);
+            rebar.Add(new Rebar(coord));
             cumulativeXCoordinate += centerToCenterX;
           }
         }
@@ -157,7 +158,8 @@ namespace SpectaCol.Models.Materials
 
           for (int j = 0; j < quantityInternalBars; j++)
           {
-            rebar.Add(new Rebar() { XCoordinate = cumulativeXCoordinate, YCoordinate = cumulativeYCoordinate });
+            var coord = new Coordinate(cumulativeXCoordinate, cumulativeYCoordinate);
+            rebar.Add(new Rebar(coord));
             cumulativeXCoordinate += extremeDistanceBetweenbarsX;
           }
         }
