@@ -48,8 +48,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 
@@ -94,8 +94,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 
@@ -174,8 +174,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 
@@ -264,8 +264,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 
@@ -325,8 +325,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 
@@ -389,8 +389,8 @@ namespace SpectaColTests.ColumnDesignModuleTests
 
       for (int i = 0; i < mockReinforcement.Count; i++)
       {
-        Assert.Equal(mockReinforcement[i].Coordinates.X, reinforcement.Rebar[i].Coordinates.X, 1);
-        Assert.Equal(mockReinforcement[i].Coordinates.Y, reinforcement.Rebar[i].Coordinates.Y, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.X, reinforcement.Rebar[i].Coordinate.X, 1);
+        Assert.Equal(mockReinforcement[i].Coordinate.Y, reinforcement.Rebar[i].Coordinate.Y, 1);
       }
     }
 

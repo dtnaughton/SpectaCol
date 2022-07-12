@@ -18,6 +18,12 @@ namespace SpectaCol.Models.DesignCodes
     private readonly double _phiS = 0.85;
     public DesignCode Title { get; }
 
+    public double ConcreteFailureStrain => 0.0035;
+
+    public double PhiC => 0.65;
+
+    public double PhiS => 0.85;
+
     public CSA_A23_3_19()
     {
       Title = DesignCode.A23319;

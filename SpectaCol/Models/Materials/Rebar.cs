@@ -9,10 +9,10 @@ namespace SpectaCol.Models.Materials
 {
   public class Rebar
   {
-    public Coordinate Coordinates{ get; set; }
+    public Coordinate Coordinate { get; set; }
     public Rebar(Coordinate coordinates)
     {
-      Coordinates = coordinates;
+      Coordinate = coordinates;
     }
   }
 }

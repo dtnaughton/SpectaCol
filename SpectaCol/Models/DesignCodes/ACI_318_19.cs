@@ -15,6 +15,12 @@ namespace SpectaCol.Models.DesignCodes
   {
     public DesignCode Title { get; }
 
+    public double ConcreteFailureStrain => throw new NotImplementedException();
+
+    public double PhiC => throw new NotImplementedException();
+
+    public double PhiS => throw new NotImplementedException();
+
     public ACI_318_19()
     {
       Title = DesignCode.ACI31819;
