@@ -80,7 +80,7 @@ namespace SpectaCol.Models.Geometry
         };
       }
 
-      var angleRad = ConvertDegreesToRadians(angleDeg);
+      var angleRad = Geometry.ConvertDegreesToRadians(angleDeg);
       _hypotenuseWidth = Math.Abs(whitneyDepth / Math.Sin(angleRad));
       _hypotenuseDepth = Math.Abs(whitneyDepth / Math.Cos(angleRad));
 
@@ -261,14 +261,9 @@ namespace SpectaCol.Models.Geometry
       return stressBlockSegments.Sum(segment => segment.GetArea());
     }
 
-    private double ConvertDegreesToRadians(double angleDeg)
-    {
-      return angleDeg * Math.PI / 180;
-    }
-
     private double MaximumNeutralAxisDepth(double sectionWidth, double sectionDepth, double naAngleDeg)
     {
-      var angleRad = ConvertDegreesToRadians(naAngleDeg);
+      var angleRad = Geometry.ConvertDegreesToRadians(naAngleDeg);
       return (Math.Abs(sectionDepth / Math.Tan(angleRad)) + sectionWidth) * Math.Abs(Math.Sin(angleRad));
     }
   }

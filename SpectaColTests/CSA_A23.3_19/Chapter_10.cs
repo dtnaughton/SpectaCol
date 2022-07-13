@@ -73,7 +73,7 @@ namespace SpectaColTests.CSA_A23._3_19
 
       var alpha = csaCode.AlphaStressBlockValue(concreteStrength);
 
-      var longReinf = new LongitudinalReinforcement(4, 4, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var longReinf = new LongitudinalReinforcement(4, 4, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
       var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
@@ -93,7 +93,7 @@ namespace SpectaColTests.CSA_A23._3_19
 
       var alpha = csaCode.AlphaStressBlockValue(concreteStrength);
 
-      var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
       var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
@@ -112,7 +112,7 @@ namespace SpectaColTests.CSA_A23._3_19
 
       var alpha = csaCode.AlphaStressBlockValue(concreteStrength);
 
-      var longReinf = new LongitudinalReinforcement(3, 7, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var longReinf = new LongitudinalReinforcement(3, 7, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
       var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);

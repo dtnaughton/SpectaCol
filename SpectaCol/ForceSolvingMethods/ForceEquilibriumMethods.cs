@@ -26,8 +26,6 @@ namespace SpectaCol.ForceSolvingMethods
       {
         return InternalMomentRatioCircularSection();
       }
-
-      return 0;
     }
 
     private static double InternalMomentRatioRectangularSection(CrossSectionParameters crossSectionParameters, double neutralAxisAngle, double neutralAxisDepth, 
@@ -43,8 +41,8 @@ namespace SpectaCol.ForceSolvingMethods
 
       foreach (var bar in longitudinalReinforcement.Rebar)
       {
-        var effectiveDepth = DistanceBetweenCoordinates(extremeCompressionCoordinate, bar.Coordinate);
-        var strain = CalculateBarStrain(bar, concreteFailureStrain, neutralAxis.Depth, extremeCompressionCoordinate);
+        var effectiveDepth = CalculateBarEffectiveDepth(extremeCompressionCoordinate, bar.Coordinate, neutralAxisAngle);
+        var strain = CalculateBarStrain(bar, concreteFailureStrain, neutralAxis.Depth, effectiveDepth, extremeCompressionCoordinate);
         var stress = CalculateBarStress(strain, longitudinalReinforcement.ElasticModulus, longitudinalReinforcement.YieldStrength, designResults.Alpha, concreteMaterial.CompressiveStrength);
         var axialForce = CalculateBarAxialForce(stress, longitudinalReinforcement, phiS);
         var momentX = CalculateMomentFromAxial(axialForce, bar.Coordinate.X);
@@ -107,11 +105,29 @@ namespace SpectaCol.ForceSolvingMethods
       return Math.Abs(stress) >  Math.Abs(maxStress);
     }
 
-    public static double CalculateBarStrain(Rebar rebar, double concreteFailureStrain, double neutralAxisDepth, Coordinate extremeCompressionCoordinate)
+    public static double CalculateBarStrain(Rebar rebar, double concreteFailureStrain, double neutralAxisDepth, double effectiveDepthBar, Coordinate extremeCompressionCoordinate)
     {
-      var effectiveDepthBar = DistanceBetweenCoordinates(rebar.Coordinate, extremeCompressionCoordinate);
-
       return (concreteFailureStrain * (neutralAxisDepth - effectiveDepthBar)) / neutralAxisDepth;
+    }
+
+    public static double CalculateBarEffectiveDepth(Coordinate extremeCompressionCoordinate, Coordinate barCoordinate, double neutralAxisAngleDeg)
+    {
+      var neutralAxisAngleRad = Geometry.ConvertDegreesToRadians(neutralAxisAngleDeg);
+
+      var tangentAngle = Math.Tan(neutralAxisAngleRad);
+      var tanAngle = Math.Tan(neutralAxisAngleDeg);
+
+      var c = extremeCompressionCoordinate.Y - (extremeCompressionCoordinate.X * tangentAngle);
+
+      var b = barCoordinate.Y + (1 / tangentAngle * barCoordinate.X);
+
+      var xCoordOfIntersect = (b - c) / (tangentAngle + 1 / tangentAngle);
+
+      var yCoordOfIntersect = xCoordOfIntersect * tangentAngle + c;
+
+      var intersectionCoord = new Coordinate(xCoordOfIntersect, yCoordOfIntersect);
+
+      return DistanceBetweenCoordinates(intersectionCoord, barCoordinate);
     }
 
     public static double DistanceBetweenCoordinates(Coordinate referencePoint, Coordinate point)

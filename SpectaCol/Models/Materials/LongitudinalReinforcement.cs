@@ -62,7 +62,7 @@ namespace SpectaCol.Models.Materials
 
 
     public LongitudinalReinforcement(int quantityX, int quantityY, int quantityLayers,
-      ReinforcementConfiguration reinforcementConfiguration, double yieldStrength,
+      ReinforcementConfiguration reinforcementConfiguration, double yieldStrength, double elasticModulus,
       ReinforcementDiameter longitudinalReinforcementDiameter, CrossSectionParameters crossSectionParameters,
       ReinforcementDiameter stirrupDiameter)
     {
@@ -71,6 +71,7 @@ namespace SpectaCol.Models.Materials
       QuantityLayers = quantityLayers;
       Configuration = reinforcementConfiguration;
       YieldStrength = yieldStrength;
+      ElasticModulus = elasticModulus;
       Diameter = longitudinalReinforcementDiameter;
       _crossSectionParameters = crossSectionParameters;
       _stirrupDiameter = stirrupDiameter;

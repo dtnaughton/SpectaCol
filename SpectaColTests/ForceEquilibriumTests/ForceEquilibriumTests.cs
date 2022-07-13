@@ -42,25 +42,25 @@ namespace SpectaColTests.ForceEquilibriumTests
     [Fact]
     public void Calculate_Rebar_Strain_Negative()
     {
-      var rebar = new Rebar(new Coordinate(100, 100));
+      var rebar = new Rebar(new Coordinate(171.1, -196.1));
 
-      var extremeCompressionPoint = new Coordinate(400, 450);
+      var extremeCompressionPoint = new Coordinate(-225, 250);
 
-      var barStrain = ForceEquilibriumMethods.CalculateBarStrain(rebar, 0.0035, 100, extremeCompressionPoint);
+      var barStrain = ForceEquilibriumMethods.CalculateBarStrain(rebar, 0.0035, 194, 594.8927, extremeCompressionPoint);
 
-      Assert.Equal(-0.0126, barStrain, 4);
+      Assert.Equal(-0.007233, barStrain, 4);
     }
 
     [Fact]
     public void Calculate_Rebar_Strain_Positive()
     {
-      var rebar = new Rebar(new Coordinate(100, 100));
+      var rebar = new Rebar(new Coordinate(-171.1, 196.1));
 
-      var extremeCompressionPoint = new Coordinate(50, 50);
+      var extremeCompressionPoint = new Coordinate(-225, 250);
 
-      var barStrain = ForceEquilibriumMethods.CalculateBarStrain(rebar, 0.0035, 200, extremeCompressionPoint);
+      var barStrain = ForceEquilibriumMethods.CalculateBarStrain(rebar, 0.0035, 194, 75.5388, extremeCompressionPoint);
 
-      Assert.Equal(0.00226, barStrain, 5);
+      Assert.Equal(0.002137, barStrain, 5);
     }
 
     [Fact]
@@ -134,6 +134,50 @@ namespace SpectaColTests.ForceEquilibriumTests
     }
 
     [Fact]
+    public void Calculate_Bar_Effective_Depth_0_to_90()
+    {
+      var extremeCompression = new Coordinate(-225, 250);
+      var barCoordinate = new Coordinate(-171.1000, -196.1000);
+
+      var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 37.3);
+
+      Assert.Equal(387.5235, effectiveDepth, 2);
+    }
+
+    [Fact]
+    public void Calculate_Bar_Effective_Depth_90_to_180()
+    {
+      var extremeCompression = new Coordinate(-225, -250);
+      var barCoordinate = new Coordinate(57.0333, 98.0500);
+
+      var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 106.4);
+
+      Assert.Equal(368.8275, effectiveDepth, 2);
+    }
+
+    [Fact]
+    public void Calculate_Bar_Effective_Depth_180_to_270()
+    {
+      var extremeCompression = new Coordinate(225, -250);
+      var barCoordinate = new Coordinate(-171.1000, 98.0500);
+
+      var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 269);
+
+      Assert.Equal(402.1140, effectiveDepth, 2);
+    }
+
+    [Fact]
+    public void Calculate_Bar_Effective_Depth_270_to_360()
+    {
+      var extremeCompression = new Coordinate(225, 250);
+      var barCoordinate = new Coordinate(-57.0333, -196.1000);
+
+      var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 315);
+
+      Assert.Equal(514.8680, effectiveDepth, 2);
+    }
+
+    [Fact]
     public void Internal_Moment_Ratio_Check()
     {
       var crossSectionParameters = new CrossSectionParameters(450, 500, 30);
@@ -142,16 +186,17 @@ namespace SpectaColTests.ForceEquilibriumTests
       var neutralAxisDepth = 194;
       var designCode = new CSA_A23_3_19();
       var concreteMaterial = new Concrete();
+      concreteMaterial.SetDefaultParameters();
       var alpha = designCode.AlphaStressBlockValue(concreteMaterial.CompressiveStrength);
       var beta = designCode.BetaStressBlockValue(concreteMaterial.CompressiveStrength);
       var designResults = new DesignResults() { Alpha = alpha, Beta = beta };
       var concreteFailureStrain = designCode.ConcreteFailureStrain;
-      var longitudinalReinforcement = new LongitudinalReinforcement(4, 5, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M10);
+      var longitudinalReinforcement = new LongitudinalReinforcement(4, 5, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M10);
 
       var internalMomentRatio = ForceEquilibriumMethods.InternalMomentRatio(SectionShape.SolidRectangular, crossSectionParameters, neutralAxisAngle, neutralAxisDepth,
         extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, designCode.PhiS, designCode.PhiC, longitudinalReinforcement);
 
-      Assert.Equal(0.6998, internalMomentRatio, 4);
+      Assert.Equal(-0.6975, internalMomentRatio, 4);
     }
   }
 }

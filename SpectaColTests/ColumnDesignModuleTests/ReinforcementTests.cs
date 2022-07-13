@@ -23,7 +23,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 50
       };
 
-      var reinforcement = new LongitudinalReinforcement(4, 4, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var reinforcement = new LongitudinalReinforcement(4, 4, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -63,7 +63,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 50
       };
 
-      var reinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var reinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -109,7 +109,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 30
       };
 
-      var reinforcement = new LongitudinalReinforcement(5, 9, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var reinforcement = new LongitudinalReinforcement(5, 9, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -189,7 +189,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 30
       };
 
-      var reinforcement = new LongitudinalReinforcement(5, 9, 3, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var reinforcement = new LongitudinalReinforcement(5, 9, 3, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -279,7 +279,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 30
       };
 
-      var reinforcement = new LongitudinalReinforcement(6, 5, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M15);
+      var reinforcement = new LongitudinalReinforcement(6, 5, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M15);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -340,7 +340,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 30
       };
 
-      var reinforcement = new LongitudinalReinforcement(6, 5, 3, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M15);
+      var reinforcement = new LongitudinalReinforcement(6, 5, 3, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M25, crossSectionParameters, ReinforcementDiameter.M15);
 
       var mockReinforcement = new List<Rebar>()
       {
@@ -404,7 +404,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Cover = 50
       };
 
-      var reinforcement = new LongitudinalReinforcement(4, 4, 3, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+      var reinforcement = new LongitudinalReinforcement(4, 4, 3, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
 
       Assert.Equal(2, reinforcement.QuantityLayers);
 
@@ -437,7 +437,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Depth = 500,
         Cover = 40
       };
-      var longitudinalReinforcement = new LongitudinalReinforcement(3, 4, 1, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M25, crossSection, ReinforcementDiameter.M10);
+      var longitudinalReinforcement = new LongitudinalReinforcement(3, 4, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M25, crossSection, ReinforcementDiameter.M10);
 
       Assert.Equal(2, longitudinalReinforcement.ReinforcementPercentage);
     }
@@ -451,7 +451,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Depth = 300,
         Cover = 40
       };
-      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
 
       Assert.Equal(5.33, longitudinalReinforcement.ReinforcementPercentage, 1);
     }
@@ -465,7 +465,7 @@ namespace SpectaColTests.ColumnDesignModuleTests
         Depth = 300,
         Cover = 40
       };
-      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+      var longitudinalReinforcement = new LongitudinalReinforcement(4, 4, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
 
       Assert.Equal(0, longitudinalReinforcement.ReinforcementPercentage, 1);
     }
