@@ -196,6 +196,7 @@ namespace SpectaCol.Models.Materials
       if (QuantityY == 0) QuantityY = 2;
       if (QuantityLayers == 0) QuantityLayers = 1;
       if (YieldStrength == 0) YieldStrength = 400;
+      if (ElasticModulus == 0) ElasticModulus = 200000;
       Diameter = ReinforcementDiameter.M20;
     }
 

@@ -24,12 +24,12 @@ namespace SpectaCol.Models.Geometry
       Depth = naDepth;
       WhitneyDepth = naDepth * beta;
       Angle = angleDegs;
-      StressBlockSegments = GetStressBlockSegments(WhitneyDepth, Angle, sectionWidth, sectionDepth);
+      StressBlockSegments = GetStressBlockSegments(WhitneyDepth, Angle, sectionWidth, sectionDepth, extremeCompressionPoint, Geometry.ReturnOppositeCoordinate(extremeCompressionPoint));
       WhitneyCompressionArea = GetWhitneyCompressionArea(StressBlockSegments);
       Centroid = GetStressBlockCentroid(StressBlockSegments);
     }
 
-    private List<StressBlockSegment> GetStressBlockSegments(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth)
+    private List<StressBlockSegment> GetStressBlockSegments(double whitneyDepth, double angleDeg, double sectionWidth, double sectionDepth, Coordinate extremeCompressionCoordinate, Coordinate oppositeCoordinate)
     {
       // if angle is 90, 180, 270, or 360 then it is rectangular by default and avoids division by zero errors
       if (IsVertical(angleDeg))
@@ -64,7 +64,7 @@ namespace SpectaCol.Models.Geometry
         };
       }
 
-      else if (ExceedsMaxDepth(whitneyDepth, sectionWidth, sectionDepth, angleDeg))
+      else if (ExceedsMaxDepth(whitneyDepth, extremeCompressionCoordinate, oppositeCoordinate, angleDeg))
       {
         var rectangleCoords = new List<Coordinate>()
         {
@@ -249,22 +249,14 @@ namespace SpectaCol.Models.Geometry
       return angleDeg == 90 || angleDeg == 270;
     }
 
-    private bool ExceedsMaxDepth(double whitneyDepth, double sectionWidth, double sectionDepth, double angleDeg)
+    private bool ExceedsMaxDepth(double whitneyDepth, Coordinate extremeCompressionCoordinate, Coordinate oppositeCoordinate, double angleDeg)
     {
-      var maxNaDepth = MaximumNeutralAxisDepth(sectionWidth, sectionDepth, angleDeg);
-
-      return whitneyDepth > maxNaDepth;
+      return whitneyDepth > Geometry.MaximumSectionDepth(extremeCompressionCoordinate, oppositeCoordinate, angleDeg);
     }
 
     private double GetWhitneyCompressionArea(List<StressBlockSegment> stressBlockSegments)
     {
       return stressBlockSegments.Sum(segment => segment.GetArea());
-    }
-
-    private double MaximumNeutralAxisDepth(double sectionWidth, double sectionDepth, double naAngleDeg)
-    {
-      var angleRad = Geometry.ConvertDegreesToRadians(naAngleDeg);
-      return (Math.Abs(sectionDepth / Math.Tan(angleRad)) + sectionWidth) * Math.Abs(Math.Sin(angleRad));
     }
   }
 }

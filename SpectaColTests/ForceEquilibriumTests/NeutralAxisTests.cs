@@ -1,5 +1,6 @@
 ﻿using SpectaCol.Models.DesignCodes;
 using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Materials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -821,6 +822,116 @@ namespace SpectaColTests.ForceEquilibriumTests
         new StressBlockSegment(coordinates, StressBlockSegmentShape.Triangle);
       });
     }
+
+    [Fact]
+    public void Maximum_Allowable_Neutral_Axis_Depth_0_to_90()
+    {
+      var naAngle = 45;
+      var extremeCompressionCoord = new Coordinate(-150, 450);
+      var rebar = new List<Rebar>()
+      {
+        new Rebar(new Coordinate(98.95, -398.95))
+      };
+      var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
+
+      Assert.Equal(1811.4425, maxDepth, 2);
+    }
+
+    [Fact]
+    public void Maximum_Allowable_Neutral_Axis_Depth_90_to_180()
+    {
+      var naAngle = 124;
+      var extremeCompressionCoord = new Coordinate(150, 450);
+      var rebar = new List<Rebar>()
+      {
+        new Rebar(new Coordinate(-98.95, -398.95))
+      };
+      var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
+
+      Assert.Equal(1589.27, maxDepth, 2);
+    }
+
+    [Fact]
+    public void Maximum_Allowable_Neutral_Axis_Depth_180_to_270()
+    {
+      var naAngle = 239;
+      var extremeCompressionCoord = new Coordinate(150, -450);
+      var rebar = new List<Rebar>()
+      {
+        new Rebar(new Coordinate(-98.95, 398.95))
+      };
+      var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
+
+      Assert.Equal(1518.1446, maxDepth, 2);
+    }
+
+    [Fact]
+    public void Maximum_Allowable_Neutral_Axis_Depth_270_to_360()
+    {
+      var naAngle = 357;
+      var extremeCompressionCoord = new Coordinate(150, 450);
+      var rebar = new List<Rebar>()
+      {
+        new Rebar(new Coordinate(-98.95, -398.95))
+      };
+      var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
+
+      Assert.Equal(2008.57, maxDepth, 2);
+    }
+
+    [Fact]
+    public void Coordinate_Limits_Between_0_And_90()
+    {
+      var coordinate = new Coordinate(-200, 200);
+
+      Assert.Equal(0, coordinate.AngleLimit.Lower);
+      Assert.Equal(90, coordinate.AngleLimit.Upper);
+    }
+
+    [Fact]
+    public void Coordinate_Limits_Between_90_And_180()
+    {
+      var coordinate = new Coordinate(-200, -200);
+
+      Assert.Equal(90, coordinate.AngleLimit.Lower);
+      Assert.Equal(180, coordinate.AngleLimit.Upper);
+    }
+    [Fact]
+    public void Coordinate_Limits_Between_180_And_270()
+    {
+      var coordinate = new Coordinate(200, -200);
+
+      Assert.Equal(180, coordinate.AngleLimit.Lower);
+      Assert.Equal(270, coordinate.AngleLimit.Upper);
+    }
+
+    [Fact]
+    public void Coordinate_Limits_Between_270_And_360()
+    {
+      var coordinate = new Coordinate(200, 200);
+
+      Assert.Equal(270, coordinate.AngleLimit.Lower);
+      Assert.Equal(360, coordinate.AngleLimit.Upper);
+    }
+
+    [Fact]
+    public void Coordinate_Limits_Between_0_And_360_X_Is_Zero()
+    {
+      var coordinate = new Coordinate(0, 200);
+
+      Assert.Equal(0, coordinate.AngleLimit.Lower);
+      Assert.Equal(360, coordinate.AngleLimit.Upper);
+    }
+
+    [Fact]
+    public void Coordinate_Limits_Between_0_And_360_Y_Is_Zero()
+    {
+      var coordinate = new Coordinate(200, 0);
+
+      Assert.Equal(0, coordinate.AngleLimit.Lower);
+      Assert.Equal(360, coordinate.AngleLimit.Upper);
+    }
+
   }
 }
 

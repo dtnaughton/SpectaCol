@@ -8,16 +8,32 @@ namespace SpectaCol.Models.Geometry
 {
   public class Coordinate
   {
-    public double X { get; set; }
-    public double Y { get; set; }
+    public double X { get; }
+    public double Y { get; }
+    public AngleLimit AngleLimit { get; }
     public CoordinateQuadrant Quadrant { get; private set; }
 
     public Coordinate(double x, double y)
     {
       X = x;
       Y = y;
+      AngleLimit = GetAngleLimits(x, y);
 
       SetQuadrant();
+    }
+
+    private AngleLimit GetAngleLimits(double x, double y)
+    {
+      if (x == 0 || y == 0)
+        return new AngleLimit(0, 360);
+      else if (x < 0 && y > 0)
+        return new AngleLimit(0, 90);
+      else if (x < 0 && y < 0)
+        return new AngleLimit(90, 180);
+      else if (x > 0 && y < 0)
+        return new AngleLimit(180, 270);
+      else
+        return new AngleLimit(270, 360);
     }
 
     private void SetQuadrant()
@@ -58,6 +74,18 @@ namespace SpectaCol.Models.Geometry
       }
     }
 
+  }
+
+  public class AngleLimit
+  {
+    public AngleLimit(double lower, double upper)
+    {
+      Upper = upper;
+      Lower = lower;
+    }
+
+    public double Upper { get; }
+    public double Lower { get; }
   }
 
   public enum CoordinateQuadrant
