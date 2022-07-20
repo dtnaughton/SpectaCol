@@ -232,7 +232,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       };
       var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
 
-      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(2875000, 100000000, 100000000, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
+      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(2875000, 200000000, 100000000, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
         designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
     }
 
@@ -255,6 +255,29 @@ namespace SpectaColTests.ForceEquilibriumTests
       };
       var longReinf = new LongitudinalReinforcement(3, 7, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
       
+      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
+        designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
+    }
+
+    // Note - results compared in excel plot to S-Concrete
+    [Fact]
+    public void Calculate_Axial_Moment_Failure_Plane_3()
+    {
+      var crossSection = new CrossSectionParameters(1000, 500, 30);
+      var extremeCompressionPoint = new Coordinate(500, -250);
+      var axialForce = 13203450;
+      var momentX = -34000000;
+      var momentY = -234000000;
+      var designCode = new CSA_A23_3_19();
+      var material = new Concrete();
+      material.CompressiveStrength = 40;
+      var designResults = new DesignResults()
+      {
+        Alpha = designCode.AlphaStressBlockValue(material.CompressiveStrength),
+        Beta = designCode.BetaStressBlockValue(material.CompressiveStrength)
+      };
+      var longReinf = new LongitudinalReinforcement(7, 5, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+
       var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
         designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
     }

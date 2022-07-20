@@ -84,6 +84,7 @@ namespace SpectaCol.ForceSolvingMethods
           {
             isDepthCorrect = true;
 
+            // Moment about the x will cause internal moment to be axial x Y lever arm, so internal moment Y
             var internalMomentRatio = GetMomentRatio(internalForces.MomentY, internalForces.MomentX);
 
             if (Math.Abs(internalMomentRatio).WithinTolerance(Math.Abs(externalMomentRatio), tolerance) && canSolveAxial)
@@ -129,7 +130,7 @@ namespace SpectaCol.ForceSolvingMethods
         var depthOne = Convert.ToInt32(checkedDepths.ElementAt(guesses - 1).Key);
         var depthTwo = Convert.ToInt32(checkedDepths.ElementAt(guesses - 2).Key);
         var depthThree = Convert.ToInt32(checkedDepths.ElementAt(guesses - 3).Key);
-        
+
         return exceedsLimit && depthOne == depthTwo && depthTwo == depthThree;
       }
 
@@ -169,7 +170,7 @@ namespace SpectaCol.ForceSolvingMethods
         throw new ArgumentException("Maximum allowable value should be greater than 0");
       }
 
-      targetValue = Math.Abs(targetValue);
+      //targetValue = Math.Abs(targetValue);
 
       var upperLimits = new List<double>();
       var lowerLimits = new List<double>();
