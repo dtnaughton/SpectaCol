@@ -136,45 +136,45 @@ namespace SpectaColTests.ForceEquilibriumTests
     [Fact]
     public void Calculate_Bar_Effective_Depth_0_to_90()
     {
-      var extremeCompression = new Coordinate(-225, 250);
+      var extremeCompression = new Coordinate(225, 250);
       var barCoordinate = new Coordinate(-171.1000, -196.1000);
 
       var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 37.3);
 
-      Assert.Equal(387.5235, effectiveDepth, 2);
+      Assert.Equal(594.8927, effectiveDepth, 2);
     }
 
     [Fact]
     public void Calculate_Bar_Effective_Depth_90_to_180()
     {
-      var extremeCompression = new Coordinate(-225, -250);
-      var barCoordinate = new Coordinate(57.0333, 98.0500);
+      var extremeCompression = new Coordinate(225, -250);
+      var barCoordinate = new Coordinate(171.1, 98.0500);
 
       var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 106.4);
 
-      Assert.Equal(368.8275, effectiveDepth, 2);
+      Assert.Equal(149.9760, effectiveDepth, 2);
     }
 
     [Fact]
     public void Calculate_Bar_Effective_Depth_180_to_270()
     {
-      var extremeCompression = new Coordinate(225, -250);
+      var extremeCompression = new Coordinate(-225, -250);
       var barCoordinate = new Coordinate(-171.1000, 98.0500);
 
       var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 269);
 
-      Assert.Equal(402.1140, effectiveDepth, 2);
+      Assert.Equal(59.9661, effectiveDepth, 2);
     }
 
     [Fact]
     public void Calculate_Bar_Effective_Depth_270_to_360()
     {
-      var extremeCompression = new Coordinate(225, 250);
-      var barCoordinate = new Coordinate(-57.0333, -196.1000);
+      var extremeCompression = new Coordinate(-225, 250);
+      var barCoordinate = new Coordinate(171.1000, -196.1000);
 
       var effectiveDepth = ForceEquilibriumMethods.CalculateBarEffectiveDepth(extremeCompression, barCoordinate, 315);
 
-      Assert.Equal(514.8680, effectiveDepth, 2);
+      Assert.Equal(595.5253, effectiveDepth, 2);
     }
 
     [Fact]
@@ -197,7 +197,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     public void Calculate_Neutral_Axis_For_Specified_Axial()
     {
       var crossSection = new CrossSectionParameters(400, 400, 40);
-      var extremeCompressionPoint = new Coordinate(-200, 200);
+      var extremeCompressionPoint = new Coordinate(200, 200);
       var designCode = new CSA_A23_3_19();
       var material = new Concrete();
       material.SetDefaultParameters();
@@ -207,7 +207,7 @@ namespace SpectaColTests.ForceEquilibriumTests
         Beta = designCode.BetaStressBlockValue(material.CompressiveStrength)
       };
       var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
-      
+
       var internalMomentCapacity = ForceEquilibriumMethods.FindNeutralAxisForAxialForce(406106.8, 100000000, 100000000, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults, designCode.ConcreteFailureStrain,
         material, designCode.PhiS, designCode.PhiC, longReinf);
 
@@ -216,12 +216,17 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.True(withinTolernace);
     }
 
+    #region to be fixed
+
     // Note - results compared in excel plot to S-Concrete
     [Fact]
     public void Calculate_Axial_Moment_Failure_Plane_1()
     {
       var crossSection = new CrossSectionParameters(400, 400, 40);
-      var extremeCompressionPoint = new Coordinate(-200, 200);
+      var extremeCompressionPoint = new Coordinate(200, 200);
+      var axialForce = 2875000;
+      var momentX = 200000000;
+      var momentY = 100000000;
       var designCode = new CSA_A23_3_19();
       var material = new Concrete();
       material.SetDefaultParameters();
@@ -232,7 +237,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       };
       var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
 
-      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(2875000, 200000000, 100000000, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
+      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
         designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
     }
 
@@ -244,7 +249,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       var extremeCompressionPoint = new Coordinate(150, 450);
       var axialForce = 6375000;
       var momentX = 250000000;
-      var momentY = -35000000;
+      var momentY = 35000000;
       var designCode = new CSA_A23_3_19();
       var material = new Concrete();
       material.CompressiveStrength = 35;
@@ -254,20 +259,20 @@ namespace SpectaColTests.ForceEquilibriumTests
         Beta = designCode.BetaStressBlockValue(material.CompressiveStrength)
       };
       var longReinf = new LongitudinalReinforcement(3, 7, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
-      
+
       var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
         designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
     }
 
-    // Note - results compared in excel plot to S-Concrete
+    //// Note - results compared in excel plot to S-Concrete
     [Fact]
     public void Calculate_Axial_Moment_Failure_Plane_3()
     {
       var crossSection = new CrossSectionParameters(1000, 500, 30);
-      var extremeCompressionPoint = new Coordinate(500, -250);
+      var extremeCompressionPoint = new Coordinate(-500, 250);
       var axialForce = 13203450;
       var momentX = -34000000;
-      var momentY = -234000000;
+      var momentY = 234000000;
       var designCode = new CSA_A23_3_19();
       var material = new Concrete();
       material.CompressiveStrength = 40;
@@ -282,12 +287,60 @@ namespace SpectaColTests.ForceEquilibriumTests
         designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
     }
 
+    //// Note - results compared in excel plot to S-Concrete
+    [Fact]
+    public void Calculate_Axial_Moment_Failure_Plane_4()
+    {
+      var crossSection = new CrossSectionParameters(650, 450, 30);
+      var extremeCompressionPoint = new Coordinate(crossSection.Width/2, -crossSection.Depth/2);
+      var axialForce = 8300000;
+      var momentX = -56000000;
+      var momentY = 254000000;
+      var designCode = new CSA_A23_3_19();
+      var material = new Concrete();
+      material.CompressiveStrength = 35;
+      var designResults = new DesignResults()
+      {
+        Alpha = designCode.AlphaStressBlockValue(material.CompressiveStrength),
+        Beta = designCode.BetaStressBlockValue(material.CompressiveStrength)
+      };
+      var longReinf = new LongitudinalReinforcement(7, 5, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSection, ReinforcementDiameter.M10);
+
+      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
+        designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
+    }
+
+    //// Note - results compared in excel plot to S-Concrete
+    [Fact]
+    public void Calculate_Axial_Moment_Failure_Plane_5()
+    {
+      var crossSection = new CrossSectionParameters(300, 1200, 30);
+      var extremeCompressionPoint = new Coordinate(-crossSection.Width / 2, -crossSection.Depth / 2);
+      var axialForce = 9330000;
+      var momentX = -100000000;
+      var momentY = -350000000;
+      var designCode = new CSA_A23_3_19();
+      var material = new Concrete();
+      material.CompressiveStrength = 35;
+      var designResults = new DesignResults()
+      {
+        Alpha = designCode.AlphaStressBlockValue(material.CompressiveStrength),
+        Beta = designCode.BetaStressBlockValue(material.CompressiveStrength)
+      };
+      var longReinf = new LongitudinalReinforcement(3, 6, 2, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M25, crossSection, ReinforcementDiameter.M10);
+
+      var axialMomentResults = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(axialForce, momentX, momentY, SectionShape.SolidRectangular, crossSection, extremeCompressionPoint, designResults,
+        designCode.ConcreteFailureStrain, material, designCode.PhiS, designCode.PhiC, longReinf);
+    }
+
+    #endregion
+
     [Fact]
     public void Internal_Section_Forces_Check_1()
     {
       var crossSectionParameters = new CrossSectionParameters(450, 500, 30);
       var neutralAxisAngle = 37.3;
-      var extremeCompressionCoordinate = new Coordinate(-225, 250);
+      var extremeCompressionCoordinate = new Coordinate(225, 250);
       var neutralAxisDepth = 194;
       var designCode = new CSA_A23_3_19();
       var concreteMaterial = new Concrete();
@@ -302,15 +355,15 @@ namespace SpectaColTests.ForceEquilibriumTests
         extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, designCode.PhiS, designCode.PhiC, longitudinalReinforcement);
 
       Assert.Equal(-816450.316813881, internalSectionForces.AxialForce, 0);
-      Assert.Equal(-0.6975, internalSectionForces.MomentX / internalSectionForces.MomentY, 4);
+      Assert.Equal(0.6975, internalSectionForces.MomentX / internalSectionForces.MomentY, 4);
     }
 
     [Fact]
     public void Internal_Section_Forces_Check_2()
     {
-      var crossSectionParameters = new CrossSectionParameters(300, 900, 30);
+      var crossSectionParameters = new CrossSectionParameters(300, 900, 0);
       var neutralAxisAngle = 311.5;
-      var extremeCompressionCoordinate = new Coordinate(150, 450);
+      var extremeCompressionCoordinate = new Coordinate(-150, 450);
       var neutralAxisDepth = 240;
       var designCode = new CSA_A23_3_19();
       var concreteMaterial = new Concrete();
@@ -325,8 +378,28 @@ namespace SpectaColTests.ForceEquilibriumTests
         extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, designCode.PhiS, designCode.PhiC, longitudinalReinforcement);
 
       Assert.Equal(-9398.59342, internalSectionForces.AxialForce, 0);
-      Assert.Equal(0.14, internalSectionForces.MomentX / internalSectionForces.MomentY, 2);
+      Assert.Equal(-0.14, internalSectionForces.MomentX / internalSectionForces.MomentY, 2);
    }
+
+    //[Fact]
+    //public void Internal_Section_Forces_Check_3()
+    //{
+    //  var crossSectionParameters = new CrossSectionParameters(400, 400, 40);
+    //  var neutralAxisAngle = 23.12;
+    //  var extremeCompressionCoordinate = new Coordinate(200, 200);
+    //  var neutralAxisDepth = 543;
+    //  var designCode = new CSA_A23_3_19();
+    //  var concreteMaterial = new Concrete();
+    //  concreteMaterial.SetDefaultParameters();
+    //  var alpha = designCode.AlphaStressBlockValue(concreteMaterial.CompressiveStrength);
+    //  var beta = designCode.BetaStressBlockValue(concreteMaterial.CompressiveStrength);
+    //  var designResults = new DesignResults() { Alpha = alpha, Beta = beta };
+    //  var concreteFailureStrain = designCode.ConcreteFailureStrain;
+    //  var longitudinalReinforcement = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
+
+    //  var internalSectionForces = ForceEquilibriumMethods.CalculateInternalSectionForces(SectionShape.SolidRectangular, crossSectionParameters, neutralAxisAngle, neutralAxisDepth,
+    //    extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, designCode.PhiS, designCode.PhiC, longitudinalReinforcement);
+    //}
 
     [Fact]
     public void Finds_Average_Higher_And_Lower_For_NA_Depth_Populated_Values()
@@ -341,7 +414,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       fakeGuesses.Add(325, 405);
       fakeGuesses.Add(312.5, 350);
 
-      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisValue(fakeGuesses, targetValue, maxAllowable);
+      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisDepth(fakeGuesses, targetValue, maxAllowable);
 
       Assert.Equal(318.75, nextGuess);
     }
@@ -353,7 +426,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       var maxAllowable = 400;
       var targetValue = 400;
 
-      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisValue(fakeGuesses, targetValue, maxAllowable);
+      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisDepth(fakeGuesses, targetValue, maxAllowable);
 
       Assert.Equal(200, nextGuess);
     }
@@ -369,7 +442,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       fakeGuesses.Add(300, 300);
       fakeGuesses.Add(350, 310);
 
-      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisValue(fakeGuesses, targetValue, maxAllowable);
+      var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisDepth(fakeGuesses, targetValue, maxAllowable);
 
       Assert.Equal(375, nextGuess);
     }
@@ -379,7 +452,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     {
       Assert.Throws<ArgumentException>(() =>
       {
-        var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisValue(new Dictionary<double, double>(), 400, - 500);
+        var nextGuess = ForceEquilibriumMethods.GuessNeutralAxisDepth(new Dictionary<double, double>(), 400, - 500);
       });
 
     }
@@ -389,7 +462,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     {
       var previousGuesses = new Dictionary<double, double>();
 
-      var naDepth = ForceEquilibriumMethods.GuessNeutralAxisValue(previousGuesses, 200, 450);
+      var naDepth = ForceEquilibriumMethods.GuessNeutralAxisDepth(previousGuesses, 200, 450);
 
       Assert.Equal(225, naDepth);
     }
@@ -399,7 +472,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     {
       var previousGuesses = new Dictionary<double, double>();
       previousGuesses.Add(225, 100);
-      var naDepth = ForceEquilibriumMethods.GuessNeutralAxisValue(previousGuesses, 200, 450);
+      var naDepth = ForceEquilibriumMethods.GuessNeutralAxisDepth(previousGuesses, 200, 450);
 
       Assert.Equal(337.5, naDepth);
     }

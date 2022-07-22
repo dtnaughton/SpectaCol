@@ -19,21 +19,21 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(35);
 
-      var extremeCompressionCoordinate = new Coordinate(-150, 300);
+      var extremeCompressionCoordinate = new Coordinate(150, 300);
 
       var na = new NeutralAxis(150, 30, beta, 300, 600, extremeCompressionCoordinate);
 
       Assert.Equal(150, na.Depth);
       Assert.Equal(30, na.Angle);
       Assert.Equal(132.375, na.WhitneyDepth);
-      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(114.75, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-114.75, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(300, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(147.1465, na.StressBlockSegments[0].Coordinates[2].Y, 2);
       Assert.Equal(20233.9799, na.WhitneyCompressionArea, 1);
-      Assert.Equal(-61.7500, na.Centroid.X, 2);
+      Assert.Equal(61.7500, na.Centroid.X, 2);
       Assert.Equal(249.0488, na.Centroid.Y, 2);
     }
 
@@ -44,19 +44,19 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(35);
 
-      var extremeCompressionCoordinate = new Coordinate(-250, -250);
+      var extremeCompressionCoordinate = new Coordinate(250, -250);
 
       var na = new NeutralAxis(150, 125, beta, 500, 500, extremeCompressionCoordinate);
 
       Assert.Equal(132.375, na.WhitneyDepth,2);
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-88.4, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(88.4, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-19.2112, na.StressBlockSegments[0].Coordinates[2].Y, 2);
       Assert.Equal(18647.7368, na.WhitneyCompressionArea, 1);
-      Assert.Equal(-196.1333, na.Centroid.X, 2);
+      Assert.Equal(196.1333, na.Centroid.X, 2);
       Assert.Equal(-173.0704, na.Centroid.Y, 2);
     }
 
@@ -67,19 +67,19 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(35);
 
-      var extremeCompressionCoordinate = new Coordinate(250, -250);
+      var extremeCompressionCoordinate = new Coordinate(-250, -250);
 
       var na = new NeutralAxis(201, 245, beta, 500, 500, extremeCompressionCoordinate);
 
       Assert.Equal(177.3825, na.WhitneyDepth, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(54.2801, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-54.2801, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(169.7228, na.StressBlockSegments[0].Coordinates[2].Y, 2);
       Assert.Equal(41074.0546, na.WhitneyCompressionArea, 1);
-      Assert.Equal(184.7600, na.Centroid.X, 2);
+      Assert.Equal(-184.7600, na.Centroid.X, 2);
       Assert.Equal(-110.0924, na.Centroid.Y, 2);
     }
 
@@ -90,19 +90,19 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(35);
 
-      var extremeCompressionCoordinate = new Coordinate(250, 250);
+      var extremeCompressionCoordinate = new Coordinate(-250, 250);
 
       var na = new NeutralAxis(184, 305, beta, 500, 500, extremeCompressionCoordinate);
 
       Assert.Equal(162.38, na.WhitneyDepth, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(51.7706, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-51.7706, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-33.1009, na.StressBlockSegments[0].Coordinates[2].Y, 2);
       Assert.Equal(28059.4567, na.WhitneyCompressionArea, 1);
-      Assert.Equal(183.9235, na.Centroid.X, 2);
+      Assert.Equal(-183.9235, na.Centroid.X, 2);
       Assert.Equal(155.6330, na.Centroid.Y, 2);
     }
 
@@ -113,7 +113,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(35);
 
-      var extremeCompressionCoordinate = new Coordinate(-150, 300);
+      var extremeCompressionCoordinate = new Coordinate(150, 300);
 
       var na = new NeutralAxis(180, 30, beta, 300, 600, extremeCompressionCoordinate);
 
@@ -123,25 +123,25 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(29046.4920, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(289.7809, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(116.5758, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(289.7809, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Rectangle coords
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(289.7809, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(289.7809, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(-44.7227, na.Centroid.X, 2);
+      Assert.Equal(44.7227, na.Centroid.X, 2);
       Assert.Equal(238.6788, na.Centroid.Y, 2);
     }
 
@@ -152,7 +152,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(-150, -300);
+      var extremeCompressionCoordinate = new Coordinate(150, -300);
 
       var na = new NeutralAxis(200, 103, beta, 300, 600, extremeCompressionCoordinate);
 
@@ -162,25 +162,25 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(68668.7868, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(-104.8125, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(104.8125, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(33.7084, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-33.7084, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-104.8125, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(104.8125, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(300, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Rectangle coords
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(-104.8125, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(104.8125, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(-104.8125, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(104.8125, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(-85.7903, na.Centroid.X, 2);
+      Assert.Equal(85.7903, na.Centroid.X, 2);
       Assert.Equal(-60.5170, na.Centroid.Y, 2);
     }
 
@@ -191,7 +191,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(150, -300);
+      var extremeCompressionCoordinate = new Coordinate(-150, -300);
 
       var na = new NeutralAxis(320, 213, beta, 300, 600, extremeCompressionCoordinate);
 
@@ -201,25 +201,25 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(73224.5124, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-153.3294, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(41.4928, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-153.3294, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Rectangle coords
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(-153.3294, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(-153.3294, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(19.9546, na.Centroid.X, 2);
+      Assert.Equal(-19.9546, na.Centroid.X, 2);
       Assert.Equal(-171.4798, na.Centroid.Y, 2);
     }
 
@@ -230,7 +230,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(150, 300);
+      var extremeCompressionCoordinate = new Coordinate(-150, 300);
 
       var na = new NeutralAxis(275, 286, beta, 300, 600, extremeCompressionCoordinate);
 
@@ -240,25 +240,25 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(102012.0498, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(66.0035, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-66.0035, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-106.0437, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(106.0437, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(300, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(66.0035, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-66.0035, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Rectangle coords
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(66.0035, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(-66.0035, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(66.0035, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(-66.0035, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(57.7359, na.Centroid.X, 2);
+      Assert.Equal(-57.7359, na.Centroid.X, 2);
       Assert.Equal(50.5961, na.Centroid.Y, 2);
     }
 
@@ -270,7 +270,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(-250, 250);
+      var extremeCompressionCoordinate = new Coordinate(250, 250);
 
       var na = new NeutralAxis(600, 89, beta, 500, 500, extremeCompressionCoordinate);
 
@@ -280,13 +280,13 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(250000, na.WhitneyCompressionArea, 1);
 
       // Rectangle coords
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].Y, 2);
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[3].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].Y, 2);
 
       // Centroid
@@ -332,7 +332,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(-250, 0);
+      var extremeCompressionCoordinate = new Coordinate(250, 0);
 
       var na = new NeutralAxis(125, 90, beta, 500, 500, extremeCompressionCoordinate);
 
@@ -342,17 +342,17 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(55937.5000, na.WhitneyCompressionArea, 1);
 
       // Rectangle coords
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-138.1250, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(138.1250, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-138.1250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(138.1250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].Y, 2);
-      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].X, 2);
+      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[3].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(-194.0625, na.Centroid.X, 2);
+      Assert.Equal(194.0625, na.Centroid.X, 2);
       Assert.Equal(0, na.Centroid.Y, 2);
     }
 
@@ -394,7 +394,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(250, 0);
+      var extremeCompressionCoordinate = new Coordinate(-250, 0);
 
       var na = new NeutralAxis(125, 270, beta, 500, 500, extremeCompressionCoordinate);
 
@@ -404,17 +404,17 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(55937.5000, na.WhitneyCompressionArea, 1);
 
       // Rectangle coords
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(138.1250, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-138.1250, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(250, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(138.1250, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-138.1250, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[2].Y, 2);
-      Assert.Equal(250, na.StressBlockSegments[0].Coordinates[3].X, 2);
+      Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].X, 2);
       Assert.Equal(-250, na.StressBlockSegments[0].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(194.0625, na.Centroid.X, 2);
+      Assert.Equal(-194.0625, na.Centroid.X, 2);
       Assert.Equal(0, na.Centroid.Y, 2);
     }
 
@@ -457,7 +457,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(-150, 300);
+      var extremeCompressionCoordinate = new Coordinate(150, 300);
 
       var na = new NeutralAxis(340, 64, beta, 300, 600, extremeCompressionCoordinate);
 
@@ -467,35 +467,35 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(113822.3478, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(-104.0748, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(220.9305, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(220.9305, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-104.0748, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Primary rectangle coords
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(-104.0748, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(300, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(-104.0748, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(-150, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(150, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(-300, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Secondary rectangle coords
-      Assert.Equal(-104.0748, na.StressBlockSegments[2].Coordinates[0].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[2].Coordinates[0].X, 2);
       Assert.Equal(300, na.StressBlockSegments[2].Coordinates[0].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[2].Coordinates[1].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[2].Coordinates[1].X, 2);
       Assert.Equal(300, na.StressBlockSegments[2].Coordinates[1].Y, 2);
-      Assert.Equal(-104.0748, na.StressBlockSegments[2].Coordinates[2].X, 2);
+      Assert.Equal(104.0748, na.StressBlockSegments[2].Coordinates[2].X, 2);
       Assert.Equal(220.9305, na.StressBlockSegments[2].Coordinates[2].Y, 2);
-      Assert.Equal(150, na.StressBlockSegments[2].Coordinates[3].X, 2);
+      Assert.Equal(-150, na.StressBlockSegments[2].Coordinates[3].X, 2);
       Assert.Equal(220.9305, na.StressBlockSegments[2].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(-37.9711, na.Centroid.X, 2);
+      Assert.Equal(37.9711, na.Centroid.X, 2);
       Assert.Equal(73.4652, na.Centroid.Y, 2);
     }
 
@@ -506,7 +506,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(-350, -200);
+      var extremeCompressionCoordinate = new Coordinate(350, -200);
 
       var na = new NeutralAxis(760, 113, beta, 700, 400, extremeCompressionCoordinate);
 
@@ -516,35 +516,35 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(259832.6153, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(219.1524, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-108.2576, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(350, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(-108.2576, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(219.1524, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(200, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Primary rectangle coords
-      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(219.1524, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(219.1524, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Secondary rectangle coords
-      Assert.Equal(219.1524, na.StressBlockSegments[2].Coordinates[0].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[2].Coordinates[0].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[2].Coordinates[0].Y, 2);
-      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[1].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[1].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[2].Coordinates[1].Y, 2);
-      Assert.Equal(219.1524, na.StressBlockSegments[2].Coordinates[2].X, 2);
+      Assert.Equal(-219.1524, na.StressBlockSegments[2].Coordinates[2].X, 2);
       Assert.Equal(-108.2576, na.StressBlockSegments[2].Coordinates[2].Y, 2);
-      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[3].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[3].X, 2);
       Assert.Equal(-108.2576, na.StressBlockSegments[2].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(-23.7806, na.Centroid.X, 2);
+      Assert.Equal(23.7806, na.Centroid.X, 2);
       Assert.Equal(-7.5480, na.Centroid.Y, 2);
     }
 
@@ -555,7 +555,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(350, -200);
+      var extremeCompressionCoordinate = new Coordinate(-350, -200);
 
       var na = new NeutralAxis(875, 235, beta, 700, 400, extremeCompressionCoordinate);
 
@@ -565,35 +565,35 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(279586.4997, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(-325.9361, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(165.6332, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(165.6332, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-325.9361, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(200, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Primary rectangle coords
-      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(-325.9361, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(-325.9361, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Secondary rectangle coords
-      Assert.Equal(-325.9361, na.StressBlockSegments[2].Coordinates[0].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[2].Coordinates[0].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[2].Coordinates[0].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[1].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[1].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[2].Coordinates[1].Y, 2);
-      Assert.Equal(-325.9361, na.StressBlockSegments[2].Coordinates[2].X, 2);
+      Assert.Equal(325.9361, na.StressBlockSegments[2].Coordinates[2].X, 2);
       Assert.Equal(165.6332, na.StressBlockSegments[2].Coordinates[2].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[3].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[3].X, 2);
       Assert.Equal(165.6332, na.StressBlockSegments[2].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(0.5058, na.Centroid.X, 2);
+      Assert.Equal(-0.5058, na.Centroid.X, 2);
       Assert.Equal(-0.2789, na.Centroid.Y, 2);
     }
 
@@ -604,7 +604,7 @@ namespace SpectaColTests.ForceEquilibriumTests
 
       var beta = canadianCode.BetaStressBlockValue(30);
 
-      var extremeCompressionCoordinate = new Coordinate(350, 200);
+      var extremeCompressionCoordinate = new Coordinate(-350, 200);
 
       var na = new NeutralAxis(840, 300, beta, 700, 400, extremeCompressionCoordinate);
 
@@ -614,35 +614,35 @@ namespace SpectaColTests.ForceEquilibriumTests
       Assert.Equal(276580.5910, na.WhitneyCompressionArea, 1);
 
       // Triangle coords
-      Assert.Equal(-287.1638, na.StressBlockSegments[0].Coordinates[0].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[0].Coordinates[0].X, 2);
       Assert.Equal(-91.1644, na.StressBlockSegments[0].Coordinates[0].Y, 2);
-      Assert.Equal(-350.0000, na.StressBlockSegments[0].Coordinates[1].X, 2);
+      Assert.Equal(350.0000, na.StressBlockSegments[0].Coordinates[1].X, 2);
       Assert.Equal(-91.1644, na.StressBlockSegments[0].Coordinates[1].Y, 2);
-      Assert.Equal(-287.1638, na.StressBlockSegments[0].Coordinates[2].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[0].Coordinates[2].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[0].Coordinates[2].Y, 2);
 
       // Primary rectangle coords
-      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[0].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[0].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[0].Y, 2);
-      Assert.Equal(-287.1638, na.StressBlockSegments[1].Coordinates[1].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[1].Coordinates[1].X, 2);
       Assert.Equal(200, na.StressBlockSegments[1].Coordinates[1].Y, 2);
-      Assert.Equal(-287.1638, na.StressBlockSegments[1].Coordinates[2].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[1].Coordinates[2].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[2].Y, 2);
-      Assert.Equal(350, na.StressBlockSegments[1].Coordinates[3].X, 2);
+      Assert.Equal(-350, na.StressBlockSegments[1].Coordinates[3].X, 2);
       Assert.Equal(-200, na.StressBlockSegments[1].Coordinates[3].Y, 2);
 
       // Secondary rectangle coords
-      Assert.Equal(-287.1638, na.StressBlockSegments[2].Coordinates[0].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[2].Coordinates[0].X, 2);
       Assert.Equal(200, na.StressBlockSegments[2].Coordinates[0].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[1].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[1].X, 2);
       Assert.Equal(200, na.StressBlockSegments[2].Coordinates[1].Y, 2);
-      Assert.Equal(-287.1638, na.StressBlockSegments[2].Coordinates[2].X, 2);
+      Assert.Equal(287.1638, na.StressBlockSegments[2].Coordinates[2].X, 2);
       Assert.Equal(-91.1644, na.StressBlockSegments[2].Coordinates[2].Y, 2);
-      Assert.Equal(-350, na.StressBlockSegments[2].Coordinates[3].X, 2);
+      Assert.Equal(350, na.StressBlockSegments[2].Coordinates[3].X, 2);
       Assert.Equal(-91.1644, na.StressBlockSegments[2].Coordinates[3].Y, 2);
 
       // Centroid
-      Assert.Equal(4.0682, na.Centroid.X, 2);
+      Assert.Equal(-4.0682, na.Centroid.X, 2);
       Assert.Equal(2.0241, na.Centroid.Y, 2);
     }
 
@@ -827,62 +827,62 @@ namespace SpectaColTests.ForceEquilibriumTests
     public void Maximum_Allowable_Neutral_Axis_Depth_0_to_90()
     {
       var naAngle = 45;
-      var extremeCompressionCoord = new Coordinate(-150, 450);
+      var extremeCompressionCoord = new Coordinate(150, 450);
       var rebar = new List<Rebar>()
       {
         new Rebar(new Coordinate(98.95, -398.95))
       };
       var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
 
-      Assert.Equal(1811.4425, maxDepth, 2);
+      Assert.Equal(1484.9242, maxDepth, 2);
     }
 
     [Fact]
     public void Maximum_Allowable_Neutral_Axis_Depth_90_to_180()
     {
       var naAngle = 124;
-      var extremeCompressionCoord = new Coordinate(150, 450);
+      var extremeCompressionCoord = new Coordinate(150, -450);
       var rebar = new List<Rebar>()
       {
         new Rebar(new Coordinate(-98.95, -398.95))
       };
       var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
 
-      Assert.Equal(1589.27, maxDepth, 2);
+      Assert.Equal(548.1833, maxDepth, 2);
     }
 
     [Fact]
     public void Maximum_Allowable_Neutral_Axis_Depth_180_to_270()
     {
       var naAngle = 239;
-      var extremeCompressionCoord = new Coordinate(150, -450);
+      var extremeCompressionCoord = new Coordinate(-150, -450);
       var rebar = new List<Rebar>()
       {
         new Rebar(new Coordinate(-98.95, 398.95))
       };
       var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
 
-      Assert.Equal(1518.1446, maxDepth, 2);
+      Assert.Equal(1122.333, maxDepth, 2);
     }
 
     [Fact]
     public void Maximum_Allowable_Neutral_Axis_Depth_270_to_360()
     {
       var naAngle = 357;
-      var extremeCompressionCoord = new Coordinate(150, 450);
+      var extremeCompressionCoord = new Coordinate(-150, 450);
       var rebar = new List<Rebar>()
       {
         new Rebar(new Coordinate(-98.95, -398.95))
       };
       var maxDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoord, rebar, naAngle, 0.0035, 0.002);
 
-      Assert.Equal(2008.57, maxDepth, 2);
+      Assert.Equal(1984.4027, maxDepth, 2);
     }
 
     [Fact]
     public void Coordinate_Limits_Between_0_And_90()
     {
-      var coordinate = new Coordinate(-200, 200);
+      var coordinate = new Coordinate(200, 200);
 
       Assert.Equal(0, coordinate.AngleLimit.Lower);
       Assert.Equal(90, coordinate.AngleLimit.Upper);
@@ -891,7 +891,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     [Fact]
     public void Coordinate_Limits_Between_90_And_180()
     {
-      var coordinate = new Coordinate(-200, -200);
+      var coordinate = new Coordinate(200, -200);
 
       Assert.Equal(90, coordinate.AngleLimit.Lower);
       Assert.Equal(180, coordinate.AngleLimit.Upper);
@@ -899,7 +899,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     [Fact]
     public void Coordinate_Limits_Between_180_And_270()
     {
-      var coordinate = new Coordinate(200, -200);
+      var coordinate = new Coordinate(-200, -200);
 
       Assert.Equal(180, coordinate.AngleLimit.Lower);
       Assert.Equal(270, coordinate.AngleLimit.Upper);
@@ -908,7 +908,7 @@ namespace SpectaColTests.ForceEquilibriumTests
     [Fact]
     public void Coordinate_Limits_Between_270_And_360()
     {
-      var coordinate = new Coordinate(200, 200);
+      var coordinate = new Coordinate(-200, 200);
 
       Assert.Equal(270, coordinate.AngleLimit.Lower);
       Assert.Equal(360, coordinate.AngleLimit.Upper);

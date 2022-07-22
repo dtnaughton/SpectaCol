@@ -26,11 +26,11 @@ namespace SpectaCol.Models.Geometry
     {
       if (x == 0 || y == 0)
         return new AngleLimit(0, 360);
-      else if (x < 0 && y > 0)
+      else if (x > 0 && y > 0)
         return new AngleLimit(0, 90);
-      else if (x < 0 && y < 0)
-        return new AngleLimit(90, 180);
       else if (x > 0 && y < 0)
+        return new AngleLimit(90, 180);
+      else if (x < 0 && y < 0)
         return new AngleLimit(180, 270);
       else
         return new AngleLimit(270, 360);

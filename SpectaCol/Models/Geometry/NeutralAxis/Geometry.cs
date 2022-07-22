@@ -31,7 +31,7 @@ namespace SpectaCol.Models.Geometry
     {
       var neutralAxisAngleRad = Geometry.ConvertDegreesToRadians(lineAngleDeg);
 
-      var tangentAngle = Math.Tan(neutralAxisAngleRad);
+      var tangentAngle = Math.Tan(neutralAxisAngleRad) * -1;
 
       var c = pointOfInterest.Y - (pointOfInterest.X * tangentAngle);
 

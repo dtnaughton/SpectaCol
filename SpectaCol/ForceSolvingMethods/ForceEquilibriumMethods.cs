@@ -50,7 +50,7 @@ namespace SpectaCol.ForceSolvingMethods
       var checkedAngles = new Dictionary<double, double>();
       var checkedDepths = new Dictionary<double, double>();
 
-      var tolerance = 0.005;
+      var tolerance = 0.002;
 
       var oppositedCoordinateToExtreme = Geometry.ReturnOppositeCoordinate(extremeCompressionCoordinate);
 
@@ -62,7 +62,7 @@ namespace SpectaCol.ForceSolvingMethods
         var isDepthCorrect = false;
 
         // Add check if angle (or angle very close to it) has already been checked?
-        var axisAngle = GuessNeutralAxisValue(checkedAngles, externalMomentRatio, extremeCompressionCoordinate.AngleLimit.Upper, extremeCompressionCoordinate.AngleLimit.Lower);
+        var axisAngle = GuessNeutralAxisAngle(checkedAngles, externalMomentRatio, extremeCompressionCoordinate.AngleLimit.Upper, extremeCompressionCoordinate.AngleLimit.Lower);
 
         var maximumAxisDepth = Geometry.MaximumNeutralAxisDepth(extremeCompressionCoordinate, longitudinalReinforcement.Rebar, axisAngle, concreteFailureStrain, longitudinalReinforcement.YieldStrength / longitudinalReinforcement.ElasticModulus);
 
@@ -70,10 +70,10 @@ namespace SpectaCol.ForceSolvingMethods
 
         while (!isDepthCorrect)
         {
-          var axisDepth = GuessNeutralAxisValue(checkedDepths, externalAxialForce, maximumAxisDepth);
+          var axisDepth = GuessNeutralAxisDepth(checkedDepths, externalAxialForce, maximumAxisDepth);
 
           // If depths converge on a value without reaching axial force tolerance, angle must be incorrect so break loop
-          if (DepthsConverged(checkedDepths))
+          if (ValuesConverged(checkedDepths))
           {
             canSolveAxial = false;
           }
@@ -87,7 +87,13 @@ namespace SpectaCol.ForceSolvingMethods
             // Moment about the x will cause internal moment to be axial x Y lever arm, so internal moment Y
             var internalMomentRatio = GetMomentRatio(internalForces.MomentY, internalForces.MomentX);
 
-            if (Math.Abs(internalMomentRatio).WithinTolerance(Math.Abs(externalMomentRatio), tolerance) && canSolveAxial)
+            // If angles converge, but cannot solve exactly within tolerance, answer should be sufficient enough
+            if (AnglesConverged(checkedAngles))
+            {
+              return GetInternalMomentResistance(internalForces.MomentX, internalForces.MomentY);
+            }
+
+            if (Math.Abs(internalMomentRatio).WithinTolerance(externalMomentRatio, tolerance) && canSolveAxial)
             {
               isAngleCorrect = true;
               internalMomentX = internalForces.MomentX;
@@ -116,9 +122,9 @@ namespace SpectaCol.ForceSolvingMethods
       return GetInternalMomentResistance(internalMomentX, internalMomentY);
     }
 
-    private static bool DepthsConverged(Dictionary<double, double> checkedDepths)
+    private static bool ValuesConverged(Dictionary<double, double> checkedValues)
     {
-      var guesses = checkedDepths.Count;
+      var guesses = checkedValues.Count;
 
       var iterationLimit = 3;
 
@@ -127,11 +133,36 @@ namespace SpectaCol.ForceSolvingMethods
       // Checks if the last 3 values are the same (to 0 dp), if so, converged.
       if (exceedsLimit)
       {
-        var depthOne = Convert.ToInt32(checkedDepths.ElementAt(guesses - 1).Key);
-        var depthTwo = Convert.ToInt32(checkedDepths.ElementAt(guesses - 2).Key);
-        var depthThree = Convert.ToInt32(checkedDepths.ElementAt(guesses - 3).Key);
+        var depthOne = Convert.ToInt32(checkedValues.ElementAt(guesses - 1).Key);
+        var depthTwo = Convert.ToInt32(checkedValues.ElementAt(guesses - 2).Key);
+        var depthThree = Convert.ToInt32(checkedValues.ElementAt(guesses - 3).Key);
 
         return exceedsLimit && depthOne == depthTwo && depthTwo == depthThree;
+      }
+
+      return false;
+    }
+
+    private static bool AnglesConverged(Dictionary<double, double> checkedValues)
+    {
+      var guesses = checkedValues.Count;
+
+      var iterationLimit = 6;
+
+      var exceedsLimit = guesses >= iterationLimit;
+
+      // Checks if the last 3 values are the same (to 0 dp), if so, converged.
+      if (exceedsLimit)
+      {
+        var depthOne = Convert.ToInt32(checkedValues.ElementAt(guesses - 1).Key);
+        var depthTwo = Convert.ToInt32(checkedValues.ElementAt(guesses - 2).Key);
+        var depthThree = Convert.ToInt32(checkedValues.ElementAt(guesses - 3).Key);
+        var depthFour = Convert.ToInt32(checkedValues.ElementAt(guesses - 4).Key);
+        var depthFive = Convert.ToInt32(checkedValues.ElementAt(guesses - 5).Key);
+        var depthSix = Convert.ToInt32(checkedValues.ElementAt(guesses - 6).Key);
+
+        return exceedsLimit && depthOne == depthTwo && depthTwo == depthThree && depthThree == depthFour
+          && depthFour == depthFive && depthFive == depthSix;
       }
 
       return false;
@@ -163,7 +194,7 @@ namespace SpectaCol.ForceSolvingMethods
       return Math.Abs(targetValue - value) <= tolerance;
     }
 
-    public static double GuessNeutralAxisValue(Dictionary<double, double> previousGuesses, double targetValue, double maxAllowable, double minAllowable = 0)
+    public static double GuessNeutralAxisDepth(Dictionary<double, double> previousGuesses, double targetValue, double maxAllowable, double minAllowable = 0)
     {
       if (maxAllowable < 0)
       {
@@ -178,6 +209,32 @@ namespace SpectaCol.ForceSolvingMethods
       foreach (var pg in previousGuesses)
       {
         if (pg.Value - targetValue >= 0)
+          upperLimits.Add(pg.Key);
+        else
+          lowerLimits.Add(pg.Key);
+      }
+
+      var upperLimit = upperLimits.Count != 0 ? upperLimits.Min() : maxAllowable;
+      var lowerLimit = lowerLimits.Count != 0 ? lowerLimits.Max() : minAllowable;
+
+      return (upperLimit + lowerLimit) / 2;
+    }
+
+    public static double GuessNeutralAxisAngle(Dictionary<double, double> previousGuesses, double targetValue, double maxAllowable, double minAllowable = 0)
+    {
+      if (maxAllowable < 0)
+      {
+        throw new ArgumentException("Maximum allowable value should be greater than 0");
+      }
+
+      //targetValue = Math.Abs(targetValue);
+
+      var upperLimits = new List<double>();
+      var lowerLimits = new List<double>();
+
+      foreach (var pg in previousGuesses)
+      {
+        if (pg.Value - targetValue < 0)
           upperLimits.Add(pg.Key);
         else
           lowerLimits.Add(pg.Key);
