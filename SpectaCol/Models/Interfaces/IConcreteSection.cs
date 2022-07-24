@@ -23,7 +23,7 @@ namespace SpectaCol.Models.Interfaces
     public double Beta { get; set; }
     public string Units { get; set; }
     public DesignResults DesignResults { get; set; }
-    public List<FrameResult> ForceResults { get; set; }
+    public Dictionary<AxialMomentPlane, List<FrameResult>> Forces { get; set; }
     public string ApplicationId { get; set; }
     public double Length { get; set; }
     public ForceUnit ForceUnit { get; set; }

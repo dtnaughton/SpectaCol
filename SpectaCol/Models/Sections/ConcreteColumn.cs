@@ -28,7 +28,7 @@ namespace SpectaCol.Models.Sections
     public double Beta { get; set; } // Belong to design code?
     public string Units { get; set; }
     public string ApplicationId { get; set; }
-    public List<FrameResult> ForceResults { get; set; } = new List<FrameResult>();
+    public Dictionary<AxialMomentPlane, List<FrameResult>> Forces { get; set; } = new Dictionary<AxialMomentPlane, List<FrameResult>>();
     public ForceUnit ForceUnit { get; set; }
     public LengthUnit LengthUnit { get; set; }
     public StressUnit StressUnit { get; set; }

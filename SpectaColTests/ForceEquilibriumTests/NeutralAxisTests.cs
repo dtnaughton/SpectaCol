@@ -920,7 +920,7 @@ namespace SpectaColTests.ForceEquilibriumTests
       var coordinate = new Coordinate(0, 200);
 
       Assert.Equal(0, coordinate.AngleLimit.Lower);
-      Assert.Equal(360, coordinate.AngleLimit.Upper);
+      Assert.Equal(0, coordinate.AngleLimit.Upper);
     }
 
     [Fact]
@@ -928,8 +928,8 @@ namespace SpectaColTests.ForceEquilibriumTests
     {
       var coordinate = new Coordinate(200, 0);
 
-      Assert.Equal(0, coordinate.AngleLimit.Lower);
-      Assert.Equal(360, coordinate.AngleLimit.Upper);
+      Assert.Equal(90, coordinate.AngleLimit.Lower);
+      Assert.Equal(90, coordinate.AngleLimit.Upper);
     }
 
   }

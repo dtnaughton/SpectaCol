@@ -29,21 +29,36 @@ namespace SpectaCol.Models.Geometry
 
     public static double PerpendicularDistanceBetweenPointAndLine(Coordinate pointOfInterest, Coordinate lineCoordinate, double lineAngleDeg)
     {
-      var neutralAxisAngleRad = Geometry.ConvertDegreesToRadians(lineAngleDeg);
+      // line is horizontal
+      if (lineAngleDeg  == 0 || lineAngleDeg == 180 || lineAngleDeg == 360)
+      {
+        return DistanceBetweenCoordinates(pointOfInterest, new Coordinate(pointOfInterest.X, lineCoordinate.Y));
+      }
 
-      var tangentAngle = Math.Tan(neutralAxisAngleRad) * -1;
+      // line is vertical
+      else if (lineAngleDeg == 90 || lineAngleDeg == 270)
+      {
+        return DistanceBetweenCoordinates(pointOfInterest, new Coordinate(lineCoordinate.X, pointOfInterest.Y));
+      }
 
-      var c = pointOfInterest.Y - (pointOfInterest.X * tangentAngle);
+      else
+      {
+        var neutralAxisAngleRad = Geometry.ConvertDegreesToRadians(lineAngleDeg);
 
-      var b = lineCoordinate.Y + (1 / tangentAngle * lineCoordinate.X);
+        var tangentAngle = Math.Tan(neutralAxisAngleRad) * -1;
 
-      var xCoordOfIntersect = (b - c) / (tangentAngle + 1 / tangentAngle);
+        var c = pointOfInterest.Y - (pointOfInterest.X * tangentAngle);
 
-      var yCoordOfIntersect = xCoordOfIntersect * tangentAngle + c;
+        var b = lineCoordinate.Y + (1 / tangentAngle * lineCoordinate.X);
 
-      var intersectionCoord = new Coordinate(xCoordOfIntersect, yCoordOfIntersect);
+        var xCoordOfIntersect = (b - c) / (tangentAngle + 1 / tangentAngle);
 
-      return DistanceBetweenCoordinates(intersectionCoord, lineCoordinate);
+        var yCoordOfIntersect = xCoordOfIntersect * tangentAngle + c;
+
+        var intersectionCoord = new Coordinate(xCoordOfIntersect, yCoordOfIntersect);
+
+        return DistanceBetweenCoordinates(intersectionCoord, lineCoordinate);
+      }
     }
 
     public static double DistanceBetweenCoordinates(Coordinate referencePoint, Coordinate point)

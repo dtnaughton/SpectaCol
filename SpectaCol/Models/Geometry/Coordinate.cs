@@ -24,8 +24,10 @@ namespace SpectaCol.Models.Geometry
 
     private AngleLimit GetAngleLimits(double x, double y)
     {
-      if (x == 0 || y == 0)
-        return new AngleLimit(0, 360);
+      if (x == 0)
+        return new AngleLimit(0, 0);
+      else if (y == 0)
+        return new AngleLimit(90, 90);
       else if (x > 0 && y > 0)
         return new AngleLimit(0, 90);
       else if (x > 0 && y < 0)

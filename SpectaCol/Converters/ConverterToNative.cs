@@ -192,7 +192,8 @@ namespace SpectaCol.Converters
               Convert.ToDouble(result1D.momentZZ),
               Convert.ToDouble(result1D.position),
               result1D.permutation,
-              result1D.element.applicationId);
+              result1D.element.applicationId,
+              _objectStore.Results?.Count + 1);
 
       _objectStore.Results?.Add(frameResult);
 

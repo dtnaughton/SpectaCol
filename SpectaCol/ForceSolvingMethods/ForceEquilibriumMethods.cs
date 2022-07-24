@@ -51,8 +51,8 @@ namespace SpectaCol.ForceSolvingMethods
       var checkedDepths = new Dictionary<double, double>();
 
       var tolerance = 0.002;
-
-      var oppositedCoordinateToExtreme = Geometry.ReturnOppositeCoordinate(extremeCompressionCoordinate);
+      var minimumAxialTolerance = 2500;
+      var minimumMomentRatioTolerance = 0.001;
 
       double internalMomentX = 0;
       double internalMomentY = 0;
@@ -73,27 +73,25 @@ namespace SpectaCol.ForceSolvingMethods
           var axisDepth = GuessNeutralAxisDepth(checkedDepths, externalAxialForce, maximumAxisDepth);
 
           // If depths converge on a value without reaching axial force tolerance, angle must be incorrect so break loop
-          if (ValuesConverged(checkedDepths))
+          if (ValuesConverged(checkedDepths, 5))
           {
             canSolveAxial = false;
           }
 
           var internalForces = CalculateInternalSectionForces(sectionShape, crossSectionParameters, axisAngle, axisDepth, extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, phiS, phiC, longitudinalReinforcement);
 
-          if (internalForces.AxialForce.WithinTolerance(externalAxialForce, tolerance) || !canSolveAxial)
+          if (internalForces.AxialForce.WithinTolerance(externalAxialForce, tolerance, minimumAxialTolerance) || !canSolveAxial)
           {
-            isDepthCorrect = true;
-
             // Moment about the x will cause internal moment to be axial x Y lever arm, so internal moment Y
-            var internalMomentRatio = GetMomentRatio(internalForces.MomentY, internalForces.MomentX);
+            var internalMomentRatio = GetMomentRatio(internalForces.MomentX, internalForces.MomentY);
 
             // If angles converge, but cannot solve exactly within tolerance, answer should be sufficient enough
-            if (AnglesConverged(checkedAngles))
+            if (ValuesConverged(checkedAngles, 10))
             {
               return GetInternalMomentResistance(internalForces.MomentX, internalForces.MomentY);
             }
 
-            if (Math.Abs(internalMomentRatio).WithinTolerance(externalMomentRatio, tolerance) && canSolveAxial)
+            if (Math.Abs(internalMomentRatio).WithinTolerance(externalMomentRatio, tolerance, minimumMomentRatioTolerance) && canSolveAxial)
             {
               isAngleCorrect = true;
               internalMomentX = internalForces.MomentX;
@@ -122,47 +120,79 @@ namespace SpectaCol.ForceSolvingMethods
       return GetInternalMomentResistance(internalMomentX, internalMomentY);
     }
 
-    private static bool ValuesConverged(Dictionary<double, double> checkedValues)
+    public static Coordinate FindExtremeCompressionCoordinate(CrossSectionParameters crossSectionParameters, double externalMomentX, double externalMomentY)
     {
-      var guesses = checkedValues.Count;
-
-      var iterationLimit = 3;
-
-      var exceedsLimit = guesses >= iterationLimit;
-
-      // Checks if the last 3 values are the same (to 0 dp), if so, converged.
-      if (exceedsLimit)
+      if (externalMomentX == 0 && externalMomentY > 0)
       {
-        var depthOne = Convert.ToInt32(checkedValues.ElementAt(guesses - 1).Key);
-        var depthTwo = Convert.ToInt32(checkedValues.ElementAt(guesses - 2).Key);
-        var depthThree = Convert.ToInt32(checkedValues.ElementAt(guesses - 3).Key);
-
-        return exceedsLimit && depthOne == depthTwo && depthTwo == depthThree;
+        return new Coordinate(crossSectionParameters.Width / 2, 0);
       }
 
-      return false;
+      else if (externalMomentX == 0 && externalMomentY < 0)
+      {
+        return new Coordinate(-crossSectionParameters.Width / 2, 0);
+      }
+
+      else if (externalMomentX > 0 && externalMomentY == 0)
+      {
+        return new Coordinate(0, crossSectionParameters.Depth / 2);
+      }
+
+      else if (externalMomentX < 0 && externalMomentY == 0)
+      {
+        return new Coordinate(0, -crossSectionParameters.Depth / 2);
+      }
+
+      else if (externalMomentX > 0 && externalMomentY > 0)
+      {
+        return new Coordinate(crossSectionParameters.Width/2, crossSectionParameters.Depth/2);
+      }
+
+      else if (externalMomentX > 0 && externalMomentY < 0)
+      {
+        return new Coordinate(crossSectionParameters.Width / 2, -crossSectionParameters.Depth / 2);
+      }
+
+      else if (externalMomentX < 0 && externalMomentY > 0)
+      {
+        return new Coordinate(-crossSectionParameters.Width / 2, crossSectionParameters.Depth / 2);
+      }
+
+      else if (externalMomentX < 0 && externalMomentY < 0)
+      {
+        return new Coordinate(-crossSectionParameters.Width / 2, -crossSectionParameters.Depth / 2);
+      }
+
+      // Edge case both moments are 0
+      else
+      {
+        return new Coordinate(0, 0);
+      }
     }
 
-    private static bool AnglesConverged(Dictionary<double, double> checkedValues)
+    public static bool ValuesConverged(Dictionary<double, double> checkedValues, int iterationLimit)
     {
       var guesses = checkedValues.Count;
-
-      var iterationLimit = 6;
 
       var exceedsLimit = guesses >= iterationLimit;
 
       // Checks if the last 3 values are the same (to 0 dp), if so, converged.
       if (exceedsLimit)
       {
-        var depthOne = Convert.ToInt32(checkedValues.ElementAt(guesses - 1).Key);
-        var depthTwo = Convert.ToInt32(checkedValues.ElementAt(guesses - 2).Key);
-        var depthThree = Convert.ToInt32(checkedValues.ElementAt(guesses - 3).Key);
-        var depthFour = Convert.ToInt32(checkedValues.ElementAt(guesses - 4).Key);
-        var depthFive = Convert.ToInt32(checkedValues.ElementAt(guesses - 5).Key);
-        var depthSix = Convert.ToInt32(checkedValues.ElementAt(guesses - 6).Key);
+        var valuesToCompare = new List<int>();
 
-        return exceedsLimit && depthOne == depthTwo && depthTwo == depthThree && depthThree == depthFour
-          && depthFour == depthFive && depthFive == depthSix;
+        for (int i = 1; i <= iterationLimit; i++)
+        {
+          valuesToCompare.Add(Convert.ToInt32(checkedValues.ElementAt(guesses - i).Key));
+        }
+
+        var allValuesEqual = false;
+
+        for (int i = 0; i < valuesToCompare.Count - 1; i++)
+        {
+          allValuesEqual = valuesToCompare[i] == valuesToCompare[i + 1];
+        }
+
+        return allValuesEqual;
       }
 
       return false;
@@ -170,13 +200,28 @@ namespace SpectaCol.ForceSolvingMethods
 
     private static double GetMomentRatio(double numerator, double denominator)
     {
-      var momentRatio = numerator / denominator;
+      return numerator == 0 || denominator == 0 ? 0 : numerator / denominator;
+    }
 
-      // if ratio is less than 0, return inverse as internal moments will not reach very high moment ratio values due to trig setup.
-      //if (momentRatio < 0)
-      //  return 1 / momentRatio;
-      //else
-      return momentRatio;
+    public static double GetMomentAngle(double momentX, double momentY)
+    {
+      var roundedMomentX = Math.Round(momentX, MidpointRounding.AwayFromZero);
+      var roundedMomentY = Math.Round(momentY, MidpointRounding.AwayFromZero);
+
+      if (roundedMomentX == 0 && roundedMomentY == 0)
+        return 0;
+
+      else if (roundedMomentX == 0 && roundedMomentY != 0)
+        return 90;
+
+      else if (roundedMomentX != 0 && roundedMomentY == 0)
+        return 0;
+
+      else
+      {
+        var angle = Math.Atan(momentY / momentX) * 180 / Math.PI;
+        return Math.Round(angle, MidpointRounding.AwayFromZero);
+      }
     }
 
     private static double GetInternalMomentResistance(double internalMomentX, double internalMomentY)
@@ -184,13 +229,13 @@ namespace SpectaCol.ForceSolvingMethods
       return Math.Sqrt(Math.Pow(internalMomentX, 2) + Math.Pow(internalMomentY, 2));
     }
 
-    public static bool WithinTolerance(this double value, double targetValue, double tolerancePercentage)
+    public static bool WithinTolerance(this double value, double targetValue, double tolerancePercentage, double minimumTolerance = 0)
     {
       // If solving for P = 0, tolerance would be 0 therefore never converge on value
       var tolerance = tolerancePercentage * targetValue;
 
       if (tolerance == 0)
-        tolerance = 2500;
+        tolerance = minimumTolerance;
       return Math.Abs(targetValue - value) <= tolerance;
     }
 
@@ -270,8 +315,8 @@ namespace SpectaCol.ForceSolvingMethods
 
       var axialForceConcrete = CalculateInternalConcreteCompressionForce(neutralAxis.WhitneyCompressionArea, concreteMaterial.CompressiveStrength, designResults.Alpha, phiC);
 
-      var internalMomentX = CalculateMomentFromAxial(axialForceConcrete, neutralAxis.Centroid.X);
-      var internalMomentY = CalculateMomentFromAxial(axialForceConcrete, neutralAxis.Centroid.Y);
+      var internalMomentX = CalculateMomentFromAxial(axialForceConcrete, neutralAxis.Centroid.Y);
+      var internalMomentY = CalculateMomentFromAxial(axialForceConcrete, neutralAxis.Centroid.X);
 
       var internalAxial = axialForceConcrete;
 
@@ -281,8 +326,8 @@ namespace SpectaCol.ForceSolvingMethods
         var strain = CalculateBarStrain(bar, concreteFailureStrain, neutralAxis.Depth, effectiveDepth, extremeCompressionCoordinate);
         var stress = CalculateBarStress(strain, longitudinalReinforcement.ElasticModulus, longitudinalReinforcement.YieldStrength, designResults.Alpha, concreteMaterial.CompressiveStrength);
         var barAxialForce = CalculateBarAxialForce(stress, longitudinalReinforcement, phiS);
-        var momentX = CalculateMomentFromAxial(barAxialForce, bar.Coordinate.X);
-        var momentY = CalculateMomentFromAxial(barAxialForce, bar.Coordinate.Y);
+        var momentX = CalculateMomentFromAxial(barAxialForce, bar.Coordinate.Y);
+        var momentY = CalculateMomentFromAxial(barAxialForce, bar.Coordinate.X);
 
         internalAxial += barAxialForce;
         internalMomentX += momentX;
