@@ -53,7 +53,7 @@ namespace SpectaCol.Models.DesignCodes
       throw new NotImplementedException();
     }
 
-    public double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
+    public double CalculateMaximumAllowableLoadResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
     {
       throw new NotImplementedException();
     }

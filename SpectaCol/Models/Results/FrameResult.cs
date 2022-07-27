@@ -18,6 +18,7 @@ namespace SpectaCol.Models.Results
     public string? LoadCombination { get; set; }
     public int? Index { get; set; }
     public string? AssociatedElementId { get; set; }
+    public double Utilization { get; set; }
     public FrameResult(double axial, double shearX, double shearY, double momentX, double momentY, double torsion, double position, string? loadCombination, string? associatedElementId, int? index)
     {
       Axial = axial;

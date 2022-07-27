@@ -16,6 +16,7 @@ namespace SpectaCol.Converters
   public partial class SpectaColConverter : ISpeckleConverter
   {
     private readonly ObjectStore _objectStore;
+    private readonly SettingsStore _settingsStore;
     public string Description => throw new NotImplementedException();
 
     public string Name => throw new NotImplementedException();
@@ -116,9 +117,10 @@ namespace SpectaCol.Converters
       throw new NotImplementedException();
     }
 
-    public SpectaColConverter(ObjectStore objectStore)
+    public SpectaColConverter(ObjectStore objectStore, SettingsStore settingsStore)
     {
       _objectStore = objectStore;
+      _settingsStore = settingsStore;
     }
 
     //public ReceiveMode ReceiveMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

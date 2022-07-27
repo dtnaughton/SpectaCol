@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Enums;
+﻿using SpectaCol.ForceSolvingMethods;
+using SpectaCol.Models.Enums;
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Interfaces;
 using SpectaCol.Models.Materials;
@@ -42,7 +43,29 @@ namespace SpectaCol.Models.DesignCodes
     {
       concreteSection.DesignResults.Alpha = AlphaStressBlockValue(concreteSection.Concrete.CompressiveStrength);
       concreteSection.DesignResults.Beta = BetaStressBlockValue(concreteSection.Concrete.CompressiveStrength);
-      concreteSection.DesignResults.CompressionResistance = CalculateCompressionResistance(concreteSection.DesignResults.Alpha, concreteSection.Concrete.CompressiveStrength, concreteSection.CrossSectionParameters, concreteSection.LongitudinalReinforcement, concreteSection.TransverseReinforcement);
+      concreteSection.DesignResults.CompressionResistance = CalculateMaximumAllowableLoadResistance(concreteSection.DesignResults.Alpha, concreteSection.Concrete.CompressiveStrength, concreteSection.CrossSectionParameters, concreteSection.LongitudinalReinforcement, concreteSection.TransverseReinforcement);
+      foreach (var plane in concreteSection.Forces)
+      {
+        var momentX = plane.Value.First().MomentX;
+        var momentY = plane.Value.First().MomentY;
+
+        plane.Key.Points = ForceEquilibriumMethods.CalculateAxialMomentFailurePlane(
+          CalculateFactoredAxialLoadResistance(concreteSection.DesignResults.Alpha, concreteSection.Concrete.CompressiveStrength, concreteSection.CrossSectionParameters, concreteSection.LongitudinalReinforcement), 
+          momentX, momentY,
+          concreteSection.Shape, concreteSection.CrossSectionParameters,
+          ForceEquilibriumMethods.FindExtremeCompressionCoordinate(concreteSection.CrossSectionParameters, momentX, momentY),
+          concreteSection.DesignResults, ConcreteFailureStrain, concreteSection.Concrete, PhiS, PhiC,
+          concreteSection.LongitudinalReinforcement);
+
+        foreach (var frameResult in plane.Value)
+        {
+          frameResult.Utilization = ForceEquilibriumMethods.CalculateUtilization(
+            plane.Key,
+            concreteSection.DesignResults.CompressionResistance,
+            frameResult.Axial, frameResult.MomentX, frameResult.MomentY);
+        }
+      }
+      concreteSection.MaximumUtilization = ForceEquilibriumMethods.GetMaximumUtilization(concreteSection.Forces);
     }
 
     #region Chapter 10
@@ -74,13 +97,13 @@ namespace SpectaCol.Models.DesignCodes
     /// <param name="longitudinalReinforcement"></param>
     /// <param name="transverseReinforcement"></param>
     /// <returns>Maximum factored axial load resistance of compression members</returns>
-    public double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
+    public double CalculateMaximumAllowableLoadResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement)
     {
       // Clause 10.10.5 - reduced capacity factor for less than minimum reinforcement
       var minReinforcementReductionFactor = Math.Min(1, 0.5 * (1 + (longitudinalReinforcement.ReinforcementPercentage / 100) / 0.01));
 
       // Equation 10.11
-      var P_ro = (alpha * _phiC * concreteStrength * ((crossSectionParameters.Width * crossSectionParameters.Depth) - longitudinalReinforcement.TotalReinforcementArea)) + (_phiS * longitudinalReinforcement.YieldStrength * longitudinalReinforcement.TotalReinforcementArea);
+      var P_ro = CalculateFactoredAxialLoadResistance(alpha, concreteStrength, crossSectionParameters, longitudinalReinforcement);
 
       // Equation 10.8
       if (transverseReinforcement.Type == StirrupType.Spiral)
@@ -93,6 +116,11 @@ namespace SpectaCol.Models.DesignCodes
       {
         return Math.Min(((0.2 + 0.002 * Math.Min(crossSectionParameters.Width, crossSectionParameters.Depth)) * P_ro), 0.8 * P_ro) * minReinforcementReductionFactor;
       }
+    }
+
+    public double CalculateFactoredAxialLoadResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement)
+    {
+      return (alpha * _phiC * concreteStrength * ((crossSectionParameters.Width * crossSectionParameters.Depth) - longitudinalReinforcement.TotalReinforcementArea)) + (_phiS * longitudinalReinforcement.YieldStrength * longitudinalReinforcement.TotalReinforcementArea);
     }
 
     #endregion

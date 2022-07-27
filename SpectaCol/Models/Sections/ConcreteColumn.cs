@@ -29,6 +29,7 @@ namespace SpectaCol.Models.Sections
     public string Units { get; set; }
     public string ApplicationId { get; set; }
     public Dictionary<AxialMomentPlane, List<FrameResult>> Forces { get; set; } = new Dictionary<AxialMomentPlane, List<FrameResult>>();
+    public double MaximumUtilization { get; set; }
     public ForceUnit ForceUnit { get; set; }
     public LengthUnit LengthUnit { get; set; }
     public StressUnit StressUnit { get; set; }

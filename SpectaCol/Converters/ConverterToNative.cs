@@ -183,8 +183,11 @@ namespace SpectaCol.Converters
     {
       var frameResults = new List<FrameResult>();
 
+      // Add compression force conversion to positive based on display setting
+      var axialMagnitudeFactor = _settingsStore.IsCompressionNegative ? -1 : 1;
+
       var frameResult = new FrameResult(
-              Convert.ToDouble(result1D.forceZ),
+              Convert.ToDouble(result1D.forceZ) * axialMagnitudeFactor,
               Convert.ToDouble(result1D.forceX),
               Convert.ToDouble(result1D.forceY),
               Convert.ToDouble(result1D.momentXX),

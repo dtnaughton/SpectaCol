@@ -28,7 +28,7 @@ namespace SpectaCol.Commands
     {
       var transport = new ServerTransport(_accountStore?.SelectedAccount, _accountStore?.SelectedStream?.id);
 
-      var converter = new SpectaColConverter(_objectStore); // add this to store?
+      var converter = new SpectaColConverter(_objectStore, _settingsStore); // add this to store?
 
       var commitObj = await Operations.Receive(_accountStore?.SelectedCommit?.referencedObject, transport);
 

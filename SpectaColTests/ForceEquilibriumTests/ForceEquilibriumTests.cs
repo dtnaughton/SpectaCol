@@ -16,6 +16,162 @@ namespace SpectaColTests.ForceEquilibriumTests
   public class ForceEquilibriumTests
   {
     [Fact]
+    public void Get_Maximum_Utilization()
+    {
+      var frameResult1 = new FrameResult(100, 100, 100, 100, 100, 100, 1, "loadComb", "appId", 1);
+      frameResult1.Utilization = 0.97;
+      var frameResult2 = new FrameResult(100, 100, 100, 100, 100, 100, 1, "loadComb", "appId", 1);
+      frameResult2.Utilization = 0.33;
+      var frameResult3 = new FrameResult(100, 100, 100, 100, 100, 100, 1, "loadComb", "appId", 1);
+      frameResult3.Utilization = 0.63;
+      var frameResult4 = new FrameResult(100, 100, 100, 100, 100, 100, 1, "loadComb", "appId", 1);
+      frameResult4.Utilization = 0.12;
+      var frameResult5 = new FrameResult(100, 100, 100, 100, 100, 100, 1, "loadComb", "appId", 1);
+      frameResult5.Utilization = 0;
+
+      var list1 = new List<FrameResult>() { frameResult1, frameResult2 };
+      var list2 = new List<FrameResult>() { frameResult3, frameResult4, frameResult5 };
+
+      var amPlane1 = new AxialMomentPlane()
+      {
+        Theta = 20,
+      };
+
+      var amPlane2 = new AxialMomentPlane()
+      {
+        Theta = 30,
+      };
+      var axialMomentPlanes = new Dictionary<AxialMomentPlane, List<FrameResult>>();
+      axialMomentPlanes.Add(amPlane1, list1);
+      axialMomentPlanes.Add(amPlane2, list2);
+
+      var maxUtilization = ForceEquilibriumMethods.GetMaximumUtilization(axialMomentPlanes);
+
+      Assert.Equal(0.97, maxUtilization);
+    }
+
+    [Fact]
+    public void Calculate_Utilization_Should_Be_Compression_Failure()
+    {
+      var axialMomentPlane = new AxialMomentPlane();
+
+      var utilization = ForceEquilibriumMethods.CalculateUtilization(axialMomentPlane, 2850, 2013.3, 0, 0);
+
+      Assert.Equal(0.706, utilization, 3);
+    }
+
+    [Fact]
+    public void Calculate_Utilization_Should_Be_9999_Utilization()
+    {
+      var axialMomentPoints = new Dictionary<double, double>();
+      axialMomentPoints.Add(0, 100);
+      axialMomentPoints.Add(100, 200);
+      axialMomentPoints.Add(200, 300);
+      axialMomentPoints.Add(300, 400);
+      axialMomentPoints.Add(400, 500);
+      axialMomentPoints.Add(500, 600);
+
+      var axialMomentPlane = new AxialMomentPlane()
+      {
+        Points = axialMomentPoints
+      };
+
+      var utilization = ForceEquilibriumMethods.CalculateUtilization(axialMomentPlane, 900, 550, 100, 100);
+
+      Assert.Equal(9999, utilization);
+    }
+
+    [Fact]
+    public void Calculate_Utilization_Should_Be_Compression_Governed()
+    {
+      var axialMomentPoints = new Dictionary<double, double>();
+      axialMomentPoints.Add(0, 100);
+      axialMomentPoints.Add(100, 200);
+      axialMomentPoints.Add(200, 300);
+      axialMomentPoints.Add(300, 400);
+      axialMomentPoints.Add(400, 500);
+      axialMomentPoints.Add(500, 600);
+
+      var axialMomentPlane = new AxialMomentPlane()
+      {
+        Points = axialMomentPoints
+      };
+
+      var utilization = ForceEquilibriumMethods.CalculateUtilization(axialMomentPlane, 550, 300, 100, 100);
+
+      Assert.Equal(0.545, utilization, 3);
+    }
+
+    [Fact]
+    public void Calculate_Utilization_Should_Be_Moment_Governed()
+    {
+      var axialMomentPoints = new Dictionary<double, double>();
+      axialMomentPoints.Add(0, 100);
+      axialMomentPoints.Add(100, 200);
+      axialMomentPoints.Add(200, 300);
+      axialMomentPoints.Add(300, 400);
+      axialMomentPoints.Add(400, 500);
+      axialMomentPoints.Add(500, 600);
+
+      var axialMomentPlane = new AxialMomentPlane()
+      {
+        Points = axialMomentPoints
+      };
+
+      var utilization = ForceEquilibriumMethods.CalculateUtilization(axialMomentPlane, 550, 300, 300, 300);
+
+      Assert.Equal(1.06, utilization, 2);
+    }
+
+    [Fact]
+    public void Interpolate_Moment_Values_1()
+    {
+      var kvp1 = new KeyValuePair<double, double>(100, 200);
+      var kvp2 = new KeyValuePair<double, double>(200, 500);
+      var axialForce = 175;
+
+      var momentResistance = ForceEquilibriumMethods.InterpolateMomentValues(axialForce, kvp1, kvp2);
+
+      Assert.Equal(425, momentResistance);
+    }
+
+    [Fact]
+    public void Interpolate_Moment_Values_2()
+    {
+      var kvp1 = new KeyValuePair<double, double>(-100, 200);
+      var kvp2 = new KeyValuePair<double, double>(200, 500);
+      var axialForce = 175;
+
+      var momentResistance = ForceEquilibriumMethods.InterpolateMomentValues(axialForce, kvp1, kvp2);
+
+      Assert.Equal(475, momentResistance);
+    }
+
+    [Fact]
+    public void Interpolate_Moment_Values_3()
+    {
+      var kvp1 = new KeyValuePair<double, double>(-100, 200);
+      var kvp2 = new KeyValuePair<double, double>(-200, 500);
+      var axialForce = -150;
+
+      var momentResistance = ForceEquilibriumMethods.InterpolateMomentValues(axialForce, kvp1, kvp2);
+
+      Assert.Equal(350, momentResistance);
+    }
+
+    [Fact]
+    public void Interpolate_Moment_Values_4()
+    {
+      var kvp1 = new KeyValuePair<double, double>(-100, -200);
+      var kvp2 = new KeyValuePair<double, double>(-200, -500);
+      var axialForce = -150;
+
+      var momentResistance = ForceEquilibriumMethods.InterpolateMomentValues(axialForce, kvp1, kvp2);
+
+      Assert.Equal(-350, momentResistance);
+    }
+
+    [Fact]
     public void Get_Moment_Angle_X_Only()
     {
       var theta = ForceEquilibriumMethods.GetMomentAngle(100, 0);

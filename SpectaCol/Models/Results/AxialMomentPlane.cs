@@ -18,6 +18,6 @@ namespace SpectaCol.Models.Results
     }
 
     public double Theta { get; set; }
-    public Dictionary<double, double> Points { get; set; } = new Dictionary<double, double>();
+    public Dictionary<double, double> Points { get; set; }
   }
 }

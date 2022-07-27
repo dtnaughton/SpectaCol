@@ -12,27 +12,91 @@ namespace SpectaCol.ForceSolvingMethods
 {
   public static class ForceEquilibriumMethods
   {
+    public static double GetMaximumUtilization(Dictionary<AxialMomentPlane, List<FrameResult>> axialMomentPlanes)
+    {
+      var maximumUtilization = 0.0;
+
+      foreach (var plane in axialMomentPlanes)
+      {
+        foreach (var frameResult in plane.Value)
+        {
+          if (frameResult.Utilization > maximumUtilization)
+            maximumUtilization = frameResult.Utilization;
+        }
+      }
+
+      return maximumUtilization;
+    }
+    
+    // Method doesn't currently handle tension
+    public static double CalculateUtilization(AxialMomentPlane axialMomentPlane, double compressionResistance, double axialForce, double momentX, double momentY)
+    {
+      var appliedMoment = GetResultantMoment(momentX, momentY);
+
+      if (Math.Round(appliedMoment, MidpointRounding.AwayFromZero) == 0)
+        return Math.Abs(axialForce / compressionResistance);
+
+      var foundLowerLimit = false;
+
+      var momentResistance = 0.0;
+
+      for (int i = 0; i < axialMomentPlane.Points.Count; i++)
+      {
+        var axialValue = axialMomentPlane.Points.ElementAt(i).Key;
+        foundLowerLimit = axialValue > axialForce;
+
+        if (foundLowerLimit)
+        {
+          var lowerLimit = axialMomentPlane.Points.ElementAt(i - 1);
+          var upperLimit = axialMomentPlane.Points.ElementAt(i);
+
+          momentResistance = ForceEquilibriumMethods.InterpolateMomentValues(axialForce, lowerLimit, upperLimit);
+          break;
+        }
+      }
+
+      // If moment exceeds maximum value of NvM chart, moment resistance will be 0 and return max utilization.
+      if (momentResistance == 0)
+      {
+        return 9999;
+      }
+
+      else
+      {
+        return Math.Max(Math.Abs(axialForce/compressionResistance), Math.Abs(appliedMoment/momentResistance));
+      }
+    }
+
+    public static double InterpolateMomentValues(double desiredValue, KeyValuePair<double,double> firstPoint, KeyValuePair<double,double> secondPoint)
+    {
+      return firstPoint.Value + ((secondPoint.Value - firstPoint.Value) / (secondPoint.Key - firstPoint.Key)) * (desiredValue - firstPoint.Key);
+    }
+
     public static Dictionary<double, double> CalculateAxialMomentFailurePlane(double compressionResistanceLimit, double externalMomentX, double externalMomentY,
       SectionShape sectionShape, CrossSectionParameters crossSectionParameters, Coordinate extremeCompressionCoordinate, DesignResults designResults,
       double concreteFailureStrain, Concrete concreteMaterial, double phiS, double phiC, LongitudinalReinforcement longitudinalReinforcement)
     {
       var axialMomentValues = new Dictionary<double, double>();
 
-      for (double externalAxialForce = 0; externalAxialForce <= compressionResistanceLimit; externalAxialForce += 0.04 * compressionResistanceLimit)
+      var iterations = 25;
+
+      for (int i = 0; i <= iterations; i++)
       {
-        if (externalAxialForce != compressionResistanceLimit)
+        var externalAxialForce = compressionResistanceLimit * ((double)i / (double)iterations);
+
+        if (i != iterations)
         {
           var momentResistance = FindNeutralAxisForAxialForce(externalAxialForce, externalMomentX, externalMomentY, sectionShape, crossSectionParameters,
                                                               extremeCompressionCoordinate, designResults, concreteFailureStrain, concreteMaterial, phiS,
                                                               phiC, longitudinalReinforcement);
           axialMomentValues.Add(externalAxialForce, momentResistance);
-
         }
 
         else
         {
           axialMomentValues.Add(compressionResistanceLimit, 0);
         }
+
       }
 
       return axialMomentValues;
@@ -88,7 +152,7 @@ namespace SpectaCol.ForceSolvingMethods
             // If angles converge, but cannot solve exactly within tolerance, answer should be sufficient enough
             if (ValuesConverged(checkedAngles, 10))
             {
-              return GetInternalMomentResistance(internalForces.MomentX, internalForces.MomentY);
+              return GetResultantMoment(internalForces.MomentX, internalForces.MomentY);
             }
 
             if (Math.Abs(internalMomentRatio).WithinTolerance(externalMomentRatio, tolerance, minimumMomentRatioTolerance) && canSolveAxial)
@@ -117,11 +181,15 @@ namespace SpectaCol.ForceSolvingMethods
         throw new ArithmeticException("Unable to solve for internal moments");
       }
 
-      return GetInternalMomentResistance(internalMomentX, internalMomentY);
+      return GetResultantMoment(internalMomentX, internalMomentY);
     }
 
     public static Coordinate FindExtremeCompressionCoordinate(CrossSectionParameters crossSectionParameters, double externalMomentX, double externalMomentY)
     {
+      // Rounding to account for E- numbers from analysis results
+      externalMomentX = Math.Round(externalMomentX, MidpointRounding.AwayFromZero);
+      externalMomentY = Math.Round(externalMomentY, MidpointRounding.AwayFromZero);
+
       if (externalMomentX == 0 && externalMomentY > 0)
       {
         return new Coordinate(crossSectionParameters.Width / 2, 0);
@@ -162,10 +230,10 @@ namespace SpectaCol.ForceSolvingMethods
         return new Coordinate(-crossSectionParameters.Width / 2, -crossSectionParameters.Depth / 2);
       }
 
-      // Edge case both moments are 0
+      // Edge case both moments are 0 so we can provide moment about any axis and it won't affect utilization
       else
       {
-        return new Coordinate(0, 0);
+        return new Coordinate(0, crossSectionParameters.Depth / 2);
       }
     }
 
@@ -200,6 +268,9 @@ namespace SpectaCol.ForceSolvingMethods
 
     private static double GetMomentRatio(double numerator, double denominator)
     {
+      numerator = Math.Round(numerator, MidpointRounding.AwayFromZero);
+      denominator = Math.Round(denominator, MidpointRounding.AwayFromZero);
+
       return numerator == 0 || denominator == 0 ? 0 : numerator / denominator;
     }
 
@@ -224,9 +295,9 @@ namespace SpectaCol.ForceSolvingMethods
       }
     }
 
-    private static double GetInternalMomentResistance(double internalMomentX, double internalMomentY)
+    private static double GetResultantMoment(double momentX, double momentY)
     {
-      return Math.Sqrt(Math.Pow(internalMomentX, 2) + Math.Pow(internalMomentY, 2));
+      return Math.Sqrt(Math.Pow(momentX, 2) + Math.Pow(momentY, 2));
     }
 
     public static bool WithinTolerance(this double value, double targetValue, double tolerancePercentage, double minimumTolerance = 0)
@@ -234,9 +305,11 @@ namespace SpectaCol.ForceSolvingMethods
       // If solving for P = 0, tolerance would be 0 therefore never converge on value
       var tolerance = tolerancePercentage * targetValue;
 
-      if (tolerance == 0)
+      if (tolerance == 0 || tolerance < minimumTolerance)
         tolerance = minimumTolerance;
-      return Math.Abs(targetValue - value) <= tolerance;
+
+      var difference = Math.Abs(targetValue - value);
+      return difference <= tolerance;
     }
 
     public static double GuessNeutralAxisDepth(Dictionary<double, double> previousGuesses, double targetValue, double maxAllowable, double minAllowable = 0)

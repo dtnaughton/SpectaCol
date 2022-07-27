@@ -10,5 +10,6 @@ namespace SpectaCol.Models.Interfaces
   public interface ISection
   {
     SectionShape Shape { get; set; }
+    public double MaximumUtilization { get; set; }
   }
 }

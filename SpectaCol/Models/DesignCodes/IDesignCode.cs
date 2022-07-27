@@ -18,7 +18,7 @@ namespace SpectaCol.Models.DesignCodes
     double PhiS { get; }
     void DesignColumns(List<IConcreteSection> concreteSections);
     void DesignColumns(IConcreteSection concreteSection);
-    double CalculateCompressionResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement);
+    double CalculateMaximumAllowableLoadResistance(double alpha, double concreteStrength, CrossSectionParameters crossSectionParameters, LongitudinalReinforcement longitudinalReinforcement, TransverseReinforcement transverseReinforcement);
     double AlphaStressBlockValue(double concreteStrength);
     double BetaStressBlockValue(double concreteStrength);
   }

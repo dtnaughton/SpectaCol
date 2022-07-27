@@ -149,9 +149,10 @@ namespace SpectaCol.ViewModels
     {
       get => DisplayRounding(Column.LongitudinalReinforcement.ReinforcementPercentage);
     }
-    public double CompressionResistance
+
+    public double MaximumUtilization
     {
-      get => DisplayRounding(FrontendForceConversion(Column.DesignResults.CompressionResistance));
+      get => DisplayRounding(Column.MaximumUtilization);
     }
 
     public ForceUnit ForceUnit
@@ -188,7 +189,7 @@ namespace SpectaCol.ViewModels
 
     private void UpdateForceProperties()
     {
-      OnPropertyChanged(nameof(CompressionResistance));
+      //OnPropertyChanged(nameof(CompressionResistance));
     }
     private void UpdateLengthProperties()
     {
@@ -205,7 +206,7 @@ namespace SpectaCol.ViewModels
 
     public void UpdateResults()
     {
-      OnPropertyChanged(nameof(CompressionResistance));
+      OnPropertyChanged(nameof(MaximumUtilization));
     }
 
     public ConcreteColumnViewModel(IConcreteSection concreteColumn, SettingsStore settingsStore)
@@ -219,7 +220,7 @@ namespace SpectaCol.ViewModels
     private void OnColumnParameterChanged()
     {
       UpdateStructuralCapacity();
-      UpdateForceProperties();
+      UpdateResults();
     }
 
     private void UpdateStructuralCapacity()

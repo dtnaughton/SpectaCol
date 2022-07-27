@@ -24,6 +24,7 @@ namespace SpectaCol.Stores
     public List<ForceUnit> ForceUnits { get; } = new List<ForceUnit>();
     public List<LengthUnit> LengthUnits { get; } = new List<LengthUnit>();
     public List<StressUnit> StressUnits { get; } = new List<StressUnit>();
+    public bool IsCompressionNegative { get; set; }
 
     public DisplayUnits SelectedUnits
     {
@@ -71,6 +72,8 @@ namespace SpectaCol.Stores
       StressUnits = Enum.GetValues(typeof(StressUnit)).Cast<StressUnit>().ToList();
 
       SelectedUnits = new DisplayUnits(ForceUnit.N, LengthUnit.mm, StressUnit.mPa);
+
+      IsCompressionNegative = true;
     }
 
     private void SetDesignCodes()

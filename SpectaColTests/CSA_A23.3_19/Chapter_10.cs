@@ -76,7 +76,7 @@ namespace SpectaColTests.CSA_A23._3_19
       var longReinf = new LongitudinalReinforcement(4, 4, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
-      var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
+      var compressionResistance = csaCode.CalculateMaximumAllowableLoadResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
 
       Assert.Equal(3249267.8, compressionResistance, 1);
     }
@@ -96,7 +96,7 @@ namespace SpectaColTests.CSA_A23._3_19
       var longReinf = new LongitudinalReinforcement(2, 2, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
-      var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
+      var compressionResistance = csaCode.CalculateMaximumAllowableLoadResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
 
       Assert.Equal(2302389.775, compressionResistance, 1);
     }
@@ -115,7 +115,7 @@ namespace SpectaColTests.CSA_A23._3_19
       var longReinf = new LongitudinalReinforcement(3, 7, 1, ReinforcementConfiguration.Rectangular, 400, 200000, ReinforcementDiameter.M20, crossSectionParameters, ReinforcementDiameter.M10);
       var transReinf = new TransverseReinforcement();
 
-      var compressionResistance = csaCode.CalculateCompressionResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
+      var compressionResistance = csaCode.CalculateMaximumAllowableLoadResistance(alpha, concreteStrength, crossSectionParameters, longReinf, transReinf);
 
       Assert.Equal(2986467.225, compressionResistance, 1);
     }
