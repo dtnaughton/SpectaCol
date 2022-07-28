@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpectaCol.Stores
+namespace SpectaCol.ViewModels
 {
-  public interface IDialogStore
+  public class TestViewModel : ViewModelBase
   {
-    void SaveState();
   }
 }

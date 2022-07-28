@@ -69,7 +69,7 @@ namespace SpectaCol.ViewModels
       }
     }
 
-    public SettingsViewModel(SettingsStore settingsStore)
+    public SettingsViewModel(SettingsStore settingsStore, NavigationStore navigationStore)
     {
       _settingsStore = settingsStore;
 
@@ -82,8 +82,7 @@ namespace SpectaCol.ViewModels
       SelectedLengthUnit = _settingsStore.SelectedUnits.LengthUnit.GetDescription();
       SelectedStressUnit = _settingsStore.SelectedUnits.StressUnit.GetDescription();
 
-      CloseDialogCommand = new ToggleDialogVisibilityCommand(settingsStore);
-      SaveCommand = new ToggleDialogVisibilityCommand(settingsStore);
+      CloseDialogCommand = new ToggleDialogVisibilityCommand(navigationStore);
     }
 
     private void UpdateUnits(UnitType selectedUnitType)

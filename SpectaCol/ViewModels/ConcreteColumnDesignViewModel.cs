@@ -4,6 +4,7 @@ using SpectaCol.Extensions;
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
+using SpectaCol.Services;
 using SpectaCol.Stores;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace SpectaCol.ViewModels
     private readonly ObjectStore _objectStore;
     private ObservableCollection<ConcreteColumnViewModel> _concreteColumnViewModels = new ObservableCollection<ConcreteColumnViewModel>();
     public IEnumerable<ConcreteColumnViewModel> ConcreteColumnViewModels => _concreteColumnViewModels;
+    public ICommand OpenColumnForcesCommand { get; }
 
-
-    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore)
+    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, INavigationService navigationService)
     {
       _objectStore = objectStore;
 
@@ -39,6 +40,8 @@ namespace SpectaCol.ViewModels
       ConvertColumnDisplayUnits();
       _settingsStore.DisplayUnitsChanged += OnDisplayUnitsChanged;
       _settingsStore.DesignCodeChanged += OnDesignCodeChanged;
+
+      OpenColumnForcesCommand = new NavigateDialogCommand(navigationService, navigationStore);
     }
 
     private void OnDesignCodeChanged()

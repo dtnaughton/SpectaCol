@@ -15,7 +15,6 @@ namespace SpectaCol.ViewModels
     public ViewModelBase ContentViewModel { get; }
     public ViewModelBase DialogViewModel { get; }
     public FooterViewModel FooterViewModel { get; }
-    public bool IsDialogOpen => _dialogStore.IsOpen;
     public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, ViewModelBase contentViewModel, ViewModelBase dialogViewModel, IDialogStore dialogStore)
     {
       NavigationBarViewModel = navigationBarViewModel;
@@ -23,12 +22,6 @@ namespace SpectaCol.ViewModels
       FooterViewModel = footerViewModel;
       DialogViewModel = dialogViewModel;
       _dialogStore = dialogStore;
-      dialogStore.IsOpenChanged += OnIsOpenChanged;
-    }
-
-    private void OnIsOpenChanged()
-    {
-      OnPropertyChanged(nameof(IsDialogOpen));
     }
 
     public override void Dispose()
@@ -38,8 +31,6 @@ namespace SpectaCol.ViewModels
       FooterViewModel?.Dispose();
       DialogViewModel?.Dispose();
       base.Dispose();
-
-      _dialogStore.IsOpenChanged -= OnIsOpenChanged;
     }
   }
 }

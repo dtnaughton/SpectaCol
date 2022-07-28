@@ -13,7 +13,6 @@ namespace SpectaCol.Stores
 {
   public class SettingsStore : IDialogStore
   {
-    private bool _isOpen;
     private DisplayUnits _selectedUnits;
     private IDesignCode _selectedDesignCode;
 
@@ -47,17 +46,7 @@ namespace SpectaCol.Stores
     }
 
     public UnitType SelectedUnitType { get; set; }
-    public bool IsOpen
-    {
-      get => _isOpen;
-      set
-      {
-        _isOpen = value;
-        IsOpenChanged?.Invoke();
-      }
-    }
 
-    public event Action IsOpenChanged;
     public event Action DesignCodeChanged;
     public event Action DisplayUnitsChanged;
 

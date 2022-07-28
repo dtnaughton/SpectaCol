@@ -23,14 +23,15 @@ namespace SpectaCol.ViewModels
       INavigationService accountSelectionNavigationService, 
       INavigationService streamSelectionNavigationService,
       INavigationService concreteColumnNavigationService,
+      INavigationService dialogNavigationService,
       AccountStore accountStore, 
-      SettingsStore settingsStore)
+      NavigationStore navigationStore)
     {
       NavigateHomeCommand = new NavigateCommand(homeNavigationService);
       LogoutCommand = new LogoutCommand(accountStore, accountSelectionNavigationService);
       NavigateStreamsCommand = new NavigateStreamsCommand(accountStore, streamSelectionNavigationService);
       NavigateConcreteColumnDesignModule = new NavigateCommand(concreteColumnNavigationService);
-      OpenSettings = new ToggleDialogVisibilityCommand(settingsStore);
+      OpenSettings = new NavigateDialogCommand(dialogNavigationService, navigationStore);
     }
   }
 }

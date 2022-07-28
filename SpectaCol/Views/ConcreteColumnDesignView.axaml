@@ -72,6 +72,16 @@
 			<DataGridTextColumn Header="Diameter" Binding="{Binding LongitudinalBarDiameter}" Width="Auto"/>
 			<DataGridTextColumn Header="%" Binding="{Binding LongitudinalReinforcementPercentage}" Width="Auto"/>
 			<DataGridTextColumn Header="NvM Util." Binding="{Binding MaximumUtilization}" Width="Auto"/>
+			<DataGridTemplateColumn>
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Button
+							Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.OpenColumnForcesCommand}"
+							>Forces</Button>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
 		</DataGrid.Columns>
 	</DataGrid>
 
