@@ -86,8 +86,7 @@ namespace SpectaCol
         () => serviceProvider.GetRequiredService<HomeViewModel>(),
         () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
         serviceProvider.GetRequiredService<FooterViewModel>(),
-        () => serviceProvider.GetRequiredService<SettingsViewModel>(),
-        serviceProvider.GetRequiredService<SettingsStore>());
+        () => serviceProvider.GetRequiredService<SettingsViewModel>());
     }
 
     private INavigationService CreateStreamSelectionService(IServiceProvider serviceProvider)
@@ -97,8 +96,7 @@ namespace SpectaCol
         () => serviceProvider.GetRequiredService<StreamSelectionViewModel>(),
         () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
         serviceProvider.GetRequiredService<FooterViewModel>(),
-        () => serviceProvider.GetRequiredService<SettingsViewModel>(),
-        serviceProvider.GetRequiredService<SettingsStore>());
+        () => serviceProvider.GetRequiredService<SettingsViewModel>());
     }
 
     private INavigationService CreateTestDialogNavigationService(IServiceProvider serviceProvider)
@@ -122,8 +120,7 @@ namespace SpectaCol
         () => serviceProvider.GetRequiredService<ConcreteColumnDesignViewModel>(),
         () => serviceProvider.GetRequiredService<NavigationBarViewModel>(),
         serviceProvider.GetRequiredService<FooterViewModel>(),
-        () => serviceProvider.GetRequiredService<SettingsViewModel>(),
-        serviceProvider.GetRequiredService<SettingsStore>());
+        () => serviceProvider.GetRequiredService<SettingsViewModel>());
     }
 
     private AccountSelectionViewModel CreateAccountSelectionViewModel(IServiceProvider serviceProvider)

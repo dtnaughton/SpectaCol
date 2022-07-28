@@ -11,7 +11,7 @@ using static SpectaCol.Settings.Units;
 
 namespace SpectaCol.Stores
 {
-  public class SettingsStore : IDialogStore
+  public class SettingsStore
   {
     private DisplayUnits _selectedUnits;
     private IDesignCode _selectedDesignCode;
@@ -94,11 +94,6 @@ namespace SpectaCol.Stores
         }
       }
 
-    }
-
-    public void SaveState()
-    {
-      throw new NotImplementedException();
     }
   }
 }

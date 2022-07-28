@@ -10,18 +10,16 @@ namespace SpectaCol.ViewModels
 {
   public class LayoutViewModel : ViewModelBase
   {
-    private readonly IDialogStore _dialogStore;
     public NavigationBarViewModel NavigationBarViewModel { get; }
     public ViewModelBase ContentViewModel { get; }
     public ViewModelBase DialogViewModel { get; }
     public FooterViewModel FooterViewModel { get; }
-    public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, ViewModelBase contentViewModel, ViewModelBase dialogViewModel, IDialogStore dialogStore)
+    public LayoutViewModel(NavigationBarViewModel navigationBarViewModel, FooterViewModel footerViewModel, ViewModelBase contentViewModel, ViewModelBase dialogViewModel)
     {
       NavigationBarViewModel = navigationBarViewModel;
       ContentViewModel = contentViewModel;
       FooterViewModel = footerViewModel;
       DialogViewModel = dialogViewModel;
-      _dialogStore = dialogStore;
     }
 
     public override void Dispose()
