@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace SpectaCol.Views
 {
-  public partial class TestView : UserControl
+  public partial class ColumnTabulatedForcesView : UserControl
   {
-    public TestView()
+    public ColumnTabulatedForcesView()
     {
       InitializeComponent();
     }

@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:icons="using:Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SpectaCol.Views.ColumnTabulatedForcesView">
+	<Grid RowDefinitions="auto, *">
+		<Grid ColumnDefinitions="* auto">
+			<Button
+				Command="{Binding CloseDialogCommand}"
+				Grid.Column="1"
+				Classes="navIcon">
+				<icons:MaterialIcon
+					Width="24"
+					Height="24"
+					Foreground="#DDDDDD"
+					HorizontalAlignment="Center"
+					Kind="CloseThick"/>
+			</Button>
+		</Grid>
+		<DataGrid Grid.Row="1" Items="{Binding FrameResultViewModels}">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="#" Binding="{Binding Index}"/>
+				<DataGridTextColumn Header="Load Comb." Binding="{Binding LoadCombination}"/>
+				<DataGridTextColumn Header="Rel Pos." Binding="{Binding Position}"/>
+				<DataGridTextColumn Header="N" Binding="{Binding Axial}"/>
+				<DataGridTextColumn Header="Mx" Binding="{Binding MomentX}"/>
+				<DataGridTextColumn Header="My" Binding="{Binding MomentY}"/>
+				<DataGridTextColumn Header="Vx" Binding="{Binding ShearX}"/>
+				<DataGridTextColumn Header="Vy" Binding="{Binding ShearY}"/>
+				<DataGridTextColumn Header="T" Binding="{Binding Torsion}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

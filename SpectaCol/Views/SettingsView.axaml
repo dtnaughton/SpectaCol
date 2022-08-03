@@ -37,6 +37,7 @@
 		</Style>
 	</UserControl.Styles>
 	<Grid
+		Background="#1C1D22"
 		Width="300"
 		ShowGridLines="False"
 		ColumnDefinitions="*, *"

@@ -22,8 +22,18 @@ namespace SpectaCol.ViewModels
     private readonly SettingsStore _settingsStore;
     private readonly ObjectStore _objectStore;
     private ObservableCollection<ConcreteColumnViewModel> _concreteColumnViewModels = new ObservableCollection<ConcreteColumnViewModel>();
+    private ConcreteColumnViewModel _selectedConcreteColumnViewModel;
     public IEnumerable<ConcreteColumnViewModel> ConcreteColumnViewModels => _concreteColumnViewModels;
-    public ICommand OpenColumnForcesCommand { get; }
+    public ConcreteColumnViewModel SelectedConcreteColumnViewModel
+    {
+      get => _selectedConcreteColumnViewModel;
+      set
+      {
+        _selectedConcreteColumnViewModel = value;
+        _objectStore.SelectedConcreteColumn = _objectStore.ConcreteColumns?.Where(col => _selectedConcreteColumnViewModel.ApplicationId == col.ApplicationId).FirstOrDefault();
+      }
+    }
+    private ICommand OpenColumnForcesCommand;
 
     public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, INavigationService navigationService)
     {
@@ -42,6 +52,17 @@ namespace SpectaCol.ViewModels
       _settingsStore.DesignCodeChanged += OnDesignCodeChanged;
 
       OpenColumnForcesCommand = new NavigateDialogCommand(navigationService, navigationStore);
+    }
+
+    public void OpenColumnForces()
+    {
+      var selectedColumns = _concreteColumnViewModels.Where(col => col.IsSelected);
+
+      if (selectedColumns.Count() == 1)
+      {
+        _objectStore.SelectedConcreteColumn = _objectStore.ConcreteColumns.Where(col => col.ApplicationId ==  selectedColumns.FirstOrDefault().ApplicationId).FirstOrDefault();
+        OpenColumnForcesCommand.Execute(null);
+      }
     }
 
     private void OnDesignCodeChanged()

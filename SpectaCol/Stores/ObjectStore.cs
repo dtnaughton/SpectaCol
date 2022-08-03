@@ -13,6 +13,7 @@ namespace SpectaCol.Stores
   public class ObjectStore
   {
     public List<IConcreteSection>? ConcreteColumns { get; set; } = new List<IConcreteSection>();
+    public IConcreteSection? SelectedConcreteColumn { get; set; }
 
     public List<FrameResult>? Results { get; set; } = new List<FrameResult>();
 

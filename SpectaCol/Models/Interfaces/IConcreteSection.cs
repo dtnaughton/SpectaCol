@@ -12,15 +12,11 @@ namespace SpectaCol.Models.Interfaces
 {
   public interface IConcreteSection : ISection
   {
-    public double PhiC { get; set; }
-    public double PhiS { get; set; }
     public CrossSectionParameters CrossSectionParameters { get; set; }
     public Concrete Concrete { get; set; }
     public LongitudinalReinforcement LongitudinalReinforcement { get; set; }
     public TransverseReinforcement TransverseReinforcement { get; set; }
     public double StirrupBarDiameter { get; set; }
-    public double Alpha { get; set; }
-    public double Beta { get; set; }
     public string Units { get; set; }
     public DesignResults DesignResults { get; set; }
     public Dictionary<AxialMomentPlane, List<FrameResult>> Forces { get; set; }

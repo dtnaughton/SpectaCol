@@ -54,7 +54,7 @@ namespace SpectaCol
       services.AddTransient<SettingsViewModel>(s => CreateSettingsViewModel(s));
       services.AddTransient<SpeckleLoginViewModel>(s => CreateSpeckleLoginViewModel(s));
       services.AddTransient<ConcreteColumnDesignViewModel>(s => CreateConcreteColumnDesignModuleViewModel(s));
-      services.AddTransient<TestViewModel>(_ => new TestViewModel());
+      services.AddTransient<ColumnTabulatedForcesViewModel>(s => CreateColumnTabulatedForcesViewModel(s));
 
       services.AddSingleton<MainWindowViewModel>();
       services.AddSingleton<MainWindow>(s => new MainWindow()
@@ -99,13 +99,6 @@ namespace SpectaCol
         () => serviceProvider.GetRequiredService<SettingsViewModel>());
     }
 
-    private INavigationService CreateTestDialogNavigationService(IServiceProvider serviceProvider)
-    {
-      return new DialogNavigationService<TestViewModel>(
-        serviceProvider.GetRequiredService<NavigationStore>(),
-        () => serviceProvider.GetRequiredService<TestViewModel>());
-    }
-
     private INavigationService CreateDialogNavigationService<T>(IServiceProvider serviceProvider) where T : ViewModelBase
     {
       return new DialogNavigationService<T>(
@@ -128,6 +121,13 @@ namespace SpectaCol
       return new AccountSelectionViewModel(
         CreateHomeViewModelService(serviceProvider), 
         _serviceProvider.GetRequiredService<AccountStore>());
+    }
+
+    private ColumnTabulatedForcesViewModel CreateColumnTabulatedForcesViewModel(IServiceProvider serviceProvider)
+    {
+      return new ColumnTabulatedForcesViewModel(serviceProvider.GetRequiredService<ObjectStore>(),
+        serviceProvider.GetRequiredService<NavigationStore>(),
+        serviceProvider.GetRequiredService<SettingsStore>());
     }
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
@@ -163,7 +163,7 @@ namespace SpectaCol
       return new ConcreteColumnDesignViewModel(serviceProvider.GetRequiredService<ObjectStore>(), 
         serviceProvider.GetRequiredService<SettingsStore>(),
         serviceProvider.GetRequiredService<NavigationStore>(),
-        CreateTestDialogNavigationService(serviceProvider));
+        CreateDialogNavigationService<ColumnTabulatedForcesViewModel>(serviceProvider));
     }
 
     private SpeckleLoginViewModel CreateSpeckleLoginViewModel(IServiceProvider serviceProvider)
