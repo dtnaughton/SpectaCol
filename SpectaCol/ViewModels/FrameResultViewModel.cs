@@ -28,7 +28,7 @@ namespace SpectaCol.ViewModels
     public double ShearX => _frameResult.ShearX.FrontendForceConversion(_backendForceUnit, _settingsStore.SelectedUnits.ForceUnit).DisplayRounding(RoundingValue);
     public double ShearY => _frameResult.ShearY.FrontendForceConversion(_backendForceUnit, _settingsStore.SelectedUnits.ForceUnit).DisplayRounding(RoundingValue);
     public double Torsion => _frameResult.Torsion.FrontendForceConversion(_backendForceUnit, _settingsStore.SelectedUnits.ForceUnit).
-      FrontendLengthConversion(_backendLengthUnit, _settingsStore.SelectedUnits.LengthUnit).DisplayRounding(RoundingValue);;
+      FrontendLengthConversion(_backendLengthUnit, _settingsStore.SelectedUnits.LengthUnit).DisplayRounding(RoundingValue);
 
     public FrameResultViewModel(FrameResult frameResult, SettingsStore settingsStore, ForceUnit backendForceUnit, LengthUnit backendLengthUnit)
     {

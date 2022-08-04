@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:icons="using:Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SpectaCol.Views.CrossSectionView">
+	<Grid RowDefinitions="auto *">
+		<Button
+			Grid.Row="0"
+			Command="{Binding CloseDialogCommand}"
+			Classes="navIcon">
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				HorizontalAlignment="Center"
+				Kind="CloseThick"/>
+		</Button>
+		<ItemsControl Items="{Binding RebarPoints}" Grid.Row="1">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Canvas Background="Transparent" Width="{Binding CanvasWidth}" Height="{Binding CanvasDepth}"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.Styles>
+				<Style Selector="ContentPresenter">
+					<Setter Property="Canvas.Left" Value="{Binding X}"/>
+					<Setter Property="Canvas.Top" Value="{Binding Y}"/>
+				</Style>
+			</ItemsControl.Styles>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Ellipse Width="20" Height="20" Fill="Gray"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<Canvas Grid.Row="1" Background="Transparent" Width="{Binding CanvasWidth}" Height="{Binding CanvasDepth}" ZIndex="-99">
+			<Polygon Stroke="#047EFB" StrokeThickness="2" Points="{Binding SectionPoints}" Canvas.Left="0" Canvas.Top="0"/>
+		</Canvas>
+
+
+	</Grid>
+</UserControl>

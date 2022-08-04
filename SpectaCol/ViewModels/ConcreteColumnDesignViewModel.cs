@@ -2,6 +2,7 @@
 using SpectaCol.Converters.Units;
 using SpectaCol.Extensions;
 using SpectaCol.Models.Geometry;
+using SpectaCol.Models.Interfaces;
 using SpectaCol.Models.Materials;
 using SpectaCol.Models.Sections;
 using SpectaCol.Services;
@@ -34,8 +35,10 @@ namespace SpectaCol.ViewModels
       }
     }
     private ICommand OpenColumnForcesCommand;
+    public ICommand OpenCrossSectionViewCommand;
 
-    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, INavigationService navigationService)
+    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, INavigationService tabulatedForcesNavigationService,
+      INavigationService crossSectionNavigationService)
     {
       _objectStore = objectStore;
 
@@ -51,18 +54,33 @@ namespace SpectaCol.ViewModels
       _settingsStore.DisplayUnitsChanged += OnDisplayUnitsChanged;
       _settingsStore.DesignCodeChanged += OnDesignCodeChanged;
 
-      OpenColumnForcesCommand = new NavigateDialogCommand(navigationService, navigationStore);
+      OpenColumnForcesCommand = new NavigateDialogCommand(tabulatedForcesNavigationService, navigationStore);
+      OpenCrossSectionViewCommand = new NavigateDialogCommand(crossSectionNavigationService, navigationStore);
     }
 
     public void OpenColumnForces()
+    {
+      if (SelectedColumnSet())
+        OpenColumnForcesCommand.Execute(null);
+    }
+
+    public void OpenCrossSectionView()
+    {
+      if(SelectedColumnSet())
+        OpenCrossSectionViewCommand.Execute(null);
+    }
+
+    private bool SelectedColumnSet()
     {
       var selectedColumns = _concreteColumnViewModels.Where(col => col.IsSelected);
 
       if (selectedColumns.Count() == 1)
       {
-        _objectStore.SelectedConcreteColumn = _objectStore.ConcreteColumns.Where(col => col.ApplicationId ==  selectedColumns.FirstOrDefault().ApplicationId).FirstOrDefault();
-        OpenColumnForcesCommand.Execute(null);
+        _objectStore.SelectedConcreteColumn = _objectStore.ConcreteColumns.Where(col => col.ApplicationId == selectedColumns.FirstOrDefault().ApplicationId).FirstOrDefault();
+        return true;
       }
+
+      return false;
     }
 
     private void OnDesignCodeChanged()
