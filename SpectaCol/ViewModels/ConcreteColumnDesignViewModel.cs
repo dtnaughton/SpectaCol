@@ -35,10 +35,13 @@ namespace SpectaCol.ViewModels
       }
     }
     private ICommand OpenColumnForcesCommand;
-    public ICommand OpenCrossSectionViewCommand;
+    private ICommand OpenCrossSectionViewCommand;
+    private ICommand OpenAxialMomentDiagramCommand;
 
-    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, INavigationService tabulatedForcesNavigationService,
-      INavigationService crossSectionNavigationService)
+    public ConcreteColumnDesignViewModel(ObjectStore objectStore, SettingsStore settingsStore, NavigationStore navigationStore, 
+      INavigationService tabulatedForcesNavigationService,
+      INavigationService crossSectionNavigationService,
+      INavigationService axialMomentDiagramNavigationService)
     {
       _objectStore = objectStore;
 
@@ -56,6 +59,7 @@ namespace SpectaCol.ViewModels
 
       OpenColumnForcesCommand = new NavigateDialogCommand(tabulatedForcesNavigationService, navigationStore);
       OpenCrossSectionViewCommand = new NavigateDialogCommand(crossSectionNavigationService, navigationStore);
+      OpenAxialMomentDiagramCommand = new NavigateDialogCommand(axialMomentDiagramNavigationService, navigationStore);
     }
 
     public void OpenColumnForces()
@@ -68,6 +72,12 @@ namespace SpectaCol.ViewModels
     {
       if(SelectedColumnSet())
         OpenCrossSectionViewCommand.Execute(null);
+    }
+
+    public void OpenAxialMomentDiagramView()
+    {
+      if (SelectedColumnSet())
+        OpenAxialMomentDiagramCommand.Execute(null);
     }
 
     private bool SelectedColumnSet()

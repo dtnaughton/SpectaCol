@@ -56,6 +56,7 @@ namespace SpectaCol
       services.AddTransient<ConcreteColumnDesignViewModel>(s => CreateConcreteColumnDesignModuleViewModel(s));
       services.AddTransient<ColumnTabulatedForcesViewModel>(s => CreateColumnTabulatedForcesViewModel(s));
       services.AddTransient<CrossSectionViewModel>(s => CreateCrossSectionViewModel(s));
+      services.AddTransient<AxialMomentDiagramViewModel>(s => CreateAxialMomentDiagramViewModel(s));
 
       services.AddSingleton<MainWindowViewModel>();
       services.AddSingleton<MainWindow>(s => new MainWindow()
@@ -137,6 +138,11 @@ namespace SpectaCol
         serviceProvider.GetRequiredService<ObjectStore>());
     }
 
+    private AxialMomentDiagramViewModel CreateAxialMomentDiagramViewModel(IServiceProvider serviceProvider)
+    {
+      return new AxialMomentDiagramViewModel();
+    }
+
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)
     {
       return new NavigationBarViewModel(
@@ -171,7 +177,8 @@ namespace SpectaCol
         serviceProvider.GetRequiredService<SettingsStore>(),
         serviceProvider.GetRequiredService<NavigationStore>(),
         CreateDialogNavigationService<ColumnTabulatedForcesViewModel>(serviceProvider),
-        CreateDialogNavigationService<CrossSectionViewModel>(serviceProvider));
+        CreateDialogNavigationService<CrossSectionViewModel>(serviceProvider),
+        CreateDialogNavigationService<AxialMomentDiagramViewModel>(serviceProvider));
     }
 
     private SpeckleLoginViewModel CreateSpeckleLoginViewModel(IServiceProvider serviceProvider)

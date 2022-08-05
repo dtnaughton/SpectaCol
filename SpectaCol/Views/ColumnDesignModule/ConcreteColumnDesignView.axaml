@@ -46,7 +46,7 @@
 	<!--TASKBAR-->
 	<Grid RowDefinitions="auto, *">
 
-		<Grid ColumnDefinitions="auto,auto,*,*,*">
+		<Grid ColumnDefinitions="auto,auto,auto,*,*">
 			<Button
 				Grid.Column="0"
 				Command="{Binding OpenColumnForces}"
@@ -70,6 +70,18 @@
 					Foreground="#DDDDDD"
 					HorizontalAlignment="Center"
 					Kind="CropSquare"/>
+			</Button>
+			<Button
+				Grid.Column="2"
+				Command="{Binding OpenAxialMomentDiagramView}"
+				Classes="navIcon"
+				ToolTip.Tip="Forces">
+				<icons:MaterialIcon
+					Width="24"
+					Height="24"
+					Foreground="#DDDDDD"
+					HorizontalAlignment="Center"
+					Kind="ChartScatterPlot"/>
 			</Button>
 		</Grid>
 
