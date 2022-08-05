@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using SpectaCol.Commands;
+using SpectaCol.Models.Enums;
 using SpectaCol.Models.Materials;
 using SpectaCol.Stores;
 using System;
@@ -50,7 +51,7 @@ namespace SpectaCol.ViewModels
 
       foreach (var rebar in selectedColumn.LongitudinalReinforcement.Rebar)
       {
-        RebarPoints.Add(new RebarViewModel(rebar));
+        RebarPoints.Add(new RebarViewModel(rebar, selectedColumn.LongitudinalReinforcement.Diameter, canvasScalingFactor, CanvasWidth, CanvasDepth));
       }
     }
   }
@@ -61,10 +62,11 @@ namespace SpectaCol.ViewModels
     public Point Location { get; }
     public double Diameter { get; }
 
-    public RebarViewModel(Rebar rebar)
+    public RebarViewModel(Rebar rebar, ReinforcementDiameter diameter, double canvasScalingFactor, double canvasWidth, double canvasDepth)
     {
       _rebar = rebar;
-
+      Location = new Point(canvasWidth / 2 - (rebar.Coordinate.X * canvasScalingFactor), canvasDepth / 2 - (rebar.Coordinate.Y * canvasScalingFactor));
+      //Diameter = reba
     }
   }
 
