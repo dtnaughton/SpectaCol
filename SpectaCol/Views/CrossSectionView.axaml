@@ -25,18 +25,18 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.Styles>
 				<Style Selector="ContentPresenter">
-					<Setter Property="Canvas.Left" Value="{Binding X}"/>
-					<Setter Property="Canvas.Top" Value="{Binding Y}"/>
+					<Setter Property="Canvas.Left" Value="{Binding Location.X}"/>
+					<Setter Property="Canvas.Top" Value="{Binding Location.Y}"/>
 				</Style>
 			</ItemsControl.Styles>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Ellipse Width="20" Height="20" Fill="Gray"/>
+					<Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="Black"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 		<Canvas Grid.Row="1" Background="Transparent" Width="{Binding CanvasWidth}" Height="{Binding CanvasDepth}" ZIndex="-99">
-			<Polygon Stroke="#047EFB" StrokeThickness="2" Points="{Binding SectionPoints}" Canvas.Left="0" Canvas.Top="0"/>
+			<Polygon Stroke="Black" Fill="Gray" StrokeThickness="2" Points="{Binding SectionPoints}"/>
 		</Canvas>
 
 

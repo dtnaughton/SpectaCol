@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using SpectaCol.Commands;
+using SpectaCol.ForceSolvingMethods;
 using SpectaCol.Models.Enums;
 using SpectaCol.Models.Materials;
 using SpectaCol.Stores;
@@ -65,8 +66,9 @@ namespace SpectaCol.ViewModels
     public RebarViewModel(Rebar rebar, ReinforcementDiameter diameter, double canvasScalingFactor, double canvasWidth, double canvasDepth)
     {
       _rebar = rebar;
-      Location = new Point(canvasWidth / 2 - (rebar.Coordinate.X * canvasScalingFactor), canvasDepth / 2 - (rebar.Coordinate.Y * canvasScalingFactor));
-      //Diameter = reba
+      Diameter = ForceEquilibriumMethods.GetBarDiameter(diameter) * canvasScalingFactor;
+      Location = new Point(canvasWidth / 2 - ((rebar.Coordinate.X * canvasScalingFactor) + Diameter/2), canvasDepth / 2 - ((rebar.Coordinate.Y * canvasScalingFactor) + Diameter / 2));
+      //Location = new Point(0, 0);
     }
   }
 

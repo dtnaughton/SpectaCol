@@ -417,7 +417,7 @@ namespace SpectaCol.ForceSolvingMethods
 
     public static double CalculateBarAxialForce(double barStress, LongitudinalReinforcement reinforcement, double phiS)
     {
-      var barArea = reinforcement.GetCrossSectionalArea(reinforcement.Diameter);
+      var barArea = ForceEquilibriumMethods.GetCrossSectionalArea(reinforcement.Diameter);
 
       return barArea * barStress * phiS;
     }
@@ -478,6 +478,40 @@ namespace SpectaCol.ForceSolvingMethods
     private static InternalSectionForce CalculateInternalSectionForcesCircular()
     {
       throw new NotImplementedException();
+    }
+
+    public static double GetCrossSectionalArea(ReinforcementDiameter diameter)
+    {
+      return diameter switch
+      {
+        // Canadian bars
+        ReinforcementDiameter.M10 => 100,
+        ReinforcementDiameter.M15 => 200,
+        ReinforcementDiameter.M20 => 300,
+        ReinforcementDiameter.M25 => 500,
+        ReinforcementDiameter.M30 => 700,
+        ReinforcementDiameter.M35 => 1000,
+        ReinforcementDiameter.M45 => 1500,
+        ReinforcementDiameter.M55 => 2500,
+        _ => throw new NotImplementedException(),
+      };
+    }
+
+    public static double GetBarDiameter(ReinforcementDiameter diameter)
+    {
+      return diameter switch
+      {
+        // Canadian bars
+        ReinforcementDiameter.M10 => 11.3,
+        ReinforcementDiameter.M15 => 16,
+        ReinforcementDiameter.M20 => 19.5,
+        ReinforcementDiameter.M25 => 25.2,
+        ReinforcementDiameter.M30 => 29.9,
+        ReinforcementDiameter.M35 => 35.7,
+        ReinforcementDiameter.M45 => 43.7,
+        ReinforcementDiameter.M55 => 56.4,
+        _ => throw new NotImplementedException(),
+      };
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using SpectaCol.Models.Enums;
+﻿using SpectaCol.ForceSolvingMethods;
+using SpectaCol.Models.Enums;
 using SpectaCol.Models.Geometry;
 using SpectaCol.Models.Interfaces;
 using System;
@@ -100,7 +101,7 @@ namespace SpectaCol.Models.Materials
       switch (Configuration)
       {
         case ReinforcementConfiguration.Rectangular:
-          var edgeDistance = crossSectionParameters.Cover + GetDiameter(stirrupDiameter) + GetDiameter(Diameter) / 2;
+          var edgeDistance = crossSectionParameters.Cover + ForceEquilibriumMethods.GetBarDiameter(stirrupDiameter) + ForceEquilibriumMethods.GetBarDiameter(Diameter) / 2;
           var centerToCenterX = (crossSectionParameters.Width - (2 * edgeDistance)) / (QuantityX - 1);
           var centerToCenterY = (crossSectionParameters.Depth - (2 * edgeDistance)) / (QuantityY - 1);
           return DefineRectangularConfiguration(crossSectionParameters.Width, crossSectionParameters.Depth, QuantityX, QuantityY, QuantityLayers, edgeDistance, edgeDistance, centerToCenterX, centerToCenterY, -(crossSectionParameters.Width) / 2 + edgeDistance, -(crossSectionParameters.Depth) / 2 + edgeDistance);
@@ -187,7 +188,7 @@ namespace SpectaCol.Models.Materials
 
     public double GetReinforcementArea(ReinforcementDiameter longitudinalDiameter, List<Rebar> rebar)
     {
-      return rebar.Count() * GetCrossSectionalArea(longitudinalDiameter);
+      return rebar.Count() * ForceEquilibriumMethods.GetCrossSectionalArea(longitudinalDiameter);
     }
 
     public new void SetDefaultParameters()
