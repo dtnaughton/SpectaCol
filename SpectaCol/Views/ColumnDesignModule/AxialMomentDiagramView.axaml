@@ -2,7 +2,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:oxy="using:OxyPlot.Avalonia"
+			 xmlns:dialogHost="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+			 xmlns:icons="using:Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.AxialMomentDiagramView">
-  Welcome to Avalonia!
+	<Grid RowDefinitions="auto *">
+		<Button
+			Grid.Row="0"
+			Command="{Binding CloseDialogCommand}"
+			Classes="navIcon">
+			<icons:MaterialIcon
+				Width="24"
+				Height="24"
+				Foreground="#DDDDDD"
+				HorizontalAlignment="Center"
+				Kind="CloseThick"/>
+		</Button>
+		<oxy:Plot Grid.Row="1">
+			<oxy:Plot.Series>
+				<oxy:LineSeries DataFieldX="MomentForce" DataFieldY="AxialForce" 
+								Items="{Binding AxialMomentDataPoints}"/>
+			</oxy:Plot.Series>
+		</oxy:Plot>
+	</Grid>
 </UserControl>
