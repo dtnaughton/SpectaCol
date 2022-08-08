@@ -2,14 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:oxy="using:OxyPlot.Avalonia"
 			 xmlns:dialogHost="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+			 xmlns:oxy="clr-namespace:OxyPlot.Avalonia;assembly=OxyPlot.Avalonia"
 			 xmlns:icons="using:Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SpectaCol.Views.AxialMomentDiagramView">
-	<Grid RowDefinitions="auto *">
+	<Grid RowDefinitions="auto *" ColumnDefinitions="* *" Width="600" Height="600">
 		<Button
-			Grid.Row="0"
+			Grid.Row="0" Grid.Column="0"
 			Command="{Binding CloseDialogCommand}"
 			Classes="navIcon">
 			<icons:MaterialIcon
@@ -19,11 +19,38 @@
 				HorizontalAlignment="Center"
 				Kind="CloseThick"/>
 		</Button>
-		<oxy:Plot Grid.Row="1">
+		<ComboBox Grid.Row="0" Grid.Column="1" 
+				  Items="{Binding Thetas}"
+				  SelectedItem="{Binding SelectedTheta}"/>
+		<oxy:Plot Grid.Row="1" Grid.ColumnSpan="2"
+				  Background="#23242A"
+				  TitleColor="#047EFB"
+				  TextColor="#047EFB"
+				  PlotAreaBorderColor="Transparent"
+				  Foreground="White">
+			<oxy:Plot.Axes>
+				<oxy:LinearAxis IsZoomEnabled="False" Position="Left" AxislineStyle="Solid" AxislineColor="#B4D8FE" TicklineColor="#B4D8FE"/>
+				<oxy:LinearAxis IsZoomEnabled="False" Position="Bottom" AxislineStyle="Solid" AxislineColor="#B4D8FE" TicklineColor="#B4D8FE"/>
+			</oxy:Plot.Axes>
+			<oxy:Plot.DefaultTrackerTemplate>
+				<ControlTemplate>
+					<oxy:TrackerControl Position="{Binding Position}" LineStroke="Red" Background="#23242A">
+						<oxy:TrackerControl.Content>
+							<TextBlock Text="{Binding}" Margin="5" Foreground="#047EFB"/>
+						</oxy:TrackerControl.Content>
+					</oxy:TrackerControl>
+				</ControlTemplate>
+			</oxy:Plot.DefaultTrackerTemplate>
 			<oxy:Plot.Series>
-				<oxy:LineSeries DataFieldX="MomentForce" DataFieldY="AxialForce" 
-								Items="{Binding AxialMomentDataPoints}"/>
+				<oxy:LineSeries
+					TrackerFormatString="{Binding TrackerFormatString}"
+					Color="#047EFB"
+					DataFieldX="MomentForce"
+					DataFieldY="AxialForce"
+					Items="{Binding AxialMomentDataPoints}"/>
 			</oxy:Plot.Series>
 		</oxy:Plot>
+		<!--<lvc:CartesianChart Series="{Binding AxialMomentDataPoints}"/>-->
+
 	</Grid>
 </UserControl>

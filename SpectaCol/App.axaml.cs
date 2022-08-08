@@ -140,7 +140,8 @@ namespace SpectaCol
 
     private AxialMomentDiagramViewModel CreateAxialMomentDiagramViewModel(IServiceProvider serviceProvider)
     {
-      return new AxialMomentDiagramViewModel(serviceProvider.GetRequiredService<NavigationStore>());
+      return new AxialMomentDiagramViewModel(serviceProvider.GetRequiredService<NavigationStore>(),
+        serviceProvider.GetRequiredService<ObjectStore>());
     }
 
     private NavigationBarViewModel CreateNavigationBarViewModel(IServiceProvider serviceProvider)

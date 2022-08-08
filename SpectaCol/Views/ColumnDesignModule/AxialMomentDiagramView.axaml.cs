@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using OxyPlot;
 
 namespace SpectaCol.Views
 {
@@ -9,6 +10,8 @@ namespace SpectaCol.Views
     public AxialMomentDiagramView()
     {
       InitializeComponent();
+      var plot = new PlotModel();
+      
     }
 
     private void InitializeComponent()

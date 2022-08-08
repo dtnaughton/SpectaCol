@@ -123,6 +123,6 @@ namespace SpectaCol.Converters
       _settingsStore = settingsStore;
     }
 
-    public ReceiveMode ReceiveMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    //public ReceiveMode ReceiveMode { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
   }
 }
